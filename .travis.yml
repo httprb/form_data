@@ -1,0 +1,19 @@
+bundler_args: --without development --without doc
+env:
+  global:
+    - JRUBY_OPTS="$JRUBY_OPTS --debug"
+language: ruby
+rvm:
+  - 1.9.3
+  - 2.0.0
+  - 2.1
+  - jruby-19mode
+  - jruby-head
+  - rbx-2
+  - ruby-head
+matrix:
+  allow_failures:
+    - rvm: jruby-head
+    - rvm: ruby-head
+  fast_finish: true
+sudo: false
