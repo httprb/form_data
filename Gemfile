@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+gem "rake"
+
 group :development do
   gem "pry"
   gem "guard-rspec", :require => false
@@ -18,5 +20,5 @@ group :doc do
   gem "redcarpet"
 end
 
-# Specify your gem"s dependencies in form_data.gemspec
+# Specify your gem's dependencies in form_data.gemspec
 gemspec
