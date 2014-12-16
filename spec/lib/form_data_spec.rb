@@ -29,13 +29,17 @@ RSpec.describe FormData do
 
     context "when Hash given" do
       let(:data) { { :foo => :bar } }
-      it { is_expected.to be data }
+      it { is_expected.to eq :foo => :bar }
     end
 
     context "when #to_h given" do
-      let(:hash) { { :foo => :bar } }
-      let(:data) { double :to_h => hash }
-      it { is_expected.to be hash }
+      let(:data) { double(:to_h => { :foo => :bar }) }
+      it { is_expected.to eq :foo => :bar }
+    end
+
+    context "when nil given" do
+      let(:data) { nil }
+      it { is_expected.to eq({}) }
     end
 
     context "when neither Hash nor #to_h given" do

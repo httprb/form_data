@@ -45,10 +45,13 @@ module FormData
     end
 
     # Dummy object to Hash coercing.
-    # @return [Hash]
+    #
+    # @note This is an internal shim for Ruby < 2.1 support
     # @raise [Error] if can't coerce `obj` to Hash.
+    # @return [Hash]
     def ensure_hash(obj)
       case
+      when obj.nil?               then {}
       when obj.is_a?(Hash)        then obj
       when obj.respond_to?(:to_h) then obj.to_h
       else fail Error, "#{obj.inspect} is neither Hash nor responds to :to_h"

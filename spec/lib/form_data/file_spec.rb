@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe FormData::File do
-  let(:opts) { {} }
+  let(:opts) { nil }
 
   describe "#size" do
     subject { described_class.new(file, opts).size }
