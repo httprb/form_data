@@ -11,8 +11,11 @@ group :test do
   gem "backports"
   gem "coveralls"
   gem "rspec",      "~> 3.1"
-  gem "rubocop",    "~> 0.28.0", :platforms => [:ruby_19, :ruby_20, :ruby_21]
   gem "simplecov",  ">= 0.9"
+
+  platforms :ruby_19, :ruby_20, :ruby_21, :ruby_22 do
+    gem "rubocop",  "~> 0.28.0"
+  end
 end
 
 group :doc do
