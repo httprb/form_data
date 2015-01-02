@@ -6,7 +6,7 @@ require "form_data/version"
 Gem::Specification.new do |spec|
   spec.name          = "form_data"
   spec.version       = FormData::VERSION
-  spec.homepage      = "https://github.com/ixti/form_data.rb"
+  spec.homepage      = "https://github.com/httprb/form_data.rb"
   spec.authors       = ["Aleksey V Zapparov"]
   spec.email         = ["ixti@member.fsf.org"]
   spec.license       = "MIT"

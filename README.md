@@ -1,5 +1,10 @@
 # FormData
 
+[![Gem Version](https://badge.fury.io/rb/http.png)](http://rubygems.org/gems/http)
+[![Build Status](https://secure.travis-ci.org/httprb/form_data.rb.png?branch=master)](http://travis-ci.org/httprb/form_data.rb)
+[![Code Climate](https://codeclimate.com/github/httprb/form_data.rb.png)](https://codeclimate.com/github/httprb/form_data.rb)
+[![Coverage Status](https://coveralls.io/repos/httprb/form_data.rb/badge.png?branch=master)](https://coveralls.io/r/httprb/form_data.rb)
+
 Utility-belt to build form data request bodies.
 
 
@@ -61,12 +66,12 @@ patches in a timely fashion. If critical issues for a particular implementation
 exist at the time of a major release, support for that Ruby version may be
 dropped.
 
-[travis]: http://travis-ci.org/tarcieri/http.rb
+[travis]: http://travis-ci.org/httprb/form_data.rb
 
 
 ## Contributing
 
-1. Fork it ( https://github.com/ixti/form_data.rb/fork )
+1. Fork it ( https://github.com/httprb/form_data.rb/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
@@ -75,7 +80,7 @@ dropped.
 
 ## Copyright
 
-Copyright (c) 2014 Aleksey V Zapparov.
+Copyright (c) 2015 Aleksey V Zapparov.
 See [LICENSE.txt][1] for further details.
 
 [1]: https://github.com/ixti/form_data.rb/blob/master/LICENSE.txt
