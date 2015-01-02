@@ -1,3 +1,2 @@
 --color
---require ./lib/form_data.rb
 --require spec_helper

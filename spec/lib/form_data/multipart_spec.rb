@@ -1,7 +1,5 @@
 # coding: utf-8
 
-require "spec_helper"
-
 RSpec.describe FormData::Multipart do
   let(:file)          { FormData::File.new fixture("the-http-gem.info").to_s }
   let(:params)        { { :foo => :bar, :baz => file } }

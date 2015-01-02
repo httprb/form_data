@@ -1,7 +1,5 @@
 # coding: utf-8
 
-require "rubygems"
-
 require "simplecov"
 require "coveralls"
 
@@ -10,8 +8,9 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
   Coveralls::SimpleCov::Formatter
 ]
 
-SimpleCov.start
+SimpleCov.start { add_filter "/spec/" }
 
+require "form_data"
 require "support/fixtures_helper"
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration

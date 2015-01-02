@@ -1,7 +1,5 @@
 # coding: utf-8
 
-require "spec_helper"
-
 RSpec.describe FormData::File do
   let(:opts) { nil }
 

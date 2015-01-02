@@ -1,7 +1,5 @@
 # coding: utf-8
 
-require "spec_helper"
-
 RSpec.describe FormData::Urlencoded do
   let(:data) { { "foo[bar]" => "test" } }
   subject(:form_data) { FormData::Urlencoded.new data }
