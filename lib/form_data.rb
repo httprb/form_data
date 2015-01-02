@@ -44,10 +44,10 @@ module FormData
       klass.new data
     end
 
-    # Dummy object to Hash coercing.
+    # Coerce `obj` to Hash.
     #
-    # @note This is an internal shim for Ruby < 2.1 support
-    # @raise [Error] if can't coerce `obj` to Hash.
+    # @note Internal usage helper, to workaround lack of `#to_h` on Ruby < 2.1
+    # @raise [Error] `obj` can't be coerced.
     # @return [Hash]
     def ensure_hash(obj)
       case
