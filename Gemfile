@@ -12,10 +12,7 @@ group :test do
   gem "coveralls"
   gem "rspec",      "~> 3.1"
   gem "simplecov",  ">= 0.9"
-
-  platforms :ruby_19, :ruby_20, :ruby_21, :ruby_22 do
-    gem "rubocop",  "~> 0.28.0"
-  end
+  gem "rubocop",    "~> 0.28.0"
 end
 
 group :doc do
