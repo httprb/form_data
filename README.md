@@ -45,7 +45,7 @@ socket << form.to_s
 
 ## Supported Ruby Versions
 
-This library aims to support and is [tested against][travis] the following Ruby
+This library aims to support and is [tested against][ci] the following Ruby
 versions:
 
 * Ruby 1.9.3
@@ -66,8 +66,6 @@ patches in a timely fashion. If critical issues for a particular implementation
 exist at the time of a major release, support for that Ruby version may be
 dropped.
 
-[travis]: http://travis-ci.org/httprb/form_data.rb
-
 
 ## Contributing
 
@@ -81,6 +79,8 @@ dropped.
 ## Copyright
 
 Copyright (c) 2015 Aleksey V Zapparov.
-See [LICENSE.txt][1] for further details.
+See [LICENSE.txt][license] for further details.
 
-[1]: https://github.com/ixti/form_data.rb/blob/master/LICENSE.txt
+
+[ci]:       http://travis-ci.org/httprb/form_data.rb
+[license]:  https://github.com/httprb/form_data.rb/blob/master/LICENSE.txt
