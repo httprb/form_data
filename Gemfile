@@ -4,11 +4,11 @@ gem "rake"
 
 group :development do
   gem "pry"
+  gem "guard"
   gem "guard-rspec", :require => false
 end
 
 group :test do
-  gem "backports"
   gem "coveralls"
   gem "rspec",      "~> 3.1"
   gem "simplecov",  ">= 0.9"
