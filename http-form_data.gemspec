@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "form_data/version"
+require "http/form_data/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "form_data"
-  spec.version       = FormData::VERSION
+  spec.name          = "http-form_data"
+  spec.version       = HTTP::FormData::VERSION
   spec.homepage      = "https://github.com/httprb/form_data.rb"
   spec.authors       = ["Aleksey V Zapparov"]
   spec.email         = ["ixti@member.fsf.org"]
   spec.license       = "MIT"
-  spec.summary       = "form_data-#{FormData::VERSION}"
+  spec.summary       = "http-form_data-#{HTTP::FormData::VERSION}"
   spec.description   = <<-DESC.gsub(/^\s+> /m, "").gsub("\n", " ").strip
   > Utility-belt to build form data request bodies.
   > Provides support for `application/x-www-form-urlencoded` and

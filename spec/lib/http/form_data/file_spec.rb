@@ -1,6 +1,6 @@
 # coding: utf-8
 
-RSpec.describe FormData::File do
+RSpec.describe HTTP::FormData::File do
   let(:opts) { nil }
 
   describe "#size" do

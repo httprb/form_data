@@ -1,8 +1,8 @@
 # coding: utf-8
 
-RSpec.describe FormData::Urlencoded do
+RSpec.describe HTTP::FormData::Urlencoded do
   let(:data) { { "foo[bar]" => "test" } }
-  subject(:form_data) { FormData::Urlencoded.new data }
+  subject(:form_data) { HTTP::FormData::Urlencoded.new data }
 
   describe "#content_type" do
     subject { form_data.content_type }

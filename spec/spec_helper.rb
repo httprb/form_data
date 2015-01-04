@@ -10,7 +10,7 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
 
 SimpleCov.start { add_filter "/spec/" }
 
-require "form_data"
+require "http/form_data"
 require "support/fixtures_helper"
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration

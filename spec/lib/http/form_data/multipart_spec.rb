@@ -1,10 +1,8 @@
-# coding: utf-8
-
-RSpec.describe FormData::Multipart do
-  let(:file)          { FormData::File.new fixture("the-http-gem.info").to_s }
+RSpec.describe HTTP::FormData::Multipart do
+  let(:file)          { HTTP::FormData::File.new fixture "the-http-gem.info" }
   let(:params)        { { :foo => :bar, :baz => file } }
   let(:boundary)      { /-{21}[a-f0-9]{42}/ }
-  subject(:form_data) { FormData::Multipart.new params }
+  subject(:form_data) { HTTP::FormData::Multipart.new params }
 
   describe "#content_type" do
     subject { form_data.content_type }
