@@ -1,9 +1,5 @@
 ## Styles ######################################################################
 
-# See: http://erniemiller.org/2014/10/23/in-defense-of-alias/
-Style/Alias:
-  Enabled: false
-
 Style/AlignParameters:
   EnforcedStyle: with_fixed_indentation
 
