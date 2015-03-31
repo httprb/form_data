@@ -1,3 +1,5 @@
+require "uri"
+
 module HTTP
   module FormData
     # `application/x-www-form-urlencoded` form data.
@@ -11,7 +13,7 @@ module HTTP
       #
       # @return [String]
       def to_s
-        URI.encode_www_form @data
+        ::URI.encode_www_form @data
       end
 
       # Returns MIME type to be used for HTTP request `Content-Type` header.
