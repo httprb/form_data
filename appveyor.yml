@@ -1,5 +1,7 @@
 version: "#{build}"
 build: off
+init:
+  - git config --global core.autocrlf true
 install:
   - set PATH=C:\Ruby23\bin;%PATH%
   - bundle install
