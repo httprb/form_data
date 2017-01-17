@@ -5,19 +5,19 @@ module HTTP
     class Multipart
       # Utility class to represent multi-part chunks
       class Param
+        CONTENT_DISPOSITION = ""
+
         # @param [#to_s] name
         # @param [FormData::File, #to_s] value
         def initialize(name, value)
-          @name = name.to_s
-          @value = value
-
+          @name   = name.to_s
+          @value  = value
           @header = "Content-Disposition: form-data; name=#{@name.inspect}"
 
           return unless file?
 
-          @header << "; filename=#{value.filename.inspect}"
-          @header << CRLF
-          @header << "Content-Type: #{value.mime_type}"
+          @header = "#{@header}; filename=#{value.filename.inspect}#{CRLF}" \
+                    "Content-Type: #{value.mime_type}"
         end
 
         # Returns body part with headers and data.
