@@ -67,7 +67,7 @@ module HTTP
         if @file_or_io.is_a?(::File) || @file_or_io.is_a?(StringIO)
           yield @file_or_io
         else
-          ::File.open(@file_or_io) { |io| yield io }
+          ::File.open(@file_or_io, "rb") { |io| yield io }
         end
       end
     end

@@ -28,7 +28,7 @@ RSpec.describe HTTP::FormData::File do
 
     context "when file given as a String" do
       let(:file) { fixture("the-http-gem.info").to_s }
-      it { is_expected.to eq fixture("the-http-gem.info").read }
+      it { is_expected.to eq fixture("the-http-gem.info").read(:mode => "rb") }
     end
 
     context "when file given as StringIO" do
@@ -37,9 +37,9 @@ RSpec.describe HTTP::FormData::File do
     end
 
     context "when file given as File" do
-      let(:file) { fixture("the-http-gem.info").open }
+      let(:file) { fixture("the-http-gem.info").open("rb") }
       after { file.close }
-      it { is_expected.to eq fixture("the-http-gem.info").read }
+      it { is_expected.to eq fixture("the-http-gem.info").read(:mode => "rb") }
     end
   end
 
