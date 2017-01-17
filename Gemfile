@@ -12,7 +12,7 @@ group :test do
   gem "coveralls"
   gem "rspec",      "~> 3.1"
   gem "simplecov",  ">= 0.9"
-  gem "rubocop",    "~> 0.28.0"
+  gem "rubocop",    "= 0.40.0"
 end
 
 group :doc do
