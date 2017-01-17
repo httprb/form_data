@@ -50,10 +50,11 @@ socket << form.to_s
 This library aims to support and is [tested against][ci] the following Ruby
 versions:
 
-* Ruby 1.9.3
 * Ruby 2.0.0
 * Ruby 2.1.x
 * Ruby 2.2.x
+* Ruby 2.3.x
+* JRuby 9.1.6.0
 
 If something doesn't work on one of these versions, it's a bug.
 

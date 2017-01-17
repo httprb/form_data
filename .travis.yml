@@ -4,17 +4,12 @@ env:
     - JRUBY_OPTS="$JRUBY_OPTS --debug"
 language: ruby
 rvm:
-  - 1.9.3
   - 2.0.0
   - 2.1
   - 2.2
-  - jruby-19mode
-  - jruby-head
-  - rbx-2
-  - ruby-head
+  - 2.3.0
+  - 2.4.0
+  - jruby-9.1.6.0
 matrix:
-  allow_failures:
-    - rvm: jruby-head
-    - rvm: ruby-head
   fast_finish: true
 sudo: false

@@ -6,7 +6,8 @@ module HTTP
         # @param [#to_s] name
         # @param [FormData::File, #to_s] value
         def initialize(name, value)
-          @name, @value = name.to_s, value
+          @name = name.to_s
+          @value = value
 
           @header = "Content-Disposition: form-data; name=#{@name.inspect}"
 

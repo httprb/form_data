@@ -6,7 +6,10 @@ RSpec.describe HTTP::FormData::Multipart do
 
   describe "#content_type" do
     subject { form_data.content_type }
-    it { is_expected.to match(/^multipart\/form-data; boundary=#{boundary}$/) }
+
+    let(:content_type) { %r{^multipart\/form-data; boundary=#{boundary}$} }
+
+    it { is_expected.to match(content_type) }
   end
 
   describe "#content_length" do

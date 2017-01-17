@@ -55,7 +55,7 @@ module HTTP
         when obj.nil?               then {}
         when obj.is_a?(Hash)        then obj
         when obj.respond_to?(:to_h) then obj.to_h
-        else fail Error, "#{obj.inspect} is neither Hash nor responds to :to_h"
+        else raise Error, "#{obj.inspect} is neither Hash nor responds to :to_h"
         end
       end
 

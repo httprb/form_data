@@ -1,3 +1,6 @@
+AllCops:
+  DisplayCopNames: true
+
 ## Styles ######################################################################
 
 Style/AlignParameters:
@@ -31,17 +34,11 @@ Style/Lambda:
 Style/MultilineOperationIndentation:
   EnforcedStyle: indented
 
-# A bit useless restriction, that makes impossible aligning code like this:
-#
-#   redis do |conn|
-#     conn.hset    :k1, now
-#     conn.hincrby :k2, 123
-#   end
-SingleSpaceBeforeFirstArg:
-  Enabled: false
-
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+
+Style/EmptyCaseCondition:
+  Enabled: false
 
 # Not all trivial readers/writers can be defined with attr_* methods
 #
