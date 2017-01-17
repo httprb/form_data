@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe HTTP::FormData do
   describe ".create" do
     subject { HTTP::FormData.create params }

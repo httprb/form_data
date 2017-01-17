@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HTTP
   module FormData
     class Multipart

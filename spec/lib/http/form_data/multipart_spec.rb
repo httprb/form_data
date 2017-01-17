@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe HTTP::FormData::Multipart do
   let(:file)          { HTTP::FormData::File.new fixture "the-http-gem.info" }
   let(:params)        { { :foo => :bar, :baz => file } }

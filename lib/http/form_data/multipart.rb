@@ -1,7 +1,7 @@
-# stdlib
+# frozen_string_literal: true
+
 require "securerandom"
 
-# internal
 require "http/form_data/multipart/param"
 
 module HTTP
