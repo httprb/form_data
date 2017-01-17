@@ -80,7 +80,7 @@ dropped.
 
 ## Copyright
 
-Copyright (c) 2015 Aleksey V Zapparov.
+Copyright (c) 2015-2017 Alexey V Zapparov.
 See [LICENSE.txt][license] for further details.
 
 
