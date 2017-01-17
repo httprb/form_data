@@ -1,5 +1,17 @@
 AllCops:
   DisplayCopNames: true
+  TargetRubyVersion: 2.4
+
+## Metrics #####################################################################
+
+Metrics/BlockLength:
+  Exclude:
+    - "Guardfile"
+    - "spec/**/*"
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 15
 
 ## Styles ######################################################################
 
@@ -53,9 +65,3 @@ Style/EmptyCaseCondition:
 #   end
 Style/TrivialAccessors:
   Enabled: false
-
-## Metrics #####################################################################
-
-Metrics/MethodLength:
-  CountComments: false
-  Max: 15

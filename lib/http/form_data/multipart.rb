@@ -1,7 +1,7 @@
-# stdlib
+# frozen_string_literal: true
+
 require "securerandom"
 
-# internal
 require "http/form_data/multipart/param"
 
 module HTTP
@@ -11,7 +11,7 @@ module HTTP
       # @param [#to_h, Hash] data form data key-value Hash
       def initialize(data)
         @parts          = Param.coerce FormData.ensure_hash data
-        @boundary       = ("-" * 21) << SecureRandom.hex(21)
+        @boundary       = (Array.new(21, "-") << SecureRandom.hex(21)).join("")
         @content_length = nil
       end
 

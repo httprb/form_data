@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "http/form_data/file"
 require "http/form_data/multipart"
 require "http/form_data/urlencoded"
@@ -26,7 +28,7 @@ module HTTP
   #   socket << form.to_s
   module FormData
     # CRLF
-    CRLF = "\r\n".freeze
+    CRLF = "\r\n"
 
     # Generic FormData error.
     class Error < StandardError; end
