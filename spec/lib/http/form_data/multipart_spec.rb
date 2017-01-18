@@ -33,6 +33,7 @@ RSpec.describe HTTP::FormData::Multipart do
       expect(form_data.to_s).to eq [
         "--#{boundary_value}#{crlf}",
         "#{disposition 'name' => 'foo'}#{crlf}",
+        "Content-Type: application/octet-stream#{crlf}",
         "#{crlf}bar#{crlf}",
         "--#{boundary_value}#{crlf}",
         "#{disposition 'name' => 'baz', 'filename' => file.filename}#{crlf}",
