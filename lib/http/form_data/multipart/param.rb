@@ -5,19 +5,21 @@ module HTTP
     class Multipart
       # Utility class to represent multi-part chunks
       class Param
-        CONTENT_DISPOSITION = ""
-
         # @param [#to_s] name
         # @param [FormData::File, #to_s] value
         def initialize(name, value)
-          @name   = name.to_s
-          @value  = value
-          @header = "Content-Disposition: form-data; name=#{@name.inspect}"
+          mime    = value.mime_type if value.respond_to?(:mime_type)
+          params  = ["name=#{name.to_s.inspect}"]
 
-          return unless file?
+          if value.is_a? FormData::File
+            @value = value
+            params << "filename=#{value.filename.inspect}"
+          else
+            @value = value.to_s
+          end
 
-          @header = "#{@header}; filename=#{value.filename.inspect}#{CRLF}" \
-                    "Content-Type: #{value.mime_type}"
+          @header = "Content-Disposition: form-data; #{params.join '; '}" \
+                    "#{CRLF}Content-Type: #{mime || DEFAULT_MIME}"
         end
 
         # Returns body part with headers and data.
@@ -46,10 +48,10 @@ module HTTP
         def size
           size = @header.bytesize + (CRLF.bytesize * 2)
 
-          if file?
+          if @value.is_a? FormData::File
             size + @value.size
           else
-            size + @value.to_s.bytesize
+            size + @value.bytesize
           end
         end
 
@@ -69,15 +71,6 @@ module HTTP
           end
 
           params
-        end
-
-        private
-
-        # Tells whenever value is a {FormData::File} or not.
-        #
-        # @return [Boolean]
-        def file?
-          @value.is_a? FormData::File
         end
       end
     end

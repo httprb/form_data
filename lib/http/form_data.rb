@@ -27,6 +27,9 @@ module HTTP
   #   socket << "\r\n"
   #   socket << form.to_s
   module FormData
+    # Default MIME type
+    DEFAULT_MIME = "application/octet-stream"
+
     # CRLF
     CRLF = "\r\n"
 
