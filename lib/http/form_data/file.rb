@@ -18,11 +18,9 @@ module HTTP
     # @example Usage with pathname
     #
     #  FormData::File.new "/home/ixti/avatar.png"
-    class File
+    class File < Part
       # Default MIME type
       DEFAULT_MIME = "application/octet-stream"
-
-      attr_reader :mime_type, :filename
 
       # @see DEFAULT_MIME
       # @param [String, StringIO, File] file_or_io Filename or IO instance.

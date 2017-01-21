@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "http/form_data/part"
 require "http/form_data/file"
 require "http/form_data/multipart"
 require "http/form_data/urlencoded"

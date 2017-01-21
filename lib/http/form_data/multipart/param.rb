@@ -5,19 +5,27 @@ module HTTP
     class Multipart
       # Utility class to represent multi-part chunks
       class Param
-        CONTENT_DISPOSITION = ""
-
         # @param [#to_s] name
-        # @param [FormData::File, #to_s] value
+        # @param [FormData::File, FormData::Part, #to_s] value
         def initialize(name, value)
-          @name   = name.to_s
-          @value  = value
-          @header = "Content-Disposition: form-data; name=#{@name.inspect}"
+          @name = name.to_s
 
-          return unless file?
+          @part =
+            if value.is_a?(FormData::Part)
+              value
+            else
+              FormData::Part.new(value)
+            end
 
-          @header = "#{@header}; filename=#{value.filename.inspect}#{CRLF}" \
-                    "Content-Type: #{value.mime_type}"
+          parameters = { :name => @name }
+          parameters[:filename] = @part.filename if @part.filename
+          parameters = parameters.map { |k, v| "#{k}=#{v.inspect}" }.join("; ")
+
+          @header = "Content-Disposition: form-data; #{parameters}"
+
+          return unless @part.mime_type
+
+          @header += "#{CRLF}Content-Type: #{@part.mime_type}"
         end
 
         # Returns body part with headers and data.
@@ -37,20 +45,14 @@ module HTTP
         #
         # @return [String]
         def to_s
-          "#{@header}#{CRLF * 2}#{@value}"
+          "#{@header}#{CRLF * 2}#{@part}"
         end
 
         # Calculates size of a part (headers + body).
         #
         # @return [Fixnum]
         def size
-          size = @header.bytesize + (CRLF.bytesize * 2)
-
-          if file?
-            size + @value.size
-          else
-            size + @value.to_s.bytesize
-          end
+          @header.bytesize + (CRLF.bytesize * 2) + @part.size
         end
 
         # Flattens given `data` Hash into an array of `Param`'s.
@@ -69,15 +71,6 @@ module HTTP
           end
 
           params
-        end
-
-        private
-
-        # Tells whenever value is a {FormData::File} or not.
-        #
-        # @return [Boolean]
-        def file?
-          @value.is_a? FormData::File
         end
       end
     end

@@ -44,6 +44,14 @@ socket << "\r\n"
 socket << form.to_s
 ```
 
+It's also possible to create a non-file part with Content-Type:
+
+``` ruby
+form = HTTP::FormData.create({
+  :username     => HTTP::FormData::Part.new('{"a": 1}', content_type: 'application/json'),
+  :avatar_file  => HTTP::FormData::File.new("/home/ixti/avatar.png")
+})
+```
 
 ## Supported Ruby Versions
 
