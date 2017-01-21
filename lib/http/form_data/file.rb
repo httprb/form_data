@@ -47,7 +47,7 @@ module HTTP
 
       # Returns content size.
       #
-      # @return [Fixnum]
+      # @return [Integer]
       def size
         with_io(&:size)
       end

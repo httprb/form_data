@@ -50,7 +50,7 @@ module HTTP
 
         # Calculates size of a part (headers + body).
         #
-        # @return [Fixnum]
+        # @return [Integer]
         def size
           @header.bytesize + (CRLF.bytesize * 2) + @part.size
         end
