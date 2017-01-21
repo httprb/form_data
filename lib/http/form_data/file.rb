@@ -25,7 +25,10 @@ module HTTP
       # @see DEFAULT_MIME
       # @param [String, StringIO, File] file_or_io Filename or IO instance.
       # @param [#to_h] opts
+      # @option opts [#to_s] :content_type (DEFAULT_MIME)
+      #   Value of Content-Type header
       # @option opts [#to_s] :mime_type (DEFAULT_MIME)
+      #   Alias for :content_type
       # @option opts [#to_s] :filename
       #   When `file` is a String, defaults to basename of `file`.
       #   When `file` is a File, defaults to basename of `file`.
@@ -35,8 +38,10 @@ module HTTP
 
         opts = FormData.ensure_hash opts
 
-        @mime_type  = opts.fetch(:mime_type) { DEFAULT_MIME }
-        @filename   = opts.fetch :filename do
+        @mime_type = opts.fetch(:mime_type) do
+          opts.fetch(:content_type) { DEFAULT_MIME }
+        end
+        @filename = opts.fetch :filename do
           case file_or_io
           when String then ::File.basename file_or_io
           when ::File then ::File.basename file_or_io.path

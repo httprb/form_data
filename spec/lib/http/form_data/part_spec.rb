@@ -43,4 +43,12 @@ RSpec.describe HTTP::FormData::Part do
       it { is_expected.to eq "application/json" }
     end
   end
+
+  describe "#content_type" do
+    it "should be an alias of #mime_type" do
+      expect(described_class.instance_method(:content_type)).to(
+        eq(described_class.instance_method(:mime_type))
+      )
+    end
+  end
 end

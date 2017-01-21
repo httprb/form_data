@@ -23,9 +23,9 @@ module HTTP
 
           @header = "Content-Disposition: form-data; #{parameters}"
 
-          return unless @part.mime_type
+          return unless @part.content_type
 
-          @header += "#{CRLF}Content-Type: #{@part.mime_type}"
+          @header += "#{CRLF}Content-Type: #{@part.content_type}"
         end
 
         # Returns body part with headers and data.
