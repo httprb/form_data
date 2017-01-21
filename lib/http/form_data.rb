@@ -6,8 +6,8 @@ require "http/form_data/multipart"
 require "http/form_data/urlencoded"
 require "http/form_data/version"
 
-# http.rb namespace.
-# @see https://github.com/httprb/http.rb
+# http gem namespace.
+# @see https://github.com/httprb/http
 module HTTP
   # Utility-belt to build form data request bodies.
   # Provides support for `application/x-www-form-urlencoded` and
