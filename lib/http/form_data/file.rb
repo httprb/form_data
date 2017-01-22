@@ -22,26 +22,29 @@ module HTTP
       # Default MIME type
       DEFAULT_MIME = "application/octet-stream"
 
+      # @deprecated Use #content_type instead
+      alias mime_type content_type
+
       # @see DEFAULT_MIME
       # @param [String, StringIO, File] file_or_io Filename or IO instance.
       # @param [#to_h] opts
       # @option opts [#to_s] :content_type (DEFAULT_MIME)
       #   Value of Content-Type header
-      # @option opts [#to_s] :mime_type (DEFAULT_MIME)
-      #   Alias for :content_type
       # @option opts [#to_s] :filename
       #   When `file` is a String, defaults to basename of `file`.
       #   When `file` is a File, defaults to basename of `file`.
       #   When `file` is a StringIO, defaults to `"stream-{object_id}"`
       def initialize(file_or_io, opts = {})
-        @file_or_io = file_or_io
+        opts = FormData.ensure_hash(opts)
 
-        opts = FormData.ensure_hash opts
-
-        @mime_type = opts.fetch(:mime_type) do
-          opts.fetch(:content_type) { DEFAULT_MIME }
+        if opts.key? :mime_type
+          warn "[DEPRECATED] :mime_type option deprecated, use :content_type"
+          opts[:content_type] = opts[:mime_type]
         end
-        @filename = opts.fetch :filename do
+
+        @file_or_io   = file_or_io
+        @content_type = opts.fetch(:content_type, DEFAULT_MIME).to_s
+        @filename     = opts.fetch :filename do
           case file_or_io
           when String then ::File.basename file_or_io
           when ::File then ::File.basename file_or_io.path
