@@ -14,4 +14,11 @@ rescue LoadError
   end
 end
 
-task :default => [:spec, :rubocop]
+if ENV["CI"].nil?
+  task :default => %i[spec rubocop]
+else
+  case ENV["SUITE"]
+  when "rubocop" then task :default => :rubocop
+  else                task :default => :spec
+  end
+end
