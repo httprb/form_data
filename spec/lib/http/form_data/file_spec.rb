@@ -82,22 +82,21 @@ RSpec.describe HTTP::FormData::File do
     end
   end
 
-  describe "#mime_type" do
-    subject { described_class.new(StringIO.new, opts).mime_type }
+  describe "#content_type" do
+    subject { described_class.new(StringIO.new, opts).content_type }
 
     it { is_expected.to eq "application/octet-stream" }
 
     context "when it was given with options" do
-      let(:opts) { { :mime_type => "application/json" } }
+      let(:opts) { { :content_type => "application/json" } }
       it { is_expected.to eq "application/json" }
     end
   end
 
-  describe "#content_type" do
-    it "should be an alias of #mime_type" do
-      expect(described_class.instance_method(:content_type)).to(
-        eq(described_class.instance_method(:mime_type))
-      )
+  describe "#mime_type" do
+    it "should be an alias of #content_type" do
+      expect(described_class.instance_method(:mime_type))
+        .to eq(described_class.instance_method(:content_type))
     end
   end
 end
