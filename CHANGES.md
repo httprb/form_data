@@ -1,3 +1,14 @@
+## master (unreleased)
+
+* [#5](https://github.com/httprb/form_data.rb/issues/5)
+  Allow setting Content-Type non-file parts 
+  [@abotalov]
+  
+* [#6](https://github.com/httprb/form_data.rb/issues/6)
+  Creation of file parts without filename
+  [@abotalov]
+
+
 ## 1.0.1 (2015-03-31)
 
 * Fix usage of URI module.
@@ -18,3 +29,6 @@
 ## 0.0.1 (2014-12-15)
 
 * First release ever!
+
+[@ixti] https://github.com/ixti
+[@abotalov] https://github.com/abotalov
