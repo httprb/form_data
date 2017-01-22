@@ -28,7 +28,7 @@ module HTTP
       # Returns form data content size to be used for HTTP request
       # `Content-Length` header.
       #
-      # @return [Fixnum]
+      # @return [Integer]
       def content_length
         to_s.bytesize
       end

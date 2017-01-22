@@ -41,5 +41,21 @@ RSpec.describe HTTP::FormData::Multipart do
         "--#{boundary_value}--"
       ].join("")
     end
+
+    context "with filename set to nil" do
+      let(:part) { HTTP::FormData::Part.new("s", :filename => nil) }
+      let(:form_data) { HTTP::FormData::Multipart.new(:foo => part) }
+
+      it "doesn't include a filename" do
+        boundary_value = form_data.content_type[/(#{boundary})$/, 1]
+
+        expect(form_data.to_s).to eq [
+          "--#{boundary_value}#{crlf}",
+          "#{disposition 'name' => 'foo'}#{crlf}",
+          "#{crlf}s#{crlf}",
+          "--#{boundary_value}--"
+        ].join("")
+      end
+    end
   end
 end

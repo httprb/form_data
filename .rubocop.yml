@@ -18,13 +18,10 @@ Metrics/MethodLength:
 Style/AlignParameters:
   EnforcedStyle: with_fixed_indentation
 
-Style/BracesAroundHashParameters:
+Style/Alias:
   Enabled: false
 
-# Broken (2014-12-15). Use `yardstick` gem instead.
-# See: https://github.com/bbatsov/rubocop/issues/947
-# TODO: Enable back once cop is fixed.
-Style/Documentation:
+Style/BracesAroundHashParameters:
   Enabled: false
 
 Style/EmptyLineBetweenDefs:

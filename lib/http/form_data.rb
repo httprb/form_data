@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
+require "http/form_data/part"
 require "http/form_data/file"
 require "http/form_data/multipart"
 require "http/form_data/urlencoded"
 require "http/form_data/version"
 
-# http.rb namespace.
-# @see https://github.com/httprb/http.rb
+# http gem namespace.
+# @see https://github.com/httprb/http
 module HTTP
   # Utility-belt to build form data request bodies.
   # Provides support for `application/x-www-form-urlencoded` and
@@ -69,8 +70,8 @@ module HTTP
       # @return [Boolean]
       def multipart?(data)
         data.any? do |_, v|
-          next true if v.is_a? FormData::File
-          v.respond_to?(:to_ary) && v.to_ary.any? { |e| e.is_a? FormData::File }
+          next true if v.is_a? FormData::Part
+          v.respond_to?(:to_ary) && v.to_ary.any? { |e| e.is_a? FormData::Part }
         end
       end
     end

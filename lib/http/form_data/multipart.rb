@@ -32,7 +32,7 @@ module HTTP
       # Returns form data content size to be used for HTTP request
       # `Content-Length` header.
       #
-      # @return [Fixnum]
+      # @return [Integer]
       def content_length
         unless @content_length
           @content_length  = head.bytesize + tail.bytesize
