@@ -12,6 +12,11 @@ RSpec.describe HTTP::FormData::File do
       it { is_expected.to eq fixture("the-http-gem.info").size }
     end
 
+    context "when file given as a Pathname" do
+      let(:file) { fixture("the-http-gem.info") }
+      it { is_expected.to eq fixture("the-http-gem.info").size }
+    end
+
     context "when file given as File" do
       let(:file) { fixture("the-http-gem.info").open }
       after { file.close }
@@ -32,6 +37,11 @@ RSpec.describe HTTP::FormData::File do
       it { is_expected.to eq fixture("the-http-gem.info").read(:mode => "rb") }
     end
 
+    context "when file given as a Pathname" do
+      let(:file) { fixture("the-http-gem.info") }
+      it { is_expected.to eq fixture("the-http-gem.info").read(:mode => "rb") }
+    end
+
     context "when file given as File" do
       let(:file) { fixture("the-http-gem.info").open("rb") }
       after { file.close }
@@ -49,6 +59,17 @@ RSpec.describe HTTP::FormData::File do
 
     context "when file given as a String" do
       let(:file) { fixture("the-http-gem.info").to_s }
+
+      it { is_expected.to eq ::File.basename file }
+
+      context "and filename given with options" do
+        let(:opts) { { :filename => "foobar.txt" } }
+        it { is_expected.to eq "foobar.txt" }
+      end
+    end
+
+    context "when file given as a Pathname" do
+      let(:file) { fixture("the-http-gem.info") }
 
       it { is_expected.to eq ::File.basename file }
 

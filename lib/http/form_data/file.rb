@@ -26,7 +26,7 @@ module HTTP
       alias mime_type content_type
 
       # @see DEFAULT_MIME
-      # @param [String, IO] file_or_io Filename or IO instance.
+      # @param [String, Pathname, IO] file_or_io Filename or IO instance.
       # @param [#to_h] opts
       # @option opts [#to_s] :content_type (DEFAULT_MIME)
       #   Value of Content-Type header
@@ -34,7 +34,7 @@ module HTTP
       #   When `file` is a String, defaults to basename of `file`.
       #   When `file` is a File, defaults to basename of `file`.
       #   When `file` is a StringIO, defaults to `"stream-{object_id}"`
-      def initialize(file_or_io, opts = {})
+      def initialize(path_or_io, opts = {})
         opts = FormData.ensure_hash(opts)
 
         if opts.key? :mime_type
@@ -42,10 +42,10 @@ module HTTP
           opts[:content_type] = opts[:mime_type]
         end
 
-        if file_or_io.is_a?(String)
-          @io = ::File.open(file_or_io, binmode: true)
+        if path_or_io.is_a?(String) || defined?(Pathname) && path_or_io.is_a?(Pathname)
+          @io = ::File.open(path_or_io, binmode: true)
         else
-          @io = file_or_io
+          @io = path_or_io
         end
 
         @content_type = opts.fetch(:content_type, DEFAULT_MIME).to_s
