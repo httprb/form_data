@@ -12,15 +12,15 @@ RSpec.describe HTTP::FormData::File do
       it { is_expected.to eq fixture("the-http-gem.info").size }
     end
 
-    context "when file given as StringIO" do
-      let(:file) { StringIO.new "привет мир!" }
-      it { is_expected.to eq 20 }
-    end
-
     context "when file given as File" do
       let(:file) { fixture("the-http-gem.info").open }
       after { file.close }
       it { is_expected.to eq fixture("the-http-gem.info").size }
+    end
+
+    context "when file given as IO" do
+      let(:file) { StringIO.new "привет мир!" }
+      it { is_expected.to eq 20 }
     end
   end
 
@@ -32,15 +32,15 @@ RSpec.describe HTTP::FormData::File do
       it { is_expected.to eq fixture("the-http-gem.info").read(:mode => "rb") }
     end
 
-    context "when file given as StringIO" do
-      let(:file) { StringIO.new "привет мир!" }
-      it { is_expected.to eq "привет мир!" }
-    end
-
     context "when file given as File" do
       let(:file) { fixture("the-http-gem.info").open("rb") }
       after { file.close }
       it { is_expected.to eq fixture("the-http-gem.info").read(:mode => "rb") }
+    end
+
+    context "when file given as IO" do
+      let(:file) { StringIO.new "привет мир!" }
+      it { is_expected.to eq "привет мир!" }
     end
   end
 
@@ -58,10 +58,11 @@ RSpec.describe HTTP::FormData::File do
       end
     end
 
-    context "when file given as StringIO" do
-      let(:file) { StringIO.new }
+    context "when file given as File" do
+      let(:file) { fixture("the-http-gem.info").open }
+      after { file.close }
 
-      it { is_expected.to eq "stream-#{file.object_id}" }
+      it { is_expected.to eq "the-http-gem.info" }
 
       context "and filename given with options" do
         let(:opts) { { :filename => "foobar.txt" } }
@@ -69,11 +70,10 @@ RSpec.describe HTTP::FormData::File do
       end
     end
 
-    context "when file given as File" do
-      let(:file) { fixture("the-http-gem.info").open }
-      after { file.close }
+    context "when file given as IO" do
+      let(:file) { StringIO.new }
 
-      it { is_expected.to eq "the-http-gem.info" }
+      it { is_expected.to eq "stream-#{file.object_id}" }
 
       context "and filename given with options" do
         let(:opts) { { :filename => "foobar.txt" } }

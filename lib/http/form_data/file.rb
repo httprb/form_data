@@ -26,7 +26,7 @@ module HTTP
       alias mime_type content_type
 
       # @see DEFAULT_MIME
-      # @param [String, StringIO, File] file_or_io Filename or IO instance.
+      # @param [String, IO] file_or_io Filename or IO instance.
       # @param [#to_h] opts
       # @option opts [#to_s] :content_type (DEFAULT_MIME)
       #   Value of Content-Type header
@@ -42,13 +42,18 @@ module HTTP
           opts[:content_type] = opts[:mime_type]
         end
 
-        @file_or_io   = file_or_io
+        if file_or_io.is_a?(String)
+          @io = ::File.open(file_or_io)
+        else
+          @io = file_or_io
+        end
+
         @content_type = opts.fetch(:content_type, DEFAULT_MIME).to_s
         @filename     = opts.fetch :filename do
-          case file_or_io
-          when String then ::File.basename file_or_io
-          when ::File then ::File.basename file_or_io.path
-          else             "stream-#{file_or_io.object_id}"
+          if @io.is_a?(::File)
+            ::File.basename @io.path
+          else
+            "stream-#{@io.object_id}"
           end
         end
       end
@@ -57,26 +62,14 @@ module HTTP
       #
       # @return [Integer]
       def size
-        with_io(&:size)
+        @io.size
       end
 
-      # Returns content of a file of IO.
+      # Returns content of the IO.
       #
       # @return [String]
       def to_s
-        with_io(&:read)
-      end
-
-      private
-
-      # @yield [io] Gives IO instance to the block
-      # @return result of yielded block
-      def with_io
-        if @file_or_io.is_a?(::File) || @file_or_io.is_a?(StringIO)
-          yield @file_or_io
-        else
-          ::File.open(@file_or_io, "rb") { |io| yield io }
-        end
+        @io.read
       end
     end
   end
