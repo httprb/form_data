@@ -43,7 +43,7 @@ module HTTP
         end
 
         if file_or_io.is_a?(String)
-          @io = ::File.open(file_or_io)
+          @io = ::File.open(file_or_io, binmode: true)
         else
           @io = file_or_io
         end
