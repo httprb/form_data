@@ -54,6 +54,76 @@ RSpec.describe HTTP::FormData::File do
     end
   end
 
+  describe "#read" do
+    subject { described_class.new(file, opts).read }
+
+    context "when file given as a String" do
+      let(:file) { fixture("the-http-gem.info").to_s }
+      it { is_expected.to eq fixture("the-http-gem.info").read(:mode => "rb") }
+    end
+
+    context "when file given as a Pathname" do
+      let(:file) { fixture("the-http-gem.info") }
+      it { is_expected.to eq fixture("the-http-gem.info").read(:mode => "rb") }
+    end
+
+    context "when file given as File" do
+      let(:file) { fixture("the-http-gem.info").open("rb") }
+      after { file.close }
+      it { is_expected.to eq fixture("the-http-gem.info").read(:mode => "rb") }
+    end
+
+    context "when file given as IO" do
+      let(:file) { StringIO.new "привет мир!" }
+      it { is_expected.to eq "привет мир!" }
+    end
+  end
+
+  describe "#rewind" do
+    subject { described_class.new(file, opts) }
+
+    context "when file given as a String" do
+      let(:file) { fixture("the-http-gem.info").to_s }
+
+      it "rewinds the underlying IO object" do
+        subject.read
+        subject.rewind
+        expect(subject.read).to eq fixture("the-http-gem.info").read(:mode => "rb")
+      end
+    end
+
+    context "when file given as a Pathname" do
+      let(:file) { fixture("the-http-gem.info") }
+
+      it "rewinds the underlying IO object" do
+        subject.read
+        subject.rewind
+        expect(subject.read).to eq fixture("the-http-gem.info").read(:mode => "rb")
+      end
+    end
+
+    context "when file given as File" do
+      let(:file) { fixture("the-http-gem.info").open("rb") }
+      after { file.close }
+
+      it "rewinds the underlying IO object" do
+        subject.read
+        subject.rewind
+        expect(subject.read).to eq fixture("the-http-gem.info").read(:mode => "rb")
+      end
+    end
+
+    context "when file given as IO" do
+      let(:file) { StringIO.new "привет мир!" }
+
+      it "rewinds the underlying IO object" do
+        subject.read
+        subject.rewind
+        expect(subject.read).to eq "привет мир!"
+      end
+    end
+  end
+
   describe "#filename" do
     subject { described_class.new(file, opts).filename }
 

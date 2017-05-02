@@ -57,20 +57,6 @@ module HTTP
           end
         end
       end
-
-      # Returns content size.
-      #
-      # @return [Integer]
-      def size
-        @io.size
-      end
-
-      # Returns content of the IO.
-      #
-      # @return [String]
-      def to_s
-        @io.read
-      end
     end
   end
 end
