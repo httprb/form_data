@@ -72,7 +72,7 @@ module HTTP
         def parameters
           parameters = { :name => @name }
           parameters[:filename] = filename if filename
-          parameters = parameters.map { |k, v| "#{k}=#{v.inspect}" }.join("; ")
+          parameters.map { |k, v| "#{k}=#{v.inspect}" }.join("; ")
         end
 
         def content_type
