@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "stringio"
-
 require "http/form_data/readable"
 require "http/form_data/composite_io"
 
@@ -40,7 +38,7 @@ module HTTP
               FormData::Part.new(value)
             end
 
-          @io = CompositeIO.new(StringIO.new(header), @part, StringIO.new(footer))
+          @io = CompositeIO.new(header, @part, footer)
         end
 
         # Flattens given `data` Hash into an array of `Param`'s.

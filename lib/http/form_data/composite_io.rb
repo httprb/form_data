@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
+require "stringio"
+
 module HTTP
   module FormData
     # Provides IO interface across multiple IO objects.
     class CompositeIO
       # @param [Array<IO>] ios Array of IO objects
       def initialize(*ios)
-        @ios = ios.flatten
+        @ios = ios.flatten.map { |io| io.is_a?(String) ? StringIO.new(io) : io }
         @index = 0
       end
 
