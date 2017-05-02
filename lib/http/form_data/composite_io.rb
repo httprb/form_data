@@ -22,18 +22,17 @@ module HTTP
         outbuf = outbuf.to_s.replace("")
 
         while current_io
-          data = current_io.read(length)
-          outbuf << data.to_s
-          length -= data.to_s.length if length
+          if (data = current_io.read(length))
+            outbuf << data
+            length -= data.length if length
 
-          break if length && length.zero?
+            break if length && length.zero?
+          end
 
           advance_io
         end
 
-        return nil if length && outbuf.empty?
-
-        outbuf
+        outbuf unless length && outbuf.empty?
       end
 
       # Returns sum of all IO sizes.
