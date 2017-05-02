@@ -26,14 +26,13 @@ module HTTP
       alias mime_type content_type
 
       # @see DEFAULT_MIME
-      # @param [String, Pathname, IO] file_or_io Filename or IO instance.
+      # @param [String, Pathname, IO] path_or_io Filename or IO instance.
       # @param [#to_h] opts
       # @option opts [#to_s] :content_type (DEFAULT_MIME)
       #   Value of Content-Type header
       # @option opts [#to_s] :filename
-      #   When `file` is a String, defaults to basename of `file`.
-      #   When `file` is a File, defaults to basename of `file`.
-      #   When `file` is a StringIO, defaults to `"stream-{object_id}"`
+      #   When `path_or_io` is a String, Pathname or File, defaults to basename of `file`.
+      #   When `path_or_io` is a IO, defaults to `"stream-{object_id}"`
       def initialize(path_or_io, opts = {})
         opts = FormData.ensure_hash(opts)
 
@@ -42,19 +41,28 @@ module HTTP
           opts[:content_type] = opts[:mime_type]
         end
 
-        if path_or_io.is_a?(String) || defined?(Pathname) && path_or_io.is_a?(Pathname)
-          @io = ::File.open(path_or_io, binmode: true)
-        else
-          @io = path_or_io
-        end
-
+        @io           = make_io(path_or_io)
         @content_type = opts.fetch(:content_type, DEFAULT_MIME).to_s
-        @filename     = opts.fetch :filename do
-          if @io.is_a?(::File)
-            ::File.basename @io.path
-          else
-            "stream-#{@io.object_id}"
-          end
+        @filename     = opts.fetch(:filename, filename_for(@io))
+      end
+
+      private
+
+      def make_io(path_or_io)
+        if path_or_io.is_a?(String)
+          ::File.open(path_or_io, :binmode => true)
+        elsif defined?(Pathname) && path_or_io.is_a?(Pathname)
+          path_or_io.open(:binmode => true)
+        else
+          path_or_io
+        end
+      end
+
+      def filename_for(io)
+        if io.respond_to?(:path)
+          ::File.basename io.path
+        else
+          "stream-#{io.object_id}"
         end
       end
     end

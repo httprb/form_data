@@ -20,7 +20,7 @@ module HTTP
         @boundary = ("-" * 21) << SecureRandom.hex(21)
         @io = CompositeIO.new(
           *parts.flat_map { |part| [StringIO.new(glue), part] },
-          StringIO.new(tail),
+          StringIO.new(tail)
         )
       end
 

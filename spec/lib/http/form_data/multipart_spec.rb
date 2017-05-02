@@ -30,7 +30,7 @@ RSpec.describe HTTP::FormData::Multipart do
     end
 
     context "with filename set to nil" do
-      let(:part) { HTTP::FormData::Part.new("s", :content_type => "text/plain") }
+      let(:part) { HTTP::FormData::Part.new("s", :content_type => "mime/type") }
       let(:form_data) { HTTP::FormData::Multipart.new(:foo => part) }
 
       it "doesn't include a filename" do

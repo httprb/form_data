@@ -86,9 +86,9 @@ RSpec.describe HTTP::FormData::File do
       let(:file) { fixture("the-http-gem.info").to_s }
 
       it "rewinds the underlying IO object" do
-        subject.read
+        content = subject.read
         subject.rewind
-        expect(subject.read).to eq fixture("the-http-gem.info").read(:mode => "rb")
+        expect(subject.read).to eq content
       end
     end
 
@@ -96,9 +96,9 @@ RSpec.describe HTTP::FormData::File do
       let(:file) { fixture("the-http-gem.info") }
 
       it "rewinds the underlying IO object" do
-        subject.read
+        content = subject.read
         subject.rewind
-        expect(subject.read).to eq fixture("the-http-gem.info").read(:mode => "rb")
+        expect(subject.read).to eq content
       end
     end
 
@@ -107,9 +107,9 @@ RSpec.describe HTTP::FormData::File do
       after { file.close }
 
       it "rewinds the underlying IO object" do
-        subject.read
+        content = subject.read
         subject.rewind
-        expect(subject.read).to eq fixture("the-http-gem.info").read(:mode => "rb")
+        expect(subject.read).to eq content
       end
     end
 
@@ -117,9 +117,9 @@ RSpec.describe HTTP::FormData::File do
       let(:file) { StringIO.new "привет мир!" }
 
       it "rewinds the underlying IO object" do
-        subject.read
+        content = subject.read
         subject.rewind
-        expect(subject.read).to eq "привет мир!"
+        expect(subject.read).to eq content
       end
     end
   end

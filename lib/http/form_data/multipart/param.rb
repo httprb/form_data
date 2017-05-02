@@ -31,25 +31,16 @@ module HTTP
         # @param [#to_s] name
         # @param [FormData::File, FormData::Part, #to_s] value
         def initialize(name, value)
-          part =
+          @name = name.to_s
+
+          @part =
             if value.is_a?(FormData::Part)
               value
             else
               FormData::Part.new(value)
             end
 
-          parameters = { :name => name.to_s }
-          parameters[:filename] = part.filename if part.filename
-          parameters = parameters.map { |k, v| "#{k}=#{v.inspect}" }.join("; ")
-
-          header = String.new # rubocop:disable String/EmptyLiteral
-          header << "Content-Disposition: form-data; #{parameters}#{CRLF}"
-          header << "Content-Type: #{part.content_type}#{CRLF}" if part.content_type
-          header << CRLF
-
-          footer = CRLF.dup
-
-          @io = CompositeIO.new(StringIO.new(header), part, StringIO.new(footer))
+          @io = CompositeIO.new(StringIO.new(header), @part, StringIO.new(footer))
         end
 
         # Flattens given `data` Hash into an array of `Param`'s.
@@ -68,6 +59,34 @@ module HTTP
           end
 
           params
+        end
+
+        private
+
+        def header
+          header = String.new
+          header << "Content-Disposition: form-data; #{parameters}#{CRLF}"
+          header << "Content-Type: #{content_type}#{CRLF}" if content_type
+          header << CRLF
+          header
+        end
+
+        def parameters
+          parameters = { :name => @name }
+          parameters[:filename] = filename if filename
+          parameters = parameters.map { |k, v| "#{k}=#{v.inspect}" }.join("; ")
+        end
+
+        def content_type
+          @part.content_type
+        end
+
+        def filename
+          @part.filename
+        end
+
+        def footer
+          CRLF.dup
         end
       end
     end

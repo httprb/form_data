@@ -2,7 +2,7 @@
 
 module HTTP
   module FormData
-    # Provides IO interface across multiple IO files.
+    # Provides IO interface across multiple IO objects.
     class CompositeIO
       # @param [Array<IO>] ios Array of IO objects
       def initialize(*ios)
@@ -10,12 +10,12 @@ module HTTP
         @index = 0
       end
 
-      # Reads and returns list of 
+      # Reads and returns partial content acrosss multiple IO objects.
       #
       # @param [Integer] length Number of bytes to retrieve
       # @param [String] outbuf String to be replaced with retrieved data
       #
-      # @return [String]
+      # @return [String, nil]
       def read(length = nil, outbuf = nil)
         outbuf = outbuf.to_s.replace("")
 
@@ -24,7 +24,7 @@ module HTTP
           outbuf << data.to_s
           length -= data.to_s.length if length
 
-          break if length == 0
+          break if length && length.zero?
 
           advance_io
         end
@@ -34,21 +34,25 @@ module HTTP
         outbuf
       end
 
+      # Returns sum of all IO sizes.
+      def size
+        @size ||= @ios.map(&:size).inject(0, :+)
+      end
+
+      # Rewinds all IO objects and set cursor to the first IO object.
       def rewind
         @ios.each(&:rewind)
         @index = 0
       end
 
-      def size
-        @size ||= @ios.map(&:size).inject(0, :+)
-      end
-
       private
 
+      # Returns IO object under the cursor.
       def current_io
         @ios[@index]
       end
 
+      # Advances cursor to the next IO object.
       def advance_io
         @index += 1
       end

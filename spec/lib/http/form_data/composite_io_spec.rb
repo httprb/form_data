@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe HTTP::FormData::CompositeIO do
-  let(:ios) { ["Hello", " ", "", "world", "!"].map { |string| StringIO.new(string) } }
-  subject(:composite_io) { HTTP::FormData::CompositeIO.new *ios }
+  let(:ios) { ["Hello", " ", "", "world", "!"].map { |s| StringIO.new(s) } }
+  subject(:composite_io) { HTTP::FormData::CompositeIO.new(*ios) }
 
   describe "#read" do
     it "reads all data" do
