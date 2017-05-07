@@ -10,6 +10,7 @@ module HTTP
       def initialize(*ios)
         @ios = ios.flatten.map { |io| io.is_a?(String) ? StringIO.new(io) : io }
         @index = 0
+        @buffer = String.new
       end
 
       # Reads and returns partial content acrosss multiple IO objects.
@@ -22,12 +23,11 @@ module HTTP
         outbuf = outbuf.to_s.replace("")
 
         while current_io
-          if (data = current_io.read(length))
-            outbuf << data
-            length -= data.length if length
+          current_io.read(length, @buffer)
+          outbuf << @buffer
+          length -= @buffer.length if length
 
-            break if length && length.zero?
-          end
+          break if length && length.zero?
 
           advance_io
         end
