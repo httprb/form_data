@@ -8,7 +8,17 @@ module HTTP
     class CompositeIO
       # @param [Array<IO>] ios Array of IO objects
       def initialize(ios)
-        @ios = ios.map { |io| io.is_a?(String) ? StringIO.new(io) : io }
+        ios = ios.map do |io|
+          if io.is_a?(String)
+            StringIO.new(io)
+          elsif io.respond_to?(:read)
+            io
+          else
+            fail ArgumentError, "#{io.inspect} is neither a String nor an IO object"
+          end
+        end
+
+        @ios = ios
         @index = 0
         @buffer = String.new
       end

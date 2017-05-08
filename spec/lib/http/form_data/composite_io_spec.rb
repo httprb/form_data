@@ -4,6 +4,18 @@ RSpec.describe HTTP::FormData::CompositeIO do
   let(:ios) { ["Hello", " ", "", "world", "!"].map { |s| StringIO.new(s) } }
   subject(:composite_io) { HTTP::FormData::CompositeIO.new(ios) }
 
+  describe "#initialize" do
+    it "accepts IOs and strings" do
+      composite_io = HTTP::FormData::CompositeIO.new ["Hello ", StringIO.new("world!")]
+      expect(composite_io.read).to eq "Hello world!"
+    end
+
+    it "fails if an IO is neither a String nor an IO" do
+      expect { HTTP::FormData::CompositeIO.new [:hello, :world] }
+        .to raise_error(ArgumentError)
+    end
+  end
+
   describe "#read" do
     it "reads all data" do
       expect(composite_io.read).to eq "Hello world!"
