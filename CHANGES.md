@@ -1,16 +1,23 @@
+## master (unreleased)
+
+* [#12](https://github.com/httprb/form_data.rb/pull/12)
+  Enable form data streaming.
+  [@janko-m][]
+
+
 ## 1.0.2 (2017-05-08)
 
 * [#5](https://github.com/httprb/form_data.rb/issues/5)
   Allow setting Content-Type non-file parts 
-  [@abotalov]
+  [@abotalov][]
 
 * [#6](https://github.com/httprb/form_data.rb/issues/6)
   Creation of file parts without filename
-  [@abotalov]
+  [@abotalov][]
 
 * [#11](https://github.com/httprb/form_data.rb/pull/11)
   Deprecate `HTTP::FormData::File#mime_type`. Use `#content_type` instead.
-  [@ixti]
+  [@ixti][]
 
 
 ## 1.0.1 (2015-03-31)
@@ -34,5 +41,6 @@
 
 * First release ever!
 
-[@ixti] https://github.com/ixti
-[@abotalov] https://github.com/abotalov
+[@ixti]: https://github.com/ixti
+[@abotalov]: https://github.com/abotalov
+[@janko-m]: https://github.com/janko-m
