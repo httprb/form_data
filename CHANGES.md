@@ -1,12 +1,16 @@
-## master (unreleased)
+## 1.0.2 (2017-05-08)
 
 * [#5](https://github.com/httprb/form_data.rb/issues/5)
   Allow setting Content-Type non-file parts 
   [@abotalov]
-  
+
 * [#6](https://github.com/httprb/form_data.rb/issues/6)
   Creation of file parts without filename
   [@abotalov]
+
+* [#11](https://github.com/httprb/form_data.rb/pull/11)
+  Deprecate `HTTP::FormData::File#mime_type`. Use `#content_type` instead.
+  [@ixti]
 
 
 ## 1.0.1 (2015-03-31)
