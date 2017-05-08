@@ -2,7 +2,7 @@
 
 RSpec.describe HTTP::FormData::CompositeIO do
   let(:ios) { ["Hello", " ", "", "world", "!"].map { |s| StringIO.new(s) } }
-  subject(:composite_io) { HTTP::FormData::CompositeIO.new(*ios) }
+  subject(:composite_io) { HTTP::FormData::CompositeIO.new(ios) }
 
   describe "#read" do
     it "reads all data" do
@@ -68,7 +68,7 @@ RSpec.describe HTTP::FormData::CompositeIO do
     end
 
     it "returns 0 when there are no IOs" do
-      empty_composite_io = HTTP::FormData::CompositeIO.new
+      empty_composite_io = HTTP::FormData::CompositeIO.new []
       expect(empty_composite_io.size).to eq 0
     end
   end

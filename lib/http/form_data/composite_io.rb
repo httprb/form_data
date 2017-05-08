@@ -7,8 +7,8 @@ module HTTP
     # Provides IO interface across multiple IO objects.
     class CompositeIO
       # @param [Array<IO>] ios Array of IO objects
-      def initialize(*ios)
-        @ios = ios.flatten.map { |io| io.is_a?(String) ? StringIO.new(io) : io }
+      def initialize(ios)
+        @ios = ios.map { |io| io.is_a?(String) ? StringIO.new(io) : io }
         @index = 0
         @buffer = String.new
       end

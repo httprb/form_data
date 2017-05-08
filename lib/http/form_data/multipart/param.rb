@@ -38,7 +38,7 @@ module HTTP
               FormData::Part.new(value)
             end
 
-          @io = CompositeIO.new(header, @part, footer)
+          @io = CompositeIO.new [header, @part, footer]
         end
 
         # Flattens given `data` Hash into an array of `Param`'s.

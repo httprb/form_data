@@ -17,7 +17,7 @@ module HTTP
         parts = Param.coerce FormData.ensure_hash data
 
         @boundary = ("-" * 21) << SecureRandom.hex(21)
-        @io = CompositeIO.new(*parts.flat_map { |part| [glue, part] }, tail)
+        @io = CompositeIO.new [*parts.flat_map { |part| [glue, part] }, tail]
       end
 
       # Returns MIME type to be used for HTTP request `Content-Type` header.
