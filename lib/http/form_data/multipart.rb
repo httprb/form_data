@@ -31,9 +31,7 @@ module HTTP
       # `Content-Length` header.
       #
       # @return [Integer]
-      def content_length
-        size
-      end
+      alias content_length size
 
       private
 
