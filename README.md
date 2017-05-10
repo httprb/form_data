@@ -1,4 +1,4 @@
-# FormData
+# HTTP::FormData
 
 [![Gem Version](https://badge.fury.io/rb/http-form_data.png)](http://rubygems.org/gems/http-form_data)
 [![Build Status](https://secure.travis-ci.org/httprb/form_data.rb.png?branch=master)](http://travis-ci.org/httprb/form_data.rb)
