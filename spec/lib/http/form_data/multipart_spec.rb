@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 RSpec.describe HTTP::FormData::Multipart do
+  subject(:form_data) { HTTP::FormData::Multipart.new params }
+
   let(:file)          { HTTP::FormData::File.new fixture "the-http-gem.info" }
   let(:params)        { { :foo => :bar, :baz => file } }
   let(:boundary)      { /-{21}[a-f0-9]{42}/ }
-  subject(:form_data) { HTTP::FormData::Multipart.new params }
 
   describe "#to_s" do
     def disposition(params)
@@ -15,7 +16,7 @@ RSpec.describe HTTP::FormData::Multipart do
     let(:crlf) { "\r\n" }
 
     it "properly generates multipart data" do
-      boundary_value = form_data.content_type[/(#{boundary})$/, 1]
+      boundary_value = form_data.boundary
 
       expect(form_data.to_s).to eq [
         "--#{boundary_value}#{crlf}",
@@ -30,7 +31,9 @@ RSpec.describe HTTP::FormData::Multipart do
     end
 
     context "with user-defined boundary" do
-      let(:form_data) { HTTP::FormData::Multipart.new params, boundary: "my-boundary" }
+      subject(:form_data) do
+        HTTP::FormData::Multipart.new params, :boundary => "my-boundary"
+      end
 
       it "uses the given boundary" do
         expect(form_data.to_s).to eq [
@@ -108,10 +111,13 @@ RSpec.describe HTTP::FormData::Multipart do
     it { is_expected.to match(content_type) }
 
     context "with user-defined boundary" do
-      let(:form_data) { HTTP::FormData::Multipart.new params, boundary: "my-boundary" }
+      let(:form_data) do
+        HTTP::FormData::Multipart.new params, :boundary => "my-boundary"
+      end
 
       it "includes the given boundary" do
-        expect(form_data.content_type).to eq "multipart/form-data; boundary=my-boundary"
+        expect(form_data.content_type)
+          .to eq "multipart/form-data; boundary=my-boundary"
       end
     end
   end
@@ -127,7 +133,9 @@ RSpec.describe HTTP::FormData::Multipart do
     end
 
     context "with user-defined boundary" do
-      let(:form_data) { HTTP::FormData::Multipart.new params, boundary: "my-boundary" }
+      let(:form_data) do
+        HTTP::FormData::Multipart.new params, :boundary => "my-boundary"
+      end
 
       it "returns the given boundary" do
         expect(form_data.boundary).to eq "my-boundary"
