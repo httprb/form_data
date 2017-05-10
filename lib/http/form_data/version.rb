@@ -3,6 +3,6 @@
 module HTTP
   module FormData
     # Gem version.
-    VERSION = "1.0.2"
+    VERSION = "2.0.0.pre1"
   end
 end

@@ -1,4 +1,4 @@
-## master (unreleased)
+## 2.0.0-pre1 (2017-05-10)
 
 * [#12](https://github.com/httprb/form_data.rb/pull/12)
   Enable form data streaming.
