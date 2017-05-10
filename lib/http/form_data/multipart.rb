@@ -12,6 +12,8 @@ module HTTP
     class Multipart
       include Readable
 
+      attr_reader :boundary
+
       # @param [#to_h, Hash] data form data key-value Hash
       def initialize(data)
         parts = Param.coerce FormData.ensure_hash data

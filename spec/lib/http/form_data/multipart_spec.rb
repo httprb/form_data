@@ -95,4 +95,13 @@ RSpec.describe HTTP::FormData::Multipart do
     subject { form_data.content_length }
     it { is_expected.to eq form_data.to_s.bytesize }
   end
+
+  describe "#boundary" do
+    subject { form_data.boundary }
+    it { is_expected.not_to be_empty }
+
+    it "is included in content type" do
+      expect(form_data.content_type).to end_with(form_data.boundary)
+    end
+  end
 end
