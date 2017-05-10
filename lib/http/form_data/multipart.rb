@@ -15,11 +15,19 @@ module HTTP
       attr_reader :boundary
 
       # @param [#to_h, Hash] data form data key-value Hash
-      def initialize(data)
+      def initialize(data, boundary: self.class.generate_boundary)
         parts = Param.coerce FormData.ensure_hash data
 
-        @boundary = ("-" * 21) << SecureRandom.hex(21)
+        @boundary = boundary.to_s.freeze
         @io = CompositeIO.new [*parts.flat_map { |part| [glue, part] }, tail]
+      end
+
+      # Generates a string suitable for using as a boundary in multipart form
+      # data.
+      #
+      # @return [String]
+      def self.generate_boundary
+        ("-" * 21) << SecureRandom.hex(21)
       end
 
       # Returns MIME type to be used for HTTP request `Content-Type` header.

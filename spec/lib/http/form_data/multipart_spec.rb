@@ -29,6 +29,23 @@ RSpec.describe HTTP::FormData::Multipart do
       ].join("")
     end
 
+    context "with user-defined boundary" do
+      let(:form_data) { HTTP::FormData::Multipart.new params, boundary: "my-boundary" }
+
+      it "uses the given boundary" do
+        expect(form_data.to_s).to eq [
+          "--my-boundary#{crlf}",
+          "#{disposition 'name' => 'foo'}#{crlf}",
+          "#{crlf}bar#{crlf}",
+          "--my-boundary#{crlf}",
+          "#{disposition 'name' => 'baz', 'filename' => file.filename}#{crlf}",
+          "Content-Type: #{file.content_type}#{crlf}",
+          "#{crlf}#{file}#{crlf}",
+          "--my-boundary--"
+        ].join("")
+      end
+    end
+
     context "with filename set to nil" do
       let(:part) { HTTP::FormData::Part.new("s", :content_type => "mime/type") }
       let(:form_data) { HTTP::FormData::Multipart.new(:foo => part) }
@@ -89,6 +106,14 @@ RSpec.describe HTTP::FormData::Multipart do
     let(:content_type) { %r{^multipart\/form-data; boundary=#{boundary}$} }
 
     it { is_expected.to match(content_type) }
+
+    context "with user-defined boundary" do
+      let(:form_data) { HTTP::FormData::Multipart.new params, boundary: "my-boundary" }
+
+      it "includes the given boundary" do
+        expect(form_data.content_type).to eq "multipart/form-data; boundary=my-boundary"
+      end
+    end
   end
 
   describe "#content_length" do
@@ -97,11 +122,22 @@ RSpec.describe HTTP::FormData::Multipart do
   end
 
   describe "#boundary" do
-    subject { form_data.boundary }
-    it { is_expected.not_to be_empty }
+    it "returns a new boundary" do
+      expect(form_data.boundary).to match(boundary)
+    end
 
-    it "is included in content type" do
-      expect(form_data.content_type).to end_with(form_data.boundary)
+    context "with user-defined boundary" do
+      let(:form_data) { HTTP::FormData::Multipart.new params, boundary: "my-boundary" }
+
+      it "returns the given boundary" do
+        expect(form_data.boundary).to eq "my-boundary"
+      end
+    end
+  end
+
+  describe ".generate_boundary" do
+    it "returns a string suitable as a multipart boundary" do
+      expect(form_data.class.generate_boundary).to match(boundary)
     end
   end
 end
