@@ -29,4 +29,24 @@ RSpec.describe HTTP::FormData::Urlencoded do
       it { is_expected.to eq "foo%5Bbar%5D=%D1%82%D0%B5%D1%81%D1%82" }
     end
   end
+
+  describe "#size" do
+    it "returns bytesize of multipart data" do
+      expect(form_data.size).to eq form_data.to_s.bytesize
+    end
+  end
+
+  describe "#read" do
+    it "returns multipart data" do
+      expect(form_data.read).to eq form_data.to_s
+    end
+  end
+
+  describe "#rewind" do
+    it "rewinds the multipart data IO" do
+      form_data.read
+      form_data.rewind
+      expect(form_data.read).to eq form_data.to_s
+    end
+  end
 end
