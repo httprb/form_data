@@ -1,4 +1,11 @@
-## 2.0.0-pre1 (2017-05-10)
+## 2.0.0.pre2 (2017-05-11)
+
+* [#14](https://github.com/httprb/form_data/pull/14)
+  Enable streaming for urlencoded form data.
+  [@janko-m][]
+
+
+## 2.0.0.pre1 (2017-05-10)
 
 * [#12](https://github.com/httprb/form_data.rb/pull/12)
   Enable form data streaming.
