@@ -1,9 +1,9 @@
 # HTTP::FormData
 
-[![Gem Version](https://badge.fury.io/rb/http-form_data.png)](http://rubygems.org/gems/http-form_data)
-[![Build Status](https://secure.travis-ci.org/httprb/form_data.rb.png?branch=master)](http://travis-ci.org/httprb/form_data.rb)
-[![Code Climate](https://codeclimate.com/github/httprb/form_data.rb.png)](https://codeclimate.com/github/httprb/form_data.rb)
-[![Coverage Status](https://coveralls.io/repos/httprb/form_data.rb/badge.png?branch=master)](https://coveralls.io/r/httprb/form_data.rb)
+[![Gem Version](https://badge.fury.io/rb/http-form_data.svg)](http://rubygems.org/gems/http-form_data)
+[![Build Status](https://secure.travis-ci.org/httprb/form_data.rb.svg?branch=master)](http://travis-ci.org/httprb/form_data.rb)
+[![Code Climate](https://codeclimate.com/github/httprb/form_data.rb.svg)](https://codeclimate.com/github/httprb/form_data.rb)
+[![Coverage Status](https://coveralls.io/repos/httprb/form_data.rb/badge.svg?branch=master)](https://coveralls.io/r/httprb/form_data.rb)
 
 Utility-belt to build form data request bodies.
 
