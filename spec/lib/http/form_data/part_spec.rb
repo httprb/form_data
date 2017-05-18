@@ -1,3 +1,4 @@
+# coding: utf-8
 # frozen_string_literal: true
 
 RSpec.describe HTTP::FormData::Part do

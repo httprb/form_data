@@ -11,13 +11,14 @@ module HTTP
     class Part
       attr_reader :content_type, :filename
 
-      # @param [#to_s] body
-      # @param [String] content_type Value of Content-Type header
-      # @param [String] filename     Value of filename parameter
-      def initialize(body, content_type: nil, filename: nil)
+      # @param body [#to_s]
+      # @param opts [Hash]
+      # @option opts [String] :content_type Value of Content-Type header
+      # @option opts [String] :filename     Value of filename parameter
+      def initialize(body, opts = {})
         @body = body.to_s
-        @content_type = content_type
-        @filename = filename
+        @content_type = opts[:content_type]
+        @filename = opts[:filename]
       end
 
       # Returns content size.

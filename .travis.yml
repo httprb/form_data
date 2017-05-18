@@ -15,7 +15,9 @@ env: JRUBY_OPTS="$JRUBY_OPTS --debug"
 
 rvm:
   # Include JRuby first because it takes the longest
+  - jruby-1.7.27
   - jruby-9.1.8.0
+  - 1.9.3
   - 2.0.0
   - 2.1
   - 2.2
@@ -24,9 +26,6 @@ rvm:
 
 matrix:
   fast_finish: true
-  include:
-  - rvm: 2.4.1
-    env: SUITE="rubocop"
 
 branches:
   only:
