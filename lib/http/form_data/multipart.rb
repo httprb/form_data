@@ -52,7 +52,7 @@ module HTTP
 
       # @return [String]
       def tail
-        @tail ||= "--#{@boundary}--"
+        @tail ||= "--#{@boundary}--#{CRLF}"
       end
     end
   end
