@@ -26,7 +26,7 @@ RSpec.describe HTTP::FormData::Multipart do
         "#{disposition 'name' => 'baz', 'filename' => file.filename}#{crlf}",
         "Content-Type: #{file.content_type}#{crlf}",
         "#{crlf}#{file}#{crlf}",
-        "--#{boundary_value}--"
+        "--#{boundary_value}--#{crlf}"
       ].join("")
     end
 
@@ -44,7 +44,7 @@ RSpec.describe HTTP::FormData::Multipart do
           "#{disposition 'name' => 'baz', 'filename' => file.filename}#{crlf}",
           "Content-Type: #{file.content_type}#{crlf}",
           "#{crlf}#{file}#{crlf}",
-          "--my-boundary--"
+          "--my-boundary--#{crlf}"
         ].join("")
       end
     end
@@ -61,7 +61,7 @@ RSpec.describe HTTP::FormData::Multipart do
           "#{disposition 'name' => 'foo'}#{crlf}",
           "Content-Type: #{part.content_type}#{crlf}",
           "#{crlf}s#{crlf}",
-          "--#{boundary_value}--"
+          "--#{boundary_value}--#{crlf}"
         ].join("")
       end
     end
@@ -77,7 +77,7 @@ RSpec.describe HTTP::FormData::Multipart do
           "--#{boundary_value}#{crlf}",
           "#{disposition 'name' => 'foo'}#{crlf}",
           "#{crlf}s#{crlf}",
-          "--#{boundary_value}--"
+          "--#{boundary_value}--#{crlf}"
         ].join("")
       end
     end
