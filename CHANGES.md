@@ -1,3 +1,10 @@
+## upcoming 2.0.0 release
+
+* [#17](https://github.com/httprb/form_data/pull/17)
+  Add CRLF character to end of multipart body.
+  [@mhickman][]
+
+
 ## 2.0.0.pre2 (2017-05-11)
 
 * [#14](https://github.com/httprb/form_data/pull/14)
@@ -51,3 +58,4 @@
 [@ixti]: https://github.com/ixti
 [@abotalov]: https://github.com/abotalov
 [@janko-m]: https://github.com/janko-m
+[@mhickman]: https://github.com/mhickman
