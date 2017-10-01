@@ -1,4 +1,4 @@
-## upcoming 2.0.0 release
+## 2.0.0 (2017-10-01)
 
 * [#17](https://github.com/httprb/form_data/pull/17)
   Add CRLF character to end of multipart body.
