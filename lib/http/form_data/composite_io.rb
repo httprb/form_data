@@ -36,7 +36,7 @@ module HTTP
           outbuf << @buffer
 
           if length
-            length -= @buffer.length
+            length -= @buffer.bytesize
             break if length.zero?
           end
 
