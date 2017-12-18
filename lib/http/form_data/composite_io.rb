@@ -30,6 +30,8 @@ module HTTP
       # @return [String, nil]
       def read(length = nil, outbuf = nil)
         outbuf = outbuf.to_s.clear
+        # buffer in JRuby is sometimes US-ASCII, force to ASCII-8BIT
+        outbuf.force_encoding(Encoding::BINARY)
 
         while current_io
           current_io.read(length, @buffer)
