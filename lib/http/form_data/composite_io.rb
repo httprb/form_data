@@ -29,7 +29,7 @@ module HTTP
       #
       # @return [String, nil]
       def read(length = nil, outbuf = nil)
-        outbuf = outbuf.to_s.replace("")
+        outbuf = outbuf.to_s.clear
 
         while current_io
           current_io.read(length, @buffer)
