@@ -9,7 +9,7 @@ module HTTP
       # @param [Array<IO>] ios Array of IO objects
       def initialize(ios)
         @index  = 0
-        @buffer = String.new
+        @buffer = "".b
         @ios    = ios.map do |io|
           if io.is_a?(String)
             StringIO.new(io)
