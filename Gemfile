@@ -18,7 +18,7 @@ group :test do
 end
 
 group :doc do
-  gem "redcarpet", platform: :mri
+  gem "redcarpet", :platform => :mri
   gem "yard"
 end
 
