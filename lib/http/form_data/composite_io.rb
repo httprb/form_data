@@ -35,7 +35,7 @@ module HTTP
 
         while current_io
           current_io.read(length, @buffer)
-          outbuf << @buffer
+          outbuf << @buffer.force_encoding(Encoding::BINARY)
 
           if length
             length -= @buffer.bytesize
