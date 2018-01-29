@@ -62,7 +62,7 @@ module HTTP
         private
 
         def header
-          header = String.new
+          header = "".b
           header << "Content-Disposition: form-data; #{parameters}#{CRLF}"
           header << "Content-Type: #{content_type}#{CRLF}" if content_type
           header << CRLF

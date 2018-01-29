@@ -9,7 +9,7 @@ module HTTP
       # @param [Array<IO>] ios Array of IO objects
       def initialize(ios)
         @index  = 0
-        @buffer = String.new
+        @buffer = "".b
         @ios    = ios.map do |io|
           if io.is_a?(String)
             StringIO.new(io)
@@ -29,14 +29,16 @@ module HTTP
       #
       # @return [String, nil]
       def read(length = nil, outbuf = nil)
-        outbuf = outbuf.to_s.replace("")
+        outbuf = outbuf.to_s.clear
+        # buffer in JRuby is sometimes US-ASCII, force to ASCII-8BIT
+        outbuf.force_encoding(Encoding::BINARY)
 
         while current_io
           current_io.read(length, @buffer)
-          outbuf << @buffer
+          outbuf << @buffer.force_encoding(Encoding::BINARY)
 
           if length
-            length -= @buffer.length
+            length -= @buffer.bytesize
             break if length.zero?
           end
 
