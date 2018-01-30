@@ -65,6 +65,27 @@ RSpec.describe HTTP::FormData::CompositeIO do
       expect(composite_io.read(3, outbuf)).to eq nil
       expect(outbuf).to eq ""
     end
+
+    it "returns data in binary encoding" do
+      io = HTTP::FormData::CompositeIO.new(%w[Janko Marohnić])
+
+      expect(io.read(5).encoding).to eq Encoding::BINARY
+      expect(io.read(9).encoding).to eq Encoding::BINARY
+
+      io.rewind
+      expect(io.read.encoding).to eq Encoding::BINARY
+      expect(io.read.encoding).to eq Encoding::BINARY
+    end
+
+    it "reads data in bytes" do
+      emoji = "😃"
+      io = HTTP::FormData::CompositeIO.new([emoji])
+
+      expect(io.read(1)).to eq emoji.b[0]
+      expect(io.read(1)).to eq emoji.b[1]
+      expect(io.read(1)).to eq emoji.b[2]
+      expect(io.read(1)).to eq emoji.b[3]
+    end
   end
 
   describe "#rewind" do
