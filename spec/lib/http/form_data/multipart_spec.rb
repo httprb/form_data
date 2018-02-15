@@ -30,6 +30,12 @@ RSpec.describe HTTP::FormData::Multipart do
       ].join("")
     end
 
+    it "rewinds content" do
+      content = form_data.read
+      expect(form_data.to_s).to eq content
+      expect(form_data.read).to eq content
+    end
+
     context "with user-defined boundary" do
       subject(:form_data) do
         HTTP::FormData::Multipart.new params, :boundary => "my-boundary"

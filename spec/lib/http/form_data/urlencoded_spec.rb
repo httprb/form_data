@@ -28,6 +28,12 @@ RSpec.describe HTTP::FormData::Urlencoded do
       let(:data) { { "foo[bar]" => "тест" } }
       it { is_expected.to eq "foo%5Bbar%5D=%D1%82%D0%B5%D1%81%D1%82" }
     end
+
+    it "rewinds content" do
+      content = form_data.read
+      expect(form_data.to_s).to eq content
+      expect(form_data.read).to eq content
+    end
   end
 
   describe "#size" do

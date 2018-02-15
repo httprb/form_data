@@ -9,7 +9,9 @@ module HTTP
       # @return [String]
       def to_s
         rewind
-        read
+        content = read
+        rewind
+        content
       end
 
       # Reads and returns part of IO content.
