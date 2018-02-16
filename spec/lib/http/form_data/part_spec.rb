@@ -20,6 +20,12 @@ RSpec.describe HTTP::FormData::Part do
     context "when body given as String" do
       let(:body) { "привет мир!" }
       it { is_expected.to eq "привет мир!" }
+
+      it "rewinds content" do
+        content = part.read
+        expect(part.to_s).to eq content
+        expect(part.read).to eq content
+      end
     end
   end
 
