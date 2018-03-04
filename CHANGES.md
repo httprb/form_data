@@ -1,3 +1,14 @@
+## 2.1.0 (2018-03-05)
+
+* [#21](https://github.com/httprb/form_data/pull/21)
+  Rewind content at the end of `Readable#to_s`.
+  [@janko-m][]
+
+* [#19](https://github.com/httprb/form_data/pull/19)
+  Fix buffer encoding.
+  [@HoneyryderChuck][]
+
+
 ## 2.0.0 (2017-10-01)
 
 * [#17](https://github.com/httprb/form_data/pull/17)
@@ -59,3 +70,4 @@
 [@abotalov]: https://github.com/abotalov
 [@janko-m]: https://github.com/janko-m
 [@mhickman]: https://github.com/mhickman
+[@HoneyryderChuck]: https://github.com/HoneyryderChuck
