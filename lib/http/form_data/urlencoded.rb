@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "http/form_data/readable"
+require "http/form_data/configuration"
 
 require "uri"
 require "stringio"
@@ -13,8 +14,8 @@ module HTTP
 
       # @param [#to_h, Hash] data form data key-value Hash
       def initialize(data)
-        uri_encoded_data = ::URI.encode_www_form FormData.ensure_hash(data)
-        @io = StringIO.new(uri_encoded_data)
+        encoded_data = encode(data)
+        @io = StringIO.new(encoded_data)
       end
 
       # Returns MIME type to be used for HTTP request `Content-Type` header.
@@ -29,6 +30,11 @@ module HTTP
       #
       # @return [Integer]
       alias content_length size
+
+      # @param [#to_h, Hash] data form data key-value Hash
+      def encode(data)
+        HTTP::FormData.configuration.encoding_method.call(data)
+      end
     end
   end
 end
