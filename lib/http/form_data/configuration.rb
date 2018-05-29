@@ -2,23 +2,13 @@
 
 module HTTP
   module FormData
-    def self.configuration
-      @configuration ||= Configuration.new
-    end
-
-    def self.configuration=(configuration)
-      @configuration = configuration
-    end
-
-    def self.configure
-      yield configuration
-    end
-
-    def self.reset!
-       @configuration = Configuration.new
-    end
-
+    # Configuration to adapt behavior.
     class Configuration
+      # Allows to override the encoding method.
+      # By default, ::URI.encode_www_form will be used.
+      # If overriden, this variable should be set to a `Proc` which will
+      # receive a single parameter responding to `#to_h` and will return
+      # a string corresponding to the encoded data.
       attr_accessor :encoding_method
 
       def initialize
