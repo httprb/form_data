@@ -55,4 +55,13 @@ RSpec.describe HTTP::FormData::Urlencoded do
       expect(form_data.read).to eq form_data.to_s
     end
   end
+
+  describe ".encoder=" do
+    before { described_class.encoder = ::JSON.method(:dump) }
+    after  { described_class.encoder = ::URI.method(:encode_www_form) }
+
+    it "switches form encoder implementation" do
+      expect(form_data.to_s).to eq('{"foo[bar]":"test"}')
+    end
+  end
 end
