@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "http/form_data/readable"
-require "http/form_data/configuration"
 
 require "uri"
 require "stringio"
@@ -33,7 +32,7 @@ module HTTP
 
       # @param [#to_h, Hash] data form data key-value Hash
       def encode(data)
-        HTTP::FormData.configuration.encoding_method.call(data)
+        ::URI.encode_www_form(FormData.ensure_hash(data))
       end
     end
   end

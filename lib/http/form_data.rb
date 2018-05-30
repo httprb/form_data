@@ -62,26 +62,6 @@ module HTTP
         end
       end
 
-      # Gets configuration.
-      def configuration
-        @configuration ||= Configuration.new
-      end
-
-      # Sets configuration.
-      def configuration=(configuration)
-        @configuration = configuration
-      end
-
-      # Allows to set configuration through a block.
-      def configure
-        yield configuration
-      end
-
-      # Resets configuration.
-      def reset!
-        @configuration = Configuration.new
-      end
-
       private
 
       # Tells whenever data contains multipart data or not.
