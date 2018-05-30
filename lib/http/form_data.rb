@@ -51,7 +51,11 @@ module HTTP
       end
 
       def encoder
-        ::URI.method(:encode_www_form)
+        @encoder ||= ::URI.method(:encode_www_form)
+      end
+
+      def encoder=(encoder)
+        @encoder = encoder
       end
 
       # Coerce `obj` to Hash.
