@@ -12,9 +12,9 @@ module HTTP
       include Readable
 
       # @param [#to_h, Hash] data form data key-value Hash
-      def initialize(data)
-        uri_encoded_data = ::URI.encode_www_form FormData.ensure_hash(data)
-        @io = StringIO.new(uri_encoded_data)
+      def initialize(data, encoder = ::URI.method(:encode_www_form))
+        encoded_data = encoder.call(FormData.ensure_hash(data))
+        @io = StringIO.new(encoded_data)
       end
 
       # Returns MIME type to be used for HTTP request `Content-Type` header.
