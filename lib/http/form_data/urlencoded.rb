@@ -12,8 +12,8 @@ module HTTP
       include Readable
 
       # @param [#to_h, Hash] data form data key-value Hash
-      def initialize(data)
-        encoded_data = encode(data)
+      def initialize(data, encoder = ::URI.method(:encode_www_form))
+        encoded_data = encoder.call(FormData.ensure_hash(data))
         @io = StringIO.new(encoded_data)
       end
 
@@ -29,11 +29,6 @@ module HTTP
       #
       # @return [Integer]
       alias content_length size
-
-      # @param [#to_h, Hash] data form data key-value Hash
-      def encode(data)
-        ::URI.encode_www_form(FormData.ensure_hash(data))
-      end
     end
   end
 end
