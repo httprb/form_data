@@ -1,3 +1,10 @@
+## 2.1.1 (2018-06-01)
+
+* [#23](https://github.com/httprb/form_data/pull/23)
+  Allow override urlencoded form data encoder.
+  [@FabienChaynes][]
+
+
 ## 2.1.0 (2018-03-05)
 
 * [#21](https://github.com/httprb/form_data/pull/21)
@@ -33,7 +40,7 @@
 ## 1.0.2 (2017-05-08)
 
 * [#5](https://github.com/httprb/form_data.rb/issues/5)
-  Allow setting Content-Type non-file parts 
+  Allow setting Content-Type non-file parts
   [@abotalov][]
 
 * [#6](https://github.com/httprb/form_data.rb/issues/6)
@@ -71,3 +78,4 @@
 [@janko-m]: https://github.com/janko-m
 [@mhickman]: https://github.com/mhickman
 [@HoneyryderChuck]: https://github.com/HoneyryderChuck
+[@FabienChaynes]: https://github.com/FabienChaynes
