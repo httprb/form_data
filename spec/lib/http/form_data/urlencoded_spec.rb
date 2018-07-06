@@ -28,6 +28,11 @@ RSpec.describe HTTP::FormData::Urlencoded do
       it { is_expected.to eq "foo%5Bbar%5D=%D1%82%D0%B5%D1%81%D1%82" }
     end
 
+    context "with nested hashes" do
+      let(:data) { { "foo" => { "bar" => "test" } } }
+      it { is_expected.to eq "foo[bar]=test" }
+    end
+
     it "rewinds content" do
       content = form_data.read
       expect(form_data.to_s).to eq content
@@ -56,8 +61,14 @@ RSpec.describe HTTP::FormData::Urlencoded do
   end
 
   describe ".encoder=" do
-    before { described_class.encoder = ::JSON.method(:dump) }
-    after  { described_class.encoder = ::URI.method(:encode_www_form) }
+    before do
+      @original_encoder = described_class.encoder
+      described_class.encoder = ::JSON.method(:dump)
+    end
+
+    after do
+      described_class.encoder = @original_encoder
+    end
 
     it "switches form encoder implementation" do
       expect(form_data.to_s).to eq('{"foo[bar]":"test"}')
