@@ -19,11 +19,14 @@ rvm:
   # Include JRuby first because it takes the longest
   - jruby-9.1.13.0
   - 2.4
+  - 2.5
+  - 2.6
+  - 2.7
 
 matrix:
   fast_finish: true
   include:
-  - rvm: 2.4
+  - rvm: 2.7
     env: SUITE="rubocop"
 
 branches:
