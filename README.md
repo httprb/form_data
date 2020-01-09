@@ -58,8 +58,11 @@ form = HTTP::FormData.create({
 This library aims to support and is [tested against][ci] the following Ruby
 versions:
 
-* Ruby 2.4+
-* JRuby 9.1+
+* Ruby 2.4.x
+* Ruby 2.5.x
+* Ruby 2.6.x
+* Ruby 2.7.x
+* JRuby 9.1.x.x
 
 If something doesn't work on one of these versions, it's a bug.
 
