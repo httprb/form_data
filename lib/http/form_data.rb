@@ -47,7 +47,7 @@ module HTTP
         if multipart?(data)
           Multipart.new(data)
         else
-          Urlencoded.new(data, encoder)
+          Urlencoded.new(data, encoder: encoder)
         end
       end
 

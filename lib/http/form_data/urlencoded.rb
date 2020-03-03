@@ -63,7 +63,7 @@ module HTTP
       end
 
       # @param [#to_h, Hash] data form data key-value Hash
-      def initialize(data, encoder = nil)
+      def initialize(data, encoder: nil)
         encoder ||= self.class.encoder
         @io = StringIO.new(encoder.call(FormData.ensure_hash(data)))
       end
