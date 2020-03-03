@@ -42,7 +42,7 @@ module HTTP
       # @return [Multipart] if any of values is a {FormData::File}
       # @return [Urlencoded] otherwise
       def create(data, encoder: nil)
-        data  = ensure_hash data
+        data = ensure_hash data
 
         if multipart?(data)
           Multipart.new(data)

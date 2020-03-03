@@ -66,7 +66,7 @@ RSpec.describe HTTP::FormData::Urlencoded do
   end
 
   context "with custom instance level encoder" do
-    let(:encoder) { Proc.new { |data| ::JSON.dump(data) } }
+    let(:encoder) { proc { |data| ::JSON.dump(data) } }
     subject(:form_data) { HTTP::FormData::Urlencoded.new(data, encoder) }
 
     it "uses encoder passed to initializer" do
