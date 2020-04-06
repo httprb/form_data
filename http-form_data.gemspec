@@ -18,6 +18,8 @@ Gem::Specification.new do |spec|
   > `multipart/form-data` types.
   DESC
 
+  spec.metadata["changelog_uri"] = "https://github.com/httprb/form_data/blob/master/CHANGES.md"
+
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin\/}).map { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)\/})
