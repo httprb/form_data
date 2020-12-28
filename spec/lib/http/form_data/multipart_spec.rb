@@ -18,7 +18,7 @@ RSpec.describe HTTP::FormData::Multipart do
     it "properly generates multipart data" do
       boundary_value = form_data.boundary
 
-      expect(form_data.to_s).to eq [
+      expect(form_data.to_s).to eq([
         "--#{boundary_value}#{crlf}",
         "#{disposition 'name' => 'foo'}#{crlf}",
         "#{crlf}bar#{crlf}",
@@ -27,7 +27,7 @@ RSpec.describe HTTP::FormData::Multipart do
         "Content-Type: #{file.content_type}#{crlf}",
         "#{crlf}#{file}#{crlf}",
         "--#{boundary_value}--#{crlf}"
-      ].join("")
+      ].join)
     end
 
     it "rewinds content" do
@@ -42,7 +42,7 @@ RSpec.describe HTTP::FormData::Multipart do
       end
 
       it "uses the given boundary" do
-        expect(form_data.to_s).to eq [
+        expect(form_data.to_s).to eq([
           "--my-boundary#{crlf}",
           "#{disposition 'name' => 'foo'}#{crlf}",
           "#{crlf}bar#{crlf}",
@@ -51,7 +51,7 @@ RSpec.describe HTTP::FormData::Multipart do
           "Content-Type: #{file.content_type}#{crlf}",
           "#{crlf}#{file}#{crlf}",
           "--my-boundary--#{crlf}"
-        ].join("")
+        ].join)
       end
     end
 
@@ -62,13 +62,13 @@ RSpec.describe HTTP::FormData::Multipart do
       it "doesn't include a filename" do
         boundary_value = form_data.content_type[/(#{boundary})$/, 1]
 
-        expect(form_data.to_s).to eq [
+        expect(form_data.to_s).to eq([
           "--#{boundary_value}#{crlf}",
           "#{disposition 'name' => 'foo'}#{crlf}",
           "Content-Type: #{part.content_type}#{crlf}",
           "#{crlf}s#{crlf}",
           "--#{boundary_value}--#{crlf}"
-        ].join("")
+        ].join)
       end
     end
 
@@ -79,12 +79,12 @@ RSpec.describe HTTP::FormData::Multipart do
       it "doesn't include a filename" do
         boundary_value = form_data.content_type[/(#{boundary})$/, 1]
 
-        expect(form_data.to_s).to eq [
+        expect(form_data.to_s).to eq([
           "--#{boundary_value}#{crlf}",
           "#{disposition 'name' => 'foo'}#{crlf}",
           "#{crlf}s#{crlf}",
           "--#{boundary_value}--#{crlf}"
-        ].join("")
+        ].join)
       end
     end
   end
@@ -112,7 +112,7 @@ RSpec.describe HTTP::FormData::Multipart do
   describe "#content_type" do
     subject { form_data.content_type }
 
-    let(:content_type) { %r{^multipart\/form-data; boundary=#{boundary}$} }
+    let(:content_type) { %r{^multipart/form-data; boundary=#{boundary}$} }
 
     it { is_expected.to match(content_type) }
 

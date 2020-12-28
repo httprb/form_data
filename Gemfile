@@ -8,13 +8,25 @@ group :development do
   gem "guard"
   gem "guard-rspec", :require => false
   gem "pry"
+
+  # RSpec formatter
+  gem "fuubar", :require => false
+
+  platform :mri do
+    gem "pry-byebug"
+  end
 end
 
 group :test do
-  gem "coveralls"
-  gem "rspec",      "~> 3.1"
-  gem "rubocop",    "= 0.48.1"
-  gem "simplecov",  ">= 0.9"
+  gem "rspec", "~> 3.10"
+
+  gem "rubocop"
+  gem "rubocop-performance"
+  gem "rubocop-rake"
+  gem "rubocop-rspec"
+
+  gem "simplecov",      :require => false
+  gem "simplecov-lcov", :require => false
 end
 
 group :doc do

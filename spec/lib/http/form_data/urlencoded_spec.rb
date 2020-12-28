@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# coding: utf-8
 
 RSpec.describe HTTP::FormData::Urlencoded do
   let(:data) { { "foo[bar]" => "test" } }

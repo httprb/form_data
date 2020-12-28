@@ -49,6 +49,7 @@ module HTTP
         # @return [void]
         def encoder=(implementation)
           raise ArgumentError unless implementation.respond_to? :call
+
           @encoder = implementation
         end
 

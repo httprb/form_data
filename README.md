@@ -1,9 +1,9 @@
 # HTTP::FormData
 
 [![Gem Version](https://badge.fury.io/rb/http-form_data.svg)](http://rubygems.org/gems/http-form_data)
-[![Build Status](https://secure.travis-ci.org/httprb/form_data.svg?branch=master)](http://travis-ci.org/httprb/form_data)
+[![Build Status](https://github.com/httprb/form_data/workflows/CI/badge.svg)](https://github.com/httprb/form_data/actions?query=workflow%3ACI+branch%3Amaster)
 [![Code Climate](https://codeclimate.com/github/httprb/form_data.svg)](https://codeclimate.com/github/httprb/form_data)
-[![Coverage Status](https://coveralls.io/repos/httprb/form_data.rb/badge.svg?branch=master)](https://coveralls.io/r/httprb/form_data.rb)
+[![Coverage Status](https://coveralls.io/repos/github/httprb/form_data/badge.svg?branch=master)](https://coveralls.io/github/httprb/form_data?branch=master)
 
 Utility-belt to build form data request bodies.
 
@@ -58,11 +58,10 @@ form = HTTP::FormData.create({
 This library aims to support and is [tested against][ci] the following Ruby
 versions:
 
-* Ruby 2.4.x
 * Ruby 2.5.x
 * Ruby 2.6.x
 * Ruby 2.7.x
-* JRuby 9.1.x.x
+* JRuby 9.2.14.x
 
 If something doesn't work on one of these versions, it's a bug.
 
@@ -89,7 +88,7 @@ dropped.
 
 ## Copyright
 
-Copyright (c) 2015-2017 Alexey V Zapparov.
+Copyright (c) 2015-2021 Alexey V Zapparov.
 See [LICENSE.txt][license] for further details.
 
 
