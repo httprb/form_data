@@ -7,7 +7,7 @@ module HTTP
     # Provides IO interface across multiple IO objects.
     class CompositeIO
       # @param [Array<IO>] ios Array of IO objects
-      def initialize(ios)
+      def initialize(ios) # rubocop:disable Metrics/MethodLength
         @index  = 0
         @buffer = "".b
         @ios    = ios.map do |io|

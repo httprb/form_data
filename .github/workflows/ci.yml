@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  BUNDLE_WITHOUT: "development"
+  JRUBY_OPTS: "--dev --debug"
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        ruby: [ ruby-2.5, ruby-2.6, ruby-2.7, ruby-3.0, jruby-9.2 ]
+        os: [ ubuntu-latest, windows-latest ]
+        exclude:
+          # TODO(ixti): fails because it can't find spec files o_O
+          - { ruby: jruby-9.2, os: windows-latest }
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - name: bundle exec rspec
+        run: bundle exec rspec --format progress --force-colour
+
+      - name: Prepare Coveralls test coverage report
+        uses: coverallsapp/github-action@v1.1.2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: "${{ matrix.ruby }} @${{ matrix.os }}"
+          path-to-lcov: ./coverage/lcov/lcov.info
+          parallel: true
+
+  coveralls:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Finalize Coveralls test coverage report
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.5
+          bundler-cache: true
+
+      - name: bundle exec rubocop
+        run: bundle exec rubocop --format progress --color

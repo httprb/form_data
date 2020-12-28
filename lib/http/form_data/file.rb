@@ -33,7 +33,7 @@ module HTTP
       # @option opts [#to_s] :filename
       #   When `path_or_io` is a String, Pathname or File, defaults to basename.
       #   When `path_or_io` is a IO, defaults to `"stream-{object_id}"`.
-      def initialize(path_or_io, opts = {})
+      def initialize(path_or_io, opts = {}) # rubocop:disable Lint/MissingSuper
         opts = FormData.ensure_hash(opts)
 
         if opts.key? :mime_type
