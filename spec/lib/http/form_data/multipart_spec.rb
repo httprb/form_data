@@ -93,21 +93,28 @@ RSpec.describe HTTP::FormData::Multipart do
       let(:params) do
         [
           ["metadata", %(filename=first.txt)],
-          ["file", HTTP::FormData::File.new(StringIO.new("uno"), :content_type => 'plain/text', :filename => "stream-123")],
+          ["file", HTTP::FormData::File.new(StringIO.new("uno"), :content_type => "plain/text", :filename => "abc")],
           ["metadata", %(filename=second.txt)],
-          ["file", HTTP::FormData::File.new(StringIO.new("dos"), :content_type => 'plain/text', :filename => "stream-456")]
+          ["file", HTTP::FormData::File.new(StringIO.new("dos"), :content_type => "plain/text", :filename => "xyz")]
         ]
       end
 
       it "allows duplicate param names and preservesd given order" do
-        # form_data.boundary
-
         expect(form_data.to_s).to eq([
           %(--#{form_data.boundary}#{crlf}),
-          %(Content-Disposition: form-data; name="metadata"#{crlf}#{crlf}),
-          %(filename=first.txt#{crlf}),
+          %(Content-Disposition: form-data; name="metadata"#{crlf}),
+          %(#{crlf}filename=first.txt#{crlf}),
           %(--#{form_data.boundary}#{crlf}),
-          %(--#{boundary_value}--#{crlf})
+          %(Content-Disposition: form-data; name="file"; filename="abc"#{crlf}),
+          %(Content-Type: plain/text#{crlf}),
+          %(#{crlf}uno#{crlf}),
+          %(Content-Disposition: form-data; name="metadata"#{crlf}#{crlf}),
+          %(filename=second.txt#{crlf}),
+          %(--#{form_data.boundary}#{crlf}),
+          %(Content-Disposition: form-data; name="file"; filename="xyz"#{crlf}),
+          %(Content-Type: plain/text#{crlf}),
+          %(#{crlf}dos#{crlf}),
+          %(--#{form_data.boundary}--#{crlf})
         ].join)
       end
     end
