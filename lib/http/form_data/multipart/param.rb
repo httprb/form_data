@@ -59,6 +59,24 @@ module HTTP
           params
         end
 
+         # Flattens given Array of `data` Array pairs into an array of `Param`'s.
+        # Nested array are unwinded.
+        # Behavior is similar to `URL.encode_www_form`.
+        #
+        # @param [Array] data
+        # @return [Array<FormData::MultiPart::Param>]
+        def self.coerce_array_of_pairs(data)
+          params = []
+
+          data.each_cons(2) do |name, values|
+            Array(values).each do |value|
+              params << new(name, value)
+            end
+          end
+
+          params
+        end
+
         private
 
         def header
