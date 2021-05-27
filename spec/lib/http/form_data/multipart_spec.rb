@@ -87,6 +87,30 @@ RSpec.describe HTTP::FormData::Multipart do
         ].join)
       end
     end
+
+    # https://github.com/httprb/http/issues/663
+    context "when params is a list of pairs" do
+      let(:params) do
+        [
+          ["metadata", %(filename=first.txt)],
+          ["file", HTTP::FormData::File.new(StringIO.new("uno"), :content_type => 'plain/text', :filename => "stream-123")],
+          ["metadata", %(filename=second.txt)],
+          ["file", HTTP::FormData::File.new(StringIO.new("dos"), :content_type => 'plain/text', :filename => "stream-456")]
+        ]
+      end
+
+      it "allows duplicate param names and preservesd given order" do
+        # form_data.boundary
+
+        expect(form_data.to_s).to eq([
+          %(--#{form_data.boundary}#{crlf}),
+          %(Content-Disposition: form-data; name="metadata"#{crlf}#{crlf}),
+          %(filename=first.txt#{crlf}),
+          %(--#{form_data.boundary}#{crlf}),
+          %(--#{boundary_value}--#{crlf})
+        ].join)
+      end
+    end
   end
 
   describe "#size" do

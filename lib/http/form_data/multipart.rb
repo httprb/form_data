@@ -16,7 +16,7 @@ module HTTP
 
       # @param [#to_h, Hash] data form data key-value Hash
       def initialize(data, boundary: self.class.generate_boundary)
-        parts = Param.coerce FormData.ensure_hash data
+        parts = Param.coerce FormData.ensure_hash data unless @params.is_a?(Array)
 
         @boundary = boundary.to_s.freeze
         @io = CompositeIO.new [*parts.flat_map { |part| [glue, part] }, tail]
@@ -53,6 +53,14 @@ module HTTP
       # @return [String]
       def tail
         @tail ||= "--#{@boundary}--#{CRLF}"
+      end
+
+      def join_multipart_pairs(pairs)
+        pairs.each_cons(2).each do |pair|
+          multipart = pair.first
+          file = pair.last
+
+        end
       end
     end
   end
