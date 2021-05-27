@@ -2,6 +2,7 @@
 
 require "http/form_data/readable"
 require "http/form_data/composite_io"
+require "pry"
 
 module HTTP
   module FormData
@@ -51,6 +52,7 @@ module HTTP
           params = []
 
           data.each do |name, values|
+            binding.pry
             Array(values).each do |value|
               params << new(name, value)
             end
@@ -68,10 +70,11 @@ module HTTP
         def self.coerce_array_of_pairs(data)
           params = []
 
-          data.each_cons(2) do |name, values|
-            Array(values).each do |value|
-              params << new(name, value)
-            end
+          data.each_slice(2) do |first, second|
+            binding.pry
+            params << new(first[0], first[1])
+            params << new(second[0], second[1])
+            binding.pry
           end
 
           params
