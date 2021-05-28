@@ -54,7 +54,7 @@ module HTTP
       end
 
       def parts(data)
-        return Param.coerce_array_of_pairs data if data.is_a?(Array)
+        return Param.coerce data if data.is_a?(Array)
         Param.coerce FormData.ensure_hash data
       end
     end
