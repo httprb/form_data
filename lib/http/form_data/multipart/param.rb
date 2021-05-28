@@ -31,14 +31,12 @@ module HTTP
         # @param [FormData::File, FormData::Part, #to_s] value
         def initialize(name, value)
           @name = name.to_s
-
           @part =
             if value.is_a?(FormData::Part)
               value
             else
               FormData::Part.new(value)
             end
-
           @io = CompositeIO.new [header, @part, footer]
         end
 
@@ -52,12 +50,10 @@ module HTTP
           params = []
 
           data.each do |name, values|
-            binding.pry
             Array(values).each do |value|
               params << new(name, value)
             end
           end
-
           params
         end
 
@@ -70,11 +66,11 @@ module HTTP
         def self.coerce_array_of_pairs(data)
           params = []
 
-          data.each_slice(2) do |first, second|
-            binding.pry
-            params << new(first[0], first[1])
-            params << new(second[0], second[1])
-            binding.pry
+          data.each do |pair|
+            name, values = pair
+            Array(values).each do |value|
+              params << new(name, value)
+            end
           end
 
           params
