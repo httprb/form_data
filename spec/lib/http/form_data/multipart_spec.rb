@@ -17,7 +17,6 @@ RSpec.describe HTTP::FormData::Multipart do
 
     it "properly generates multipart data" do
       boundary_value = form_data.boundary
-
       expect(form_data.to_s).to eq([
         "--#{boundary_value}#{crlf}",
         "#{disposition 'name' => 'foo'}#{crlf}",
@@ -99,7 +98,7 @@ RSpec.describe HTTP::FormData::Multipart do
         ]
       end
 
-      it "allows duplicate param names and preservesd given order" do
+      it "allows duplicate param names and preserves given order" do
         expect(form_data.to_s).to eq([
           %(--#{form_data.boundary}#{crlf}),
           %(Content-Disposition: form-data; name="metadata"#{crlf}),
@@ -108,6 +107,7 @@ RSpec.describe HTTP::FormData::Multipart do
           %(Content-Disposition: form-data; name="file"; filename="abc"#{crlf}),
           %(Content-Type: plain/text#{crlf}),
           %(#{crlf}uno#{crlf}),
+          %(--#{form_data.boundary}#{crlf}),
           %(Content-Disposition: form-data; name="metadata"#{crlf}#{crlf}),
           %(filename=second.txt#{crlf}),
           %(--#{form_data.boundary}#{crlf}),

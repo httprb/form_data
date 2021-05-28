@@ -17,6 +17,8 @@ RSpec.configure do |config|
     # ...rather than:
     #   # => "be bigger than 2"
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+    # This option will remove the default 200 character limit for RSpec diffs
+    expectations.max_formatted_output_length = nil
   end
 
   config.mock_with :rspec do |mocks|
