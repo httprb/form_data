@@ -30,17 +30,19 @@ module HTTP
         # @param [FormData::File, FormData::Part, #to_s] value
         def initialize(name, value)
           @name = name.to_s
+
           @part =
             if value.is_a?(FormData::Part)
               value
             else
               FormData::Part.new(value)
             end
+
           @io = CompositeIO.new [header, @part, footer]
         end
 
         # Flattens given `data` Hash or Array into an array of `Param`'s.
-        # Nested array are unwinded.
+        # Nested arrays are unwinded.
         # Behavior is similar to `URL.encode_www_form`.
         #
         # @param [Array || Hash] data
@@ -53,6 +55,7 @@ module HTTP
               params << new(name, value)
             end
           end
+
           params
         end
 
