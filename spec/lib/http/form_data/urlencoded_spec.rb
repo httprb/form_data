@@ -5,14 +5,9 @@ RSpec.describe HTTP::FormData::Urlencoded do
   subject(:form_data) { HTTP::FormData::Urlencoded.new data }
 
   it "supports any Enumerables of pairs" do
-    form_data = described_class.new(
-      Enumerator.new do |y|
-        y << %w[foo abc]
-        y << ["foo", %w[def xyz]]
-      end
-    )
+    form_data = described_class.new([%w[foo bar], ["foo", %w[baz moo]]])
 
-    expect(form_data.to_s).to eq("foo=abc&foo=def&foo=xyz")
+    expect(form_data.to_s).to eq("foo=bar&foo=baz&foo=moo")
   end
 
   describe "#content_type" do
