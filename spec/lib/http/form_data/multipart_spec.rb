@@ -1,11 +1,48 @@
 # frozen_string_literal: true
 
 RSpec.describe HTTP::FormData::Multipart do
-  subject(:form_data) { HTTP::FormData::Multipart.new params }
+  subject(:form_data) { described_class.new params }
 
   let(:file)          { HTTP::FormData::File.new fixture "the-http-gem.info" }
   let(:params)        { { :foo => :bar, :baz => file } }
   let(:boundary)      { /-{21}[a-f0-9]{42}/ }
+
+  # https://github.com/httprb/http/issues/663
+  it "supports any Enumerables of pairs" do
+    form_data = described_class.new(
+      Enumerator.new do |y|
+        y << ["metadata", %(filename="first.txt")]
+        y << ["file", HTTP::FormData::File.new(StringIO.new("uno"), :content_type => "plain/text", :filename => "abc")]
+        y << ["metadata", %(filename="second.txt")]
+        y << ["file", HTTP::FormData::File.new(StringIO.new("dos"), :content_type => "plain/text", :filename => "xyz")]
+        y << ["metadata", %w[why not]]
+      end
+    )
+
+    expect(form_data.to_s).to eq([
+      %(--#{form_data.boundary}\r\n),
+      %(Content-Disposition: form-data; name="metadata"\r\n),
+      %(\r\nfilename="first.txt"\r\n),
+      %(--#{form_data.boundary}\r\n),
+      %(Content-Disposition: form-data; name="file"; filename="abc"\r\n),
+      %(Content-Type: plain/text\r\n),
+      %(\r\nuno\r\n),
+      %(--#{form_data.boundary}\r\n),
+      %(Content-Disposition: form-data; name="metadata"\r\n),
+      %(\r\nfilename="second.txt"\r\n),
+      %(--#{form_data.boundary}\r\n),
+      %(Content-Disposition: form-data; name="file"; filename="xyz"\r\n),
+      %(Content-Type: plain/text\r\n),
+      %(\r\ndos\r\n),
+      %(--#{form_data.boundary}\r\n),
+      %(Content-Disposition: form-data; name="metadata"\r\n),
+      %(\r\nwhy\r\n),
+      %(--#{form_data.boundary}\r\n),
+      %(Content-Disposition: form-data; name="metadata"\r\n),
+      %(\r\nnot\r\n),
+      %(--#{form_data.boundary}--\r\n)
+    ].join)
+  end
 
   describe "#to_s" do
     def disposition(params)
@@ -83,38 +120,6 @@ RSpec.describe HTTP::FormData::Multipart do
           "#{disposition 'name' => 'foo'}#{crlf}",
           "#{crlf}s#{crlf}",
           "--#{boundary_value}--#{crlf}"
-        ].join)
-      end
-    end
-
-    # https://github.com/httprb/http/issues/663
-    context "when params is a list of pairs" do
-      let(:params) do
-        [
-          ["metadata", %(filename=first.txt)],
-          ["file", HTTP::FormData::File.new(StringIO.new("uno"), :content_type => "plain/text", :filename => "abc")],
-          ["metadata", %(filename=second.txt)],
-          ["file", HTTP::FormData::File.new(StringIO.new("dos"), :content_type => "plain/text", :filename => "xyz")]
-        ]
-      end
-
-      it "allows duplicate param names and preserves given order" do
-        expect(form_data.to_s).to eq([
-          %(--#{form_data.boundary}#{crlf}),
-          %(Content-Disposition: form-data; name="metadata"#{crlf}),
-          %(#{crlf}filename=first.txt#{crlf}),
-          %(--#{form_data.boundary}#{crlf}),
-          %(Content-Disposition: form-data; name="file"; filename="abc"#{crlf}),
-          %(Content-Type: plain/text#{crlf}),
-          %(#{crlf}uno#{crlf}),
-          %(--#{form_data.boundary}#{crlf}),
-          %(Content-Disposition: form-data; name="metadata"#{crlf}#{crlf}),
-          %(filename=second.txt#{crlf}),
-          %(--#{form_data.boundary}#{crlf}),
-          %(Content-Disposition: form-data; name="file"; filename="xyz"#{crlf}),
-          %(Content-Type: plain/text#{crlf}),
-          %(#{crlf}dos#{crlf}),
-          %(--#{form_data.boundary}--#{crlf})
         ].join)
       end
     end
