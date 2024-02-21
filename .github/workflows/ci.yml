@@ -34,11 +34,10 @@ jobs:
         run: bundle exec rspec --format progress --force-colour
 
       - name: Prepare Coveralls test coverage report
-        uses: coverallsapp/github-action@v1.1.2
+        uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           flag-name: "${{ matrix.ruby }} @${{ matrix.os }}"
-          path-to-lcov: ./coverage/lcov/lcov.info
           parallel: true
 
   coveralls:
@@ -46,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Finalize Coveralls test coverage report
-        uses: coverallsapp/github-action@master
+        uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
