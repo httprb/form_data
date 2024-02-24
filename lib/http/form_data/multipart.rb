@@ -16,10 +16,8 @@ module HTTP
 
       # @param [#to_h, Hash] data form data key-value Hash
       def initialize(data, boundary: self.class.generate_boundary)
-        parts = Param.coerce FormData.ensure_hash data
-
         @boundary = boundary.to_s.freeze
-        @io = CompositeIO.new [*parts.flat_map { |part| [glue, part] }, tail]
+        @io = CompositeIO.new(parts(data).flat_map { |part| [glue, part] } << tail)
       end
 
       # Generates a string suitable for using as a boundary in multipart form
@@ -53,6 +51,14 @@ module HTTP
       # @return [String]
       def tail
         @tail ||= "--#{@boundary}--#{CRLF}"
+      end
+
+      def parts(data)
+        if data.is_a?(Array)
+          Param.coerce data
+        else
+          Param.coerce FormData.ensure_hash data
+        end
       end
     end
   end

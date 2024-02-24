@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe HTTP::FormData::Multipart do
-  subject(:form_data) { HTTP::FormData::Multipart.new params }
+  subject(:form_data) { described_class.new params }
 
   let(:file)          { HTTP::FormData::File.new fixture "the-http-gem.info" }
   let(:params)        { { :foo => :bar, :baz => file } }
@@ -17,7 +17,6 @@ RSpec.describe HTTP::FormData::Multipart do
 
     it "properly generates multipart data" do
       boundary_value = form_data.boundary
-
       expect(form_data.to_s).to eq([
         "--#{boundary_value}#{crlf}",
         "#{disposition 'name' => 'foo'}#{crlf}",
@@ -84,6 +83,45 @@ RSpec.describe HTTP::FormData::Multipart do
           "#{disposition 'name' => 'foo'}#{crlf}",
           "#{crlf}s#{crlf}",
           "--#{boundary_value}--#{crlf}"
+        ].join)
+      end
+    end
+
+    # https://github.com/httprb/http/issues/663
+    context "when params is an Array of pairs" do
+      let(:params) do
+        [
+          ["metadata", %(filename="first.txt")],
+          ["file", HTTP::FormData::File.new(StringIO.new("uno"), :content_type => "plain/text", :filename => "abc")],
+          ["metadata", %(filename="second.txt")],
+          ["file", HTTP::FormData::File.new(StringIO.new("dos"), :content_type => "plain/text", :filename => "xyz")],
+          ["metadata", %w[question=why question=not]]
+        ]
+      end
+
+      it "allows duplicate param names and preserves given order" do
+        expect(form_data.to_s).to eq([
+          %(--#{form_data.boundary}\r\n),
+          %(Content-Disposition: form-data; name="metadata"\r\n),
+          %(\r\nfilename="first.txt"\r\n),
+          %(--#{form_data.boundary}\r\n),
+          %(Content-Disposition: form-data; name="file"; filename="abc"\r\n),
+          %(Content-Type: plain/text\r\n),
+          %(\r\nuno\r\n),
+          %(--#{form_data.boundary}\r\n),
+          %(Content-Disposition: form-data; name="metadata"\r\n),
+          %(\r\nfilename="second.txt"\r\n),
+          %(--#{form_data.boundary}\r\n),
+          %(Content-Disposition: form-data; name="file"; filename="xyz"\r\n),
+          %(Content-Type: plain/text\r\n),
+          %(\r\ndos\r\n),
+          %(--#{form_data.boundary}\r\n),
+          %(Content-Disposition: form-data; name="metadata"\r\n),
+          %(\r\nquestion=why\r\n),
+          %(--#{form_data.boundary}\r\n),
+          %(Content-Disposition: form-data; name="metadata"\r\n),
+          %(\r\nquestion=not\r\n),
+          %(--#{form_data.boundary}--\r\n)
         ].join)
       end
     end
