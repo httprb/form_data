@@ -54,13 +54,45 @@ module HTTP
         end
 
         # Returns form data encoder implementation.
-        # Default: `URI.encode_www_form`.
+        # Default: custom realization.
         #
         # @see .encoder=
         # @return [#call]
         def encoder
-          @encoder ||= ::URI.method(:encode_www_form)
+          @encoder ||= DefaultEncoder.method(:encode)
         end
+
+        # Default encoder
+        module DefaultEncoder
+          class << self
+            def encode(value, prefix = nil)
+              case value
+              when Hash
+                encode_hash(value, prefix)
+              when Array
+                value.map { |v| encode(v, "#{prefix}[]") }.join("&")
+              when nil then prefix.to_s
+              else
+                raise ArgumentError, "value must be a Hash" if prefix.nil?
+                "#{prefix}=#{escape(value)}"
+              end
+            end
+
+            private
+
+            def encode_hash(hash, prefix)
+              hash.map do |k, v|
+                encode(v, prefix ? "#{prefix}[#{escape(k)}]" : escape(k))
+              end.reject(&:empty?).join("&")
+            end
+
+            def escape(value)
+              URI.encode_www_form_component(value)
+            end
+          end
+        end
+
+        private_constant :DefaultEncoder
       end
 
       # @param [#to_h, Hash] data form data key-value Hash
