@@ -11,5 +11,4 @@ plugins:
 AllCops:
   DisplayCopNames: true
   NewCops: enable
-  TargetRubyVersion: 2.5
-  DefaultFormatter: fuubar
+  TargetRubyVersion: 3.2
