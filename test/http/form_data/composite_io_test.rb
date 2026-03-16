@@ -42,6 +42,11 @@ class CompositeIOTest < Minitest::Test
     assert_equal "Hel", @composite_io.read(3)
     assert_equal "lo", @composite_io.read(2)
     assert_equal " ", @composite_io.read(1)
+  end
+
+  def test_reads_partial_data_to_end
+    @composite_io.read(6) # advance past "Hello "
+
     assert_equal "world!", @composite_io.read(6)
   end
 
@@ -63,6 +68,12 @@ class CompositeIOTest < Minitest::Test
     assert_equal "Hel", @composite_io.read(3, outbuf)
     assert_equal "lo", @composite_io.read(2, outbuf)
     assert_equal " ", @composite_io.read(1, outbuf)
+  end
+
+  def test_reads_partial_data_with_buffer_to_end
+    outbuf = +""
+    @composite_io.read(6, outbuf) # advance past "Hello "
+
     assert_equal "world!", @composite_io.read(6, outbuf)
   end
 
@@ -74,6 +85,11 @@ class CompositeIOTest < Minitest::Test
     @composite_io.read(2, outbuf)
 
     assert_equal "lo", outbuf
+  end
+
+  def test_fills_buffer_replacing_previous_content
+    outbuf = +""
+    @composite_io.read(5, outbuf) # advance past "Hello"
     @composite_io.read(1, outbuf)
 
     assert_equal " ", outbuf
@@ -90,24 +106,33 @@ class CompositeIOTest < Minitest::Test
     assert_equal "", outbuf
   end
 
-  def test_returns_binary_encoding
+  def test_returns_binary_encoding_for_partial_reads
     io = HTTP::FormData::CompositeIO.new(%w[Janko Marohnić])
 
     assert_equal Encoding::BINARY, io.read(5).encoding
     assert_equal Encoding::BINARY, io.read(9).encoding
+  end
 
-    io.rewind
+  def test_returns_binary_encoding_for_full_reads
+    io = HTTP::FormData::CompositeIO.new(%w[Janko Marohnić])
 
     assert_equal Encoding::BINARY, io.read.encoding
     assert_equal Encoding::BINARY, io.read.encoding
   end
 
-  def test_reads_data_in_bytes
+  def test_reads_data_in_bytes_first_half
     emoji = "😃"
     io = HTTP::FormData::CompositeIO.new([emoji])
 
     assert_equal emoji.b[0], io.read(1)
     assert_equal emoji.b[1], io.read(1)
+  end
+
+  def test_reads_data_in_bytes_second_half
+    emoji = "😃"
+    io = HTTP::FormData::CompositeIO.new([emoji])
+    io.read(2) # skip first two bytes
+
     assert_equal emoji.b[2], io.read(1)
     assert_equal emoji.b[3], io.read(1)
   end
@@ -172,11 +197,17 @@ class CompositeIOTest < Minitest::Test
     assert_equal "abcd", HTTP::FormData::CompositeIO.new(["ab", "", "cd"]).read
   end
 
-  def test_respects_length_exactly
+  def test_respects_length_exactly_first_io
     io = HTTP::FormData::CompositeIO.new(%w[abcdef ghijkl])
 
     assert_equal "abc", io.read(3)
     assert_equal "def", io.read(3)
+  end
+
+  def test_respects_length_exactly_second_io_and_exhaustion
+    io = HTTP::FormData::CompositeIO.new(%w[abcdef ghijkl])
+    io.read(6) # skip first io
+
     assert_equal "ghi", io.read(3)
     assert_equal "jkl", io.read(3)
     assert_nil io.read(1)

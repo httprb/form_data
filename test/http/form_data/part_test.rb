@@ -73,6 +73,12 @@ class PartTest < Minitest::Test
     assert_equal "hello", part.read(5)
     assert_equal " worl", part.read(5)
     assert_equal "d", part.read(5)
+  end
+
+  def test_read_with_length_returns_nil_when_exhausted
+    part = HTTP::FormData::Part.new("hello world")
+    part.read
+
     assert_nil part.read(5)
   end
 

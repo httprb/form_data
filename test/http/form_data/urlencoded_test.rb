@@ -154,6 +154,12 @@ class UrlencodedTest < Minitest::Test
     assert_equal "fo", form_data.read(2)
     assert_equal "o=b", form_data.read(3)
     assert_equal "ar", form_data.read(5)
+  end
+
+  def test_read_with_length_returns_nil_when_exhausted
+    form_data = HTTP::FormData::Urlencoded.new({ foo: "bar" })
+    form_data.read
+
     assert_nil form_data.read(1)
   end
 

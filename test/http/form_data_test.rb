@@ -98,12 +98,18 @@ class FormDataTest < Minitest::Test
     assert_instance_of HTTP::FormData::Multipart, HTTP::FormData.create({ foo: obj })
   end
 
-  def test_create_multipart_preserves_all_params
+  def test_create_multipart_preserves_param_values
     file = HTTP::FormData::File.new(StringIO.new("content"))
     body = HTTP::FormData.create({ user: "ixti", file: file }).to_s
 
     assert_includes body, "ixti"
     assert_includes body, "content"
+  end
+
+  def test_create_multipart_preserves_param_names
+    file = HTTP::FormData::File.new(StringIO.new("content"))
+    body = HTTP::FormData.create({ user: "ixti", file: file }).to_s
+
     assert_includes body, "user"
     assert_includes body, "file"
   end
