@@ -1,7 +1,11 @@
 # HTTP::FormData
 
 [![Gem Version](https://badge.fury.io/rb/http-form_data.svg)](http://rubygems.org/gems/http-form_data)
-[![Build Status](https://github.com/httprb/form_data/workflows/CI/badge.svg)](https://github.com/httprb/form_data/actions?query=workflow%3ACI+branch%3Amaster)
+[![Test](https://github.com/httprb/form_data/actions/workflows/test.yml/badge.svg)](https://github.com/httprb/form_data/actions/workflows/test.yml)
+[![Lint](https://github.com/httprb/form_data/actions/workflows/lint.yml/badge.svg)](https://github.com/httprb/form_data/actions/workflows/lint.yml)
+[![Type Check](https://github.com/httprb/form_data/actions/workflows/typecheck.yml/badge.svg)](https://github.com/httprb/form_data/actions/workflows/typecheck.yml)
+[![Mutant](https://github.com/httprb/form_data/actions/workflows/mutant.yml/badge.svg)](https://github.com/httprb/form_data/actions/workflows/mutant.yml)
+[![Docs](https://github.com/httprb/form_data/actions/workflows/docs.yml/badge.svg)](https://github.com/httprb/form_data/actions/workflows/docs.yml)
 
 Utility-belt to build form data request bodies.
 
@@ -90,5 +94,5 @@ Copyright (c) 2015-2021 Alexey V Zapparov.
 See [LICENSE.txt][license] for further details.
 
 
-[ci]:       http://travis-ci.org/httprb/form_data.rb
+[ci]:       https://github.com/httprb/form_data/actions
 [license]:  https://github.com/httprb/form_data.rb/blob/master/LICENSE.txt
