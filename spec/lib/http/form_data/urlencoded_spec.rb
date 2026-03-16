@@ -5,6 +5,10 @@ RSpec.describe HTTP::FormData::Urlencoded do
 
   let(:data) { { "foo[bar]" => "test" } }
 
+  it "raises ArgumentError when given a non-Hash top-level value" do
+    expect { described_class.new(42) }.to raise_error(HTTP::FormData::Error)
+  end
+
   it "supports any Enumerables of pairs" do
     form_data = described_class.new([%w[foo bar], ["foo", %w[baz moo]]])
 
@@ -44,6 +48,12 @@ RSpec.describe HTTP::FormData::Urlencoded do
       let(:data) { { "foo" => { "bar" => "test" } } }
 
       it { is_expected.to eq "foo[bar]=test" }
+    end
+
+    context "with nil value" do
+      let(:data) { { "foo" => nil } }
+
+      it { is_expected.to eq "foo" }
     end
 
     it "rewinds content" do

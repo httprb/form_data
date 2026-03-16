@@ -228,6 +228,15 @@ RSpec.describe HTTP::FormData::File do
 
       it { is_expected.to eq "application/json" }
     end
+
+    context "when given with deprecated :mime_type option" do
+      let(:opts) { { :mime_type => "application/json" } }
+
+      it "uses the value and emits a deprecation warning" do
+        expect { expect(form_file.content_type).to eq "application/json" }
+          .to output(/DEPRECATED/).to_stderr
+      end
+    end
   end
 
   describe "#mime_type" do
