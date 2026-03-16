@@ -37,7 +37,7 @@ RSpec.describe HTTP::FormData::Multipart do
 
     context "with user-defined boundary" do
       subject(:form_data) do
-        HTTP::FormData::Multipart.new params, :boundary => "my-boundary"
+        described_class.new params, :boundary => "my-boundary"
       end
 
       it "uses the given boundary" do
@@ -56,7 +56,7 @@ RSpec.describe HTTP::FormData::Multipart do
 
     context "with filename set to nil" do
       let(:part) { HTTP::FormData::Part.new("s", :content_type => "mime/type") }
-      let(:form_data) { HTTP::FormData::Multipart.new({ :foo => part }) }
+      let(:form_data) { described_class.new({ :foo => part }) }
 
       it "doesn't include a filename" do
         boundary_value = form_data.content_type[/(#{boundary})$/, 1]
@@ -73,7 +73,7 @@ RSpec.describe HTTP::FormData::Multipart do
 
     context "with content type set to nil" do
       let(:part) { HTTP::FormData::Part.new("s") }
-      let(:form_data) { HTTP::FormData::Multipart.new({ :foo => part }) }
+      let(:form_data) { described_class.new({ :foo => part }) }
 
       it "doesn't include a filename" do
         boundary_value = form_data.content_type[/(#{boundary})$/, 1]
@@ -88,7 +88,7 @@ RSpec.describe HTTP::FormData::Multipart do
     end
 
     it "supports any Enumerable of pairs" do
-      enum = Enumerator.new { |y| y << [:foo, :bar] << [:foo, :baz] }
+      enum = Enumerator.new { |y| y << %i[foo bar] << %i[foo baz] }
       form_data = described_class.new(enum)
 
       boundary_value = form_data.boundary
@@ -172,7 +172,7 @@ RSpec.describe HTTP::FormData::Multipart do
 
     context "with user-defined boundary" do
       let(:form_data) do
-        HTTP::FormData::Multipart.new params, :boundary => "my-boundary"
+        described_class.new params, :boundary => "my-boundary"
       end
 
       it "includes the given boundary" do
@@ -184,6 +184,7 @@ RSpec.describe HTTP::FormData::Multipart do
 
   describe "#content_length" do
     subject { form_data.content_length }
+
     it { is_expected.to eq form_data.to_s.bytesize }
   end
 
@@ -194,7 +195,7 @@ RSpec.describe HTTP::FormData::Multipart do
 
     context "with user-defined boundary" do
       let(:form_data) do
-        HTTP::FormData::Multipart.new params, :boundary => "my-boundary"
+        described_class.new params, :boundary => "my-boundary"
       end
 
       it "returns the given boundary" do

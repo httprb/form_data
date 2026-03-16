@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
 RSpec.describe HTTP::FormData::Part do
+  subject(:part) { described_class.new(body, **opts) }
+
   let(:body)     { "" }
   let(:opts)     { {} }
-  subject(:part) { HTTP::FormData::Part.new(body, **opts) }
 
   describe "#size" do
     subject { part.size }
 
     context "when body given as a String" do
       let(:body) { "привет мир!" }
+
       it { is_expected.to eq 20 }
     end
   end
@@ -19,6 +21,7 @@ RSpec.describe HTTP::FormData::Part do
 
     context "when body given as String" do
       let(:body) { "привет мир!" }
+
       it { is_expected.to eq "привет мир!" }
 
       it "rewinds content" do
@@ -34,6 +37,7 @@ RSpec.describe HTTP::FormData::Part do
 
     context "when body given as String" do
       let(:body) { "привет мир!" }
+
       it { is_expected.to eq "привет мир!" }
     end
   end
@@ -53,10 +57,11 @@ RSpec.describe HTTP::FormData::Part do
   describe "#filename" do
     subject { part.filename }
 
-    it { is_expected.to eq nil }
+    it { is_expected.to be_nil }
 
     context "when it was given with options" do
       let(:opts) { { :filename => "foobar.txt" } }
+
       it { is_expected.to eq "foobar.txt" }
     end
   end
@@ -64,10 +69,11 @@ RSpec.describe HTTP::FormData::Part do
   describe "#content_type" do
     subject { part.content_type }
 
-    it { is_expected.to eq nil }
+    it { is_expected.to be_nil }
 
     context "when it was given with options" do
       let(:opts) { { :content_type => "application/json" } }
+
       it { is_expected.to eq "application/json" }
     end
   end

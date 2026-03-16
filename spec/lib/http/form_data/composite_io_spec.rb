@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
 RSpec.describe HTTP::FormData::CompositeIO do
-  subject(:composite_io) { HTTP::FormData::CompositeIO.new(ios) }
+  subject(:composite_io) { described_class.new(ios) }
 
   let(:ios) { ["Hello", " ", "", "world", "!"].map { |s| StringIO.new(s) } }
 
   describe "#initialize" do
     it "accepts IOs and strings" do
-      io = HTTP::FormData::CompositeIO.new(["Hello ", StringIO.new("world!")])
+      io = described_class.new(["Hello ", StringIO.new("world!")])
       expect(io.read).to eq "Hello world!"
     end
 
     it "fails if an IO is neither a String nor an IO" do
-      expect { HTTP::FormData::CompositeIO.new %i[hello world] }
+      expect { described_class.new %i[hello world] }
         .to raise_error(ArgumentError)
     end
   end
@@ -36,7 +36,7 @@ RSpec.describe HTTP::FormData::CompositeIO do
 
     it "returns nil when no partial data was retrieved" do
       composite_io.read
-      expect(composite_io.read(3)).to eq nil
+      expect(composite_io.read(3)).to be_nil
     end
 
     it "reads partial data with a buffer" do
@@ -62,12 +62,12 @@ RSpec.describe HTTP::FormData::CompositeIO do
     it "returns nil when no partial data was retrieved with a buffer" do
       outbuf = String.new("content")
       composite_io.read
-      expect(composite_io.read(3, outbuf)).to eq nil
+      expect(composite_io.read(3, outbuf)).to be_nil
       expect(outbuf).to eq ""
     end
 
     it "returns data in binary encoding" do
-      io = HTTP::FormData::CompositeIO.new(%w[Janko Marohnić])
+      io = described_class.new(%w[Janko Marohnić])
 
       expect(io.read(5).encoding).to eq Encoding::BINARY
       expect(io.read(9).encoding).to eq Encoding::BINARY
@@ -79,7 +79,7 @@ RSpec.describe HTTP::FormData::CompositeIO do
 
     it "reads data in bytes" do
       emoji = "😃"
-      io = HTTP::FormData::CompositeIO.new([emoji])
+      io = described_class.new([emoji])
 
       expect(io.read(1)).to eq emoji.b[0]
       expect(io.read(1)).to eq emoji.b[1]
@@ -102,7 +102,7 @@ RSpec.describe HTTP::FormData::CompositeIO do
     end
 
     it "returns 0 when there are no IOs" do
-      empty_composite_io = HTTP::FormData::CompositeIO.new []
+      empty_composite_io = described_class.new []
       expect(empty_composite_io.size).to eq 0
     end
   end

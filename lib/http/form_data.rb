@@ -86,7 +86,7 @@ module HTTP
         data.any? do |_, v|
           next true if v.is_a? FormData::Part
 
-          v.respond_to?(:to_ary) && v.to_ary.any? { |e| e.is_a? FormData::Part }
+          v.respond_to?(:to_ary) && v.to_ary.any?(FormData::Part)
         end
       end
     end

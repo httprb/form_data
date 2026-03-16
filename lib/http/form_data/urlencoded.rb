@@ -67,22 +67,25 @@ module HTTP
           class << self
             def encode(value, prefix = nil)
               case value
-              when Hash
-                encode_hash(value, prefix)
-              when Array
-                if prefix
-                  value.map { |v| encode(v, "#{prefix}[]") }.join("&")
-                else
-                  encode_pairs(value)
-                end
-              when nil then prefix.to_s
+              when Hash  then encode_hash(value, prefix)
+              when Array then encode_array(value, prefix)
+              when nil   then prefix.to_s
               else
                 raise ArgumentError, "value must be a Hash" if prefix.nil?
+
                 "#{prefix}=#{escape(value)}"
               end
             end
 
             private
+
+            def encode_array(value, prefix)
+              if prefix
+                value.map { |v| encode(v, "#{prefix}[]") }.join("&")
+              else
+                encode_pairs(value)
+              end
+            end
 
             def encode_pairs(pairs)
               pairs.map { |k, v| encode(v, escape(k)) }.reject(&:empty?).join("&")

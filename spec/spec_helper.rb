@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative "./support/simplecov"
-require_relative "./support/fuubar" unless ENV["CI"]
+require_relative "support/simplecov"
+require_relative "support/fuubar" unless ENV["CI"]
 
 require "http/form_data"
 require "support/fixtures_helper"
