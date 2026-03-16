@@ -22,16 +22,6 @@ module HTTP
       # Default MIME type
       DEFAULT_MIME = "application/octet-stream"
 
-      # Returns content type (deprecated alias)
-      #
-      # @example
-      #   file.mime_type # => "application/octet-stream"
-      #
-      # @api public
-      # @deprecated Use #content_type instead
-      # @return [String]
-      alias mime_type content_type
-
       # Creates a new File from a path or IO object
       #
       # @example
@@ -48,11 +38,6 @@ module HTTP
       #   When `path_or_io` is a IO, defaults to `"stream-{object_id}"`
       def initialize(path_or_io, opts = nil) # rubocop:disable Lint/MissingSuper
         opts = FormData.ensure_hash(opts)
-
-        if opts.key? :mime_type
-          warn "[DEPRECATED] :mime_type option deprecated, use :content_type"
-          opts[:content_type] = opts.fetch(:mime_type)
-        end
 
         @io           = make_io(path_or_io)
         @autoclose    = path_or_io.is_a?(String) || path_or_io.is_a?(Pathname)

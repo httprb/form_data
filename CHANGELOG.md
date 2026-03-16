@@ -40,6 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Ruby < 3.2 support.
 - Explicit JRuby support.
+- `FormData::File#mime_type` deprecated alias. Use `#content_type` instead.
+- `:mime_type` option in `FormData::File#initialize`. Use `:content_type` instead.
 
 ## [2.3.0] - 2020-03-08
 

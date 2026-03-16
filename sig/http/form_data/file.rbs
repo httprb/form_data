@@ -5,9 +5,6 @@ module HTTP
 
       @autoclose: bool
 
-      # Deprecated alias for content_type
-      alias mime_type content_type
-
       # Creates a new File from a path or IO object
       def initialize: (String | Pathname | untyped path_or_io, ?Hash[Symbol, untyped]? opts) -> void
 

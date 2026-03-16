@@ -153,23 +153,6 @@ class FormDataFileTest < Minitest::Test
     assert_instance_of String, form_file.content_type
   end
 
-  # --- Deprecated mime_type ---
-
-  def test_deprecated_mime_type_option
-    assert_output(nil, /DEPRECATED/) do
-      form_file = HTTP::FormData::File.new(StringIO.new, mime_type: "application/json")
-
-      assert_equal "application/json", form_file.content_type
-    end
-  end
-
-  def test_mime_type_is_alias_of_content_type
-    assert_equal(
-      HTTP::FormData::File.instance_method(:content_type),
-      HTTP::FormData::File.instance_method(:mime_type)
-    )
-  end
-
   # --- make_io ---
 
   def test_make_io_with_string_subclass
