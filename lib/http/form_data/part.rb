@@ -15,7 +15,8 @@ module HTTP
     class Part
       include Readable
 
-      attr_reader :content_type, :filename
+      attr_reader :content_type
+      attr_reader :filename
 
       # @param [#to_s] body
       # @param [String] content_type Value of Content-Type header

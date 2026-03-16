@@ -1,7 +1,30 @@
+Style/AccessorGrouping:
+  Enabled: true
+  EnforcedStyle: separated
+
+Style/DocumentDynamicEvalDefinition:
+  Exclude:
+    - "test/**/*.rb"
+
+Style/FormatStringToken:
+  Enabled: true
+  EnforcedStyle: unannotated
+
 Style/HashSyntax:
   Enabled: true
   EnforcedStyle: ruby19
 
+Style/OneClassPerFile:
+  Exclude:
+    - "test/**/*.rb"
+
+Style/RescueStandardError:
+  Enabled: true
+  EnforcedStyle: implicit
+
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: double_quotes
+
+Style/YodaCondition:
+  Enabled: false

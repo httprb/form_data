@@ -1,14 +1,16 @@
+plugins:
+  - rubocop-minitest
+  - rubocop-performance
+  - rubocop-rake
+
 inherit_from:
   - .rubocop/layout.yml
   - .rubocop/metrics.yml
   - .rubocop/minitest.yml
   - .rubocop/style.yml
 
-plugins:
-  - rubocop-minitest
-  - rubocop-rake
-
 AllCops:
   DisplayCopNames: true
+  DisplayStyleGuide: true
   NewCops: enable
   TargetRubyVersion: 3.2

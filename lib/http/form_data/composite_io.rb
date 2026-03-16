@@ -17,7 +17,7 @@ module HTTP
             io
           else
             raise ArgumentError,
-              "#{io.inspect} is neither a String nor an IO object"
+                  "#{io.inspect} is neither a String nor an IO object"
           end
         end
       end
@@ -39,7 +39,7 @@ module HTTP
 
       # Returns sum of all IO sizes.
       def size
-        @size ||= @ios.map(&:size).inject(0, :+)
+        @size ||= @ios.sum(&:size)
       end
 
       # Rewinds all IO objects and set cursor to the first IO object.

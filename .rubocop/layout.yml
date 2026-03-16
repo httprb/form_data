@@ -1,3 +1,11 @@
-Layout/ArgumentAlignment:
+Layout/LeadingCommentSpace:
+  AllowRBSInlineAnnotation: true
+
+Layout/FirstHashElementIndentation:
   Enabled: true
-  EnforcedStyle: with_fixed_indentation
+  EnforcedStyle: consistent
+
+Layout/HashAlignment:
+  Enabled: true
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table

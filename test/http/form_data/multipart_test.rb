@@ -61,7 +61,7 @@ class MultipartTest < Minitest::Test
   def test_part_without_filename
     part = HTTP::FormData::Part.new("s", content_type: "mime/type")
     form_data = HTTP::FormData::Multipart.new({ foo: part })
-    b = form_data.content_type[/(#{BOUNDARY_PATTERN})$/, 1]
+    b = form_data.content_type[/(#{BOUNDARY_PATTERN})$/o, 1]
 
     expected = [
       "--#{b}#{CRLF}",
@@ -77,7 +77,7 @@ class MultipartTest < Minitest::Test
   def test_part_without_content_type
     part = HTTP::FormData::Part.new("s")
     form_data = HTTP::FormData::Multipart.new({ foo: part })
-    b = form_data.content_type[/(#{BOUNDARY_PATTERN})$/, 1]
+    b = form_data.content_type[/(#{BOUNDARY_PATTERN})$/o, 1]
 
     expected = [
       "--#{b}#{CRLF}",
@@ -161,7 +161,7 @@ class MultipartTest < Minitest::Test
   end
 
   def test_content_type_matches_pattern
-    assert_match(%r{^multipart/form-data; boundary=#{BOUNDARY_PATTERN}$}, @form_data.content_type)
+    assert_match(%r{^multipart/form-data; boundary=#{BOUNDARY_PATTERN}$}o, @form_data.content_type)
   end
 
   def test_content_type_with_user_defined_boundary

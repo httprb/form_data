@@ -44,7 +44,7 @@ class CompositeIOTest < Minitest::Test
   end
 
   def test_reads_partial_data_with_buffer
-    outbuf = String.new
+    outbuf = +""
 
     assert_equal "Hel", @composite_io.read(3, outbuf)
     assert_equal "lo", @composite_io.read(2, outbuf)
@@ -53,7 +53,7 @@ class CompositeIOTest < Minitest::Test
   end
 
   def test_fills_buffer_with_retrieved_content
-    outbuf = String.new
+    outbuf = +""
     @composite_io.read(3, outbuf)
 
     assert_equal "Hel", outbuf
@@ -69,7 +69,7 @@ class CompositeIOTest < Minitest::Test
   end
 
   def test_returns_nil_when_no_partial_data_retrieved_with_buffer
-    outbuf = String.new("content")
+    outbuf = +"content"
     @composite_io.read
 
     assert_nil @composite_io.read(3, outbuf)
