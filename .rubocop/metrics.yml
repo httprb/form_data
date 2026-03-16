@@ -1,4 +1,11 @@
-Metrics/BlockLength:
-  Enabled: true
+Metrics/AbcSize:
   Exclude:
-    - 'spec/**/*_spec.rb'
+    - "test/**/*_test.rb"
+
+Metrics/ClassLength:
+  Exclude:
+    - "test/**/*_test.rb"
+
+Metrics/MethodLength:
+  Exclude:
+    - "test/**/*_test.rb"

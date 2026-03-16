@@ -5,12 +5,12 @@ source "https://rubygems.org"
 gem "rake"
 
 group :test do
-  gem "rspec", "~> 3.10"
+  gem "minitest", "~> 6.0"
 
   gem "rubocop"
+  gem "rubocop-minitest"
   gem "rubocop-performance"
   gem "rubocop-rake"
-  gem "rubocop-rspec"
 
   gem "simplecov", require: false
 end
