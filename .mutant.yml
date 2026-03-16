@@ -15,6 +15,7 @@ requires:
 
 mutation:
   timeout: 10.0
+  operators: full
 
 matcher:
   subjects:

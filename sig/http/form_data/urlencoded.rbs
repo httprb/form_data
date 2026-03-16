@@ -1,0 +1,46 @@
+module HTTP
+  module FormData
+    class Urlencoded
+      include Readable
+
+      @encoder: _Encoder?
+
+      # Sets custom form data encoder implementation
+      def self.encoder=: (untyped implementation) -> void
+
+      # Returns form data encoder implementation
+      def self.encoder: () -> _Encoder
+
+      # Default encoder for urlencoded form data
+      module DefaultEncoder
+        # Recursively encodes form data value
+        def self.encode: (untyped value, ?String? prefix) -> String
+
+        alias self.call self.encode
+
+        private
+
+        # Encodes an Array value
+        def self.encode_array: (Array[untyped] value, String? prefix) -> String
+
+        # Encodes an Array of key-value pairs
+        def self.encode_pairs: (Array[untyped] pairs) -> String
+
+        # Encodes a Hash value
+        def self.encode_hash: (Hash[untyped, untyped] hash, String? prefix) -> String
+
+        # URL-encodes a value
+        def self.escape: (untyped value) -> String
+      end
+
+      # Creates a new Urlencoded form data instance
+      def initialize: (untyped data, ?encoder: _Encoder?) -> void
+
+      # Returns MIME type for the Content-Type header
+      def content_type: () -> String
+
+      # Returns form data content size for Content-Length
+      alias content_length size
+    end
+  end
+end

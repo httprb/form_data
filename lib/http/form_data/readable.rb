@@ -13,7 +13,7 @@ module HTTP
       # @return [String]
       def to_s
         rewind
-        content = read
+        content = read #: String
         rewind
         content
       end

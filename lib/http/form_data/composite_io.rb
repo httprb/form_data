@@ -81,9 +81,10 @@ module HTTP
 
           next if length.nil?
 
-          length -= chunk.bytesize
+          remaining = length - chunk.bytesize
+          break if remaining.zero?
 
-          break if length.zero?
+          length = remaining
         end
       end
 

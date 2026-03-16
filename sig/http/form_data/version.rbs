@@ -1,0 +1,5 @@
+module HTTP
+  module FormData
+    VERSION: String
+  end
+end

@@ -60,8 +60,9 @@ module HTTP
         # @api private
         # @return [String]
         def parameters
+          fname = filename
           parameters = { name: @name }
-          parameters[:filename] = filename if filename
+          parameters[:filename] = fname if fname
           parameters.map { |k, v| "#{k}=#{v.inspect}" }.join("; ")
         end
 

@@ -19,6 +19,10 @@ group :test do
   gem "yardstick"
 end
 
+group :sig do
+  gem "steep"
+end
+
 group :doc do
   gem "kramdown"
   gem "yard"

@@ -1,0 +1,32 @@
+module HTTP
+  module FormData
+    class CompositeIO
+      @index: Integer
+      @ios: Array[untyped]
+      @size: Integer?
+
+      # Creates a new CompositeIO from an array of IO-like objects
+      def initialize: (Array[untyped] ios) -> void
+
+      # Reads and returns content across multiple IO objects
+      def read: (?Integer? length, ?String? outbuf) -> String?
+
+      # Returns sum of all IO sizes
+      def size: () -> Integer
+
+      # Rewinds all IO objects and resets cursor
+      def rewind: () -> void
+
+      private
+
+      # Yields chunks with total length up to `length`
+      def read_chunks: (Integer? length) { (String chunk) -> void } -> void
+
+      # Reads chunk from current IO with length up to `max_length`
+      def readpartial: (Integer? max_length) -> String?
+
+      # Advances cursor to the next IO object
+      def advance_io: () -> void
+    end
+  end
+end

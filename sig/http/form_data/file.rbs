@@ -1,0 +1,21 @@
+module HTTP
+  module FormData
+    class File < Part
+      DEFAULT_MIME: String
+
+      # Deprecated alias for content_type
+      alias mime_type content_type
+
+      # Creates a new File from a path or IO object
+      def initialize: (String | Pathname | untyped path_or_io, ?Hash[Symbol, untyped]? opts) -> void
+
+      private
+
+      # Wraps path_or_io into an IO object
+      def make_io: (String | Pathname | untyped path_or_io) -> untyped
+
+      # Determines filename for the given IO
+      def filename_for: (untyped io) -> String
+    end
+  end
+end

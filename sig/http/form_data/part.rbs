@@ -1,0 +1,16 @@
+module HTTP
+  module FormData
+    class Part
+      include Readable
+
+      # Returns the content type of this part
+      attr_reader content_type: String?
+
+      # Returns the filename of this part
+      attr_reader filename: String?
+
+      # Creates a new Part with the given body and options
+      def initialize: (_ToS body, ?content_type: String?, ?filename: String?) -> void
+    end
+  end
+end

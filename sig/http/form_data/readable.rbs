@@ -1,0 +1,19 @@
+module HTTP
+  module FormData
+    module Readable
+      @io: StringIO | CompositeIO
+
+      # Returns IO content as a String
+      def to_s: () -> String
+
+      # Reads and returns part of IO content
+      def read: (?Integer? length, ?String? outbuf) -> String?
+
+      # Returns IO size in bytes
+      def size: () -> Integer
+
+      # Rewinds the IO to the beginning
+      def rewind: () -> (Integer | void)
+    end
+  end
+end

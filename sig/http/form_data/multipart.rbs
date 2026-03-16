@@ -1,0 +1,36 @@
+module HTTP
+  module FormData
+    class Multipart
+      include Readable
+
+      # Returns the multipart boundary string
+      attr_reader boundary: String
+
+      # Creates a new Multipart form data instance
+      def initialize: (untyped data, ?boundary: _ToS) -> void
+
+      # Generates a boundary string for multipart form data
+      def self.generate_boundary: () -> String
+
+      # Returns MIME type for the Content-Type header
+      def content_type: () -> String
+
+      # Returns form data content size for Content-Length
+      alias content_length size
+
+      private
+
+      @glue: String?
+      @tail: String?
+
+      # Returns the boundary glue between parts
+      def glue: () -> String
+
+      # Returns the closing boundary tail
+      def tail: () -> String
+
+      # Coerces data into an array of Param objects
+      def parts: (untyped data) -> Array[Param]
+    end
+  end
+end

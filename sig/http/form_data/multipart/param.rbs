@@ -1,0 +1,32 @@
+module HTTP
+  module FormData
+    class Multipart
+      class Param
+        include Readable
+
+        @name: String
+        @part: Part
+
+        # Initializes body part with headers and data
+        def initialize: (untyped name, untyped value) -> void
+
+        private
+
+        # Builds the MIME header for this part
+        def header: () -> String
+
+        # Builds Content-Disposition parameters string
+        def parameters: () -> String
+
+        # Returns the content type of the wrapped part
+        def content_type: () -> String?
+
+        # Returns the filename of the wrapped part
+        def filename: () -> String?
+
+        # Returns the CRLF footer
+        def footer: () -> String
+      end
+    end
+  end
+end
