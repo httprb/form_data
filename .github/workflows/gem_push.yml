@@ -1,0 +1,61 @@
+---
+name: Push Gem
+
+"on":
+  push:
+    tags:
+      - v*
+
+jobs:
+  push:
+    if: github.repository == 'httprb/form_data'
+    runs-on: ubuntu-latest
+
+    environment:
+      name: rubygems.org
+      url: https://rubygems.org/gems/http-form_data
+
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - uses: rubygems/configure-rubygems-credentials@main
+        with:
+          role-to-assume: rg_oidc_akr_3rf8drvjr69qfcx7ztf5
+
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Set remote URL
+        run: |
+          # Attribute commits to the last committer on HEAD
+          git config --global user.email "$(git log -1 --pretty=format:'%ae')"
+          git config --global user.name "$(git log -1 --pretty=format:'%an')"
+          git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY"
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby
+          bundler-cache: true
+
+      - name: Release
+        run: bundle exec rake release
+
+      - name: Wait for release to propagate
+        run: |
+          gem install rubygems-await
+          gem_tuple="$(ruby -rbundler/setup -rbundler -e '
+              spec = Bundler.definition.specs.find {|s| s.name == ARGV[0] }
+              raise "No spec for #{ARGV[0]}" unless spec
+              print [spec.name, spec.version, spec.platform].join(":")
+            ' "http-form_data")"
+          gem await "${gem_tuple}"
+
+      - name: Create GitHub release
+        run: |
+          tag_name="$(git describe --tags --abbrev=0)"
+          gh release create "${tag_name}" --verify-tag --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
