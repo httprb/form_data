@@ -60,7 +60,7 @@ RSpec.describe HTTP::FormData::Part do
     it { is_expected.to be_nil }
 
     context "when it was given with options" do
-      let(:opts) { { :filename => "foobar.txt" } }
+      let(:opts) { { filename: "foobar.txt" } }
 
       it { is_expected.to eq "foobar.txt" }
     end
@@ -72,7 +72,7 @@ RSpec.describe HTTP::FormData::Part do
     it { is_expected.to be_nil }
 
     context "when it was given with options" do
-      let(:opts) { { :content_type => "application/json" } }
+      let(:opts) { { content_type: "application/json" } }
 
       it { is_expected.to eq "application/json" }
     end

@@ -4,7 +4,7 @@ RSpec.describe HTTP::FormData::Multipart do
   subject(:form_data) { described_class.new params }
 
   let(:file)          { HTTP::FormData::File.new fixture "the-http-gem.info" }
-  let(:params)        { { :foo => :bar, :baz => file } }
+  let(:params)        { { foo: :bar, baz: file } }
   let(:boundary)      { /-{21}[a-f0-9]{42}/ }
 
   describe "#to_s" do
@@ -37,7 +37,7 @@ RSpec.describe HTTP::FormData::Multipart do
 
     context "with user-defined boundary" do
       subject(:form_data) do
-        described_class.new params, :boundary => "my-boundary"
+        described_class.new params, boundary: "my-boundary"
       end
 
       it "uses the given boundary" do
@@ -55,8 +55,8 @@ RSpec.describe HTTP::FormData::Multipart do
     end
 
     context "with filename set to nil" do
-      let(:part) { HTTP::FormData::Part.new("s", :content_type => "mime/type") }
-      let(:form_data) { described_class.new({ :foo => part }) }
+      let(:part) { HTTP::FormData::Part.new("s", content_type: "mime/type") }
+      let(:form_data) { described_class.new({ foo: part }) }
 
       it "doesn't include a filename" do
         boundary_value = form_data.content_type[/(#{boundary})$/, 1]
@@ -73,7 +73,7 @@ RSpec.describe HTTP::FormData::Multipart do
 
     context "with content type set to nil" do
       let(:part) { HTTP::FormData::Part.new("s") }
-      let(:form_data) { described_class.new({ :foo => part }) }
+      let(:form_data) { described_class.new({ foo: part }) }
 
       it "doesn't include a filename" do
         boundary_value = form_data.content_type[/(#{boundary})$/, 1]
@@ -108,9 +108,9 @@ RSpec.describe HTTP::FormData::Multipart do
       let(:params) do
         [
           ["metadata", %(filename="first.txt")],
-          ["file", HTTP::FormData::File.new(StringIO.new("uno"), :content_type => "plain/text", :filename => "abc")],
+          ["file", HTTP::FormData::File.new(StringIO.new("uno"), content_type: "plain/text", filename: "abc")],
           ["metadata", %(filename="second.txt")],
-          ["file", HTTP::FormData::File.new(StringIO.new("dos"), :content_type => "plain/text", :filename => "xyz")],
+          ["file", HTTP::FormData::File.new(StringIO.new("dos"), content_type: "plain/text", filename: "xyz")],
           ["metadata", %w[question=why question=not]]
         ]
       end
@@ -172,7 +172,7 @@ RSpec.describe HTTP::FormData::Multipart do
 
     context "with user-defined boundary" do
       let(:form_data) do
-        described_class.new params, :boundary => "my-boundary"
+        described_class.new params, boundary: "my-boundary"
       end
 
       it "includes the given boundary" do
@@ -195,7 +195,7 @@ RSpec.describe HTTP::FormData::Multipart do
 
     context "with user-defined boundary" do
       let(:form_data) do
-        described_class.new params, :boundary => "my-boundary"
+        described_class.new params, boundary: "my-boundary"
       end
 
       it "returns the given boundary" do

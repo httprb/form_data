@@ -40,7 +40,7 @@ RSpec.describe HTTP::FormData::File do
     context "when file given as a String" do
       let(:file) { fixture("the-http-gem.info").to_s }
 
-      it { is_expected.to eq fixture("the-http-gem.info").read(:mode => "rb") }
+      it { is_expected.to eq fixture("the-http-gem.info").read(mode: "rb") }
 
       it "rewinds content" do
         content = form_file.read
@@ -52,7 +52,7 @@ RSpec.describe HTTP::FormData::File do
     context "when file given as a Pathname" do
       let(:file) { fixture("the-http-gem.info") }
 
-      it { is_expected.to eq fixture("the-http-gem.info").read(:mode => "rb") }
+      it { is_expected.to eq fixture("the-http-gem.info").read(mode: "rb") }
 
       it "rewinds content" do
         content = form_file.read
@@ -66,7 +66,7 @@ RSpec.describe HTTP::FormData::File do
 
       after { file.close }
 
-      it { is_expected.to eq fixture("the-http-gem.info").read(:mode => "rb") }
+      it { is_expected.to eq fixture("the-http-gem.info").read(mode: "rb") }
 
       it "rewinds content" do
         content = form_file.read
@@ -94,13 +94,13 @@ RSpec.describe HTTP::FormData::File do
     context "when file given as a String" do
       let(:file) { fixture("the-http-gem.info").to_s }
 
-      it { is_expected.to eq fixture("the-http-gem.info").read(:mode => "rb") }
+      it { is_expected.to eq fixture("the-http-gem.info").read(mode: "rb") }
     end
 
     context "when file given as a Pathname" do
       let(:file) { fixture("the-http-gem.info") }
 
-      it { is_expected.to eq fixture("the-http-gem.info").read(:mode => "rb") }
+      it { is_expected.to eq fixture("the-http-gem.info").read(mode: "rb") }
     end
 
     context "when file given as File" do
@@ -108,7 +108,7 @@ RSpec.describe HTTP::FormData::File do
 
       after { file.close }
 
-      it { is_expected.to eq fixture("the-http-gem.info").read(:mode => "rb") }
+      it { is_expected.to eq fixture("the-http-gem.info").read(mode: "rb") }
     end
 
     context "when file given as IO" do
@@ -171,7 +171,7 @@ RSpec.describe HTTP::FormData::File do
       it { is_expected.to eq File.basename file }
 
       context "with filename given in options" do
-        let(:opts) { { :filename => "foobar.txt" } }
+        let(:opts) { { filename: "foobar.txt" } }
 
         it { is_expected.to eq "foobar.txt" }
       end
@@ -183,7 +183,7 @@ RSpec.describe HTTP::FormData::File do
       it { is_expected.to eq File.basename file }
 
       context "with filename given in options" do
-        let(:opts) { { :filename => "foobar.txt" } }
+        let(:opts) { { filename: "foobar.txt" } }
 
         it { is_expected.to eq "foobar.txt" }
       end
@@ -197,7 +197,7 @@ RSpec.describe HTTP::FormData::File do
       it { is_expected.to eq "the-http-gem.info" }
 
       context "with filename given in options" do
-        let(:opts) { { :filename => "foobar.txt" } }
+        let(:opts) { { filename: "foobar.txt" } }
 
         it { is_expected.to eq "foobar.txt" }
       end
@@ -209,7 +209,7 @@ RSpec.describe HTTP::FormData::File do
       it { is_expected.to eq "stream-#{file.object_id}" }
 
       context "with filename given in options" do
-        let(:opts) { { :filename => "foobar.txt" } }
+        let(:opts) { { filename: "foobar.txt" } }
 
         it { is_expected.to eq "foobar.txt" }
       end
@@ -224,13 +224,13 @@ RSpec.describe HTTP::FormData::File do
     it { is_expected.to eq "application/octet-stream" }
 
     context "when it was given with options" do
-      let(:opts) { { :content_type => "application/json" } }
+      let(:opts) { { content_type: "application/json" } }
 
       it { is_expected.to eq "application/json" }
     end
 
     context "when given with deprecated :mime_type option" do
-      let(:opts) { { :mime_type => "application/json" } }
+      let(:opts) { { mime_type: "application/json" } }
 
       it "uses the value and emits a deprecation warning" do
         expect { expect(form_file.content_type).to eq "application/json" }

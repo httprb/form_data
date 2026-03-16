@@ -107,7 +107,7 @@ RSpec.describe HTTP::FormData::Urlencoded do
 
   context "with custom instance level encoder" do
     subject(:form_data) do
-      described_class.new(data, :encoder => encoder)
+      described_class.new(data, encoder: encoder)
     end
 
     let(:encoder) { proc { |data| JSON.dump(data) } }

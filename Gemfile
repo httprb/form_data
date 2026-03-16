@@ -12,11 +12,11 @@ group :test do
   gem "rubocop-rake"
   gem "rubocop-rspec"
 
-  gem "simplecov", :require => false
+  gem "simplecov", require: false
 end
 
 group :doc do
-  gem "redcarpet", :platform => :mri
+  gem "redcarpet", platform: :mri
   gem "yard"
 end
 

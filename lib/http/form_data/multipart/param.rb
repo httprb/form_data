@@ -52,7 +52,7 @@ module HTTP
         end
 
         def parameters
-          parameters = { :name => @name }
+          parameters = { name: @name }
           parameters[:filename] = filename if filename
           parameters.map { |k, v| "#{k}=#{v.inspect}" }.join("; ")
         end

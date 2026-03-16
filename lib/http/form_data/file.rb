@@ -50,9 +50,9 @@ module HTTP
 
       def make_io(path_or_io)
         if path_or_io.is_a?(String)
-          ::File.open(path_or_io, :binmode => true)
+          ::File.open(path_or_io, binmode: true)
         elsif defined?(Pathname) && path_or_io.is_a?(Pathname)
-          path_or_io.open(:binmode => true)
+          path_or_io.open(binmode: true)
         else
           path_or_io
         end
