@@ -55,8 +55,27 @@ module HTTP
         end
 
         @io           = make_io(path_or_io)
+        @autoclose    = path_or_io.is_a?(String) || path_or_io.is_a?(Pathname)
         @content_type = opts.fetch(:content_type, DEFAULT_MIME).to_s
         @filename     = opts.fetch(:filename, filename_for(@io))
+      end
+
+      # Closes the underlying IO if it was opened by this instance
+      #
+      # When the File was created from a String path or Pathname, the
+      # underlying file handle is closed. When created from an existing
+      # IO object, this is a no-op (the caller is responsible for
+      # closing it).
+      #
+      # @example
+      #   file = FormData::File.new("/path/to/file.txt")
+      #   file.to_s
+      #   file.close
+      #
+      # @api public
+      # @return [void]
+      def close
+        @io.close if @autoclose
       end
 
       private

@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `FormData::File#close` for closing file handles opened from String paths or
+  Pathnames. When a File is created from an existing IO, `close` is a no-op.
+  ([#27](https://github.com/httprb/form_data/issues/27))
 - Accept any Enumerable (not just Hash or Array) as form data input for both
   `Multipart` and `Urlencoded` encoders. This enables lazy enumerators and
   custom collections as input.

@@ -424,4 +424,54 @@ class FormDataFileTest < Minitest::Test
 
     assert_equal "", form_file.read
   end
+
+  # --- File#close ---
+
+  def test_close_with_string_path_closes_io
+    form_file = HTTP::FormData::File.new(fixture("the-http-gem.info").to_s)
+    form_file.read
+    form_file.close
+
+    assert_raises(IOError) { form_file.read }
+  end
+
+  def test_close_with_pathname_closes_io
+    form_file = HTTP::FormData::File.new(fixture("the-http-gem.info"))
+    form_file.read
+    form_file.close
+
+    assert_raises(IOError) { form_file.read }
+  end
+
+  def test_close_with_io_does_not_close
+    io = StringIO.new("hello")
+    form_file = HTTP::FormData::File.new(io)
+    form_file.close
+
+    assert_equal "hello", io.read
+  end
+
+  def test_close_is_idempotent
+    form_file = HTTP::FormData::File.new(fixture("the-http-gem.info").to_s)
+    form_file.close
+    form_file.close
+  end
+
+  def test_close_with_string_subclass_closes_io
+    str_subclass = Class.new(String)
+    form_file = HTTP::FormData::File.new(str_subclass.new(fixture("the-http-gem.info").to_s))
+    form_file.read
+    form_file.close
+
+    assert_raises(IOError) { form_file.read }
+  end
+
+  def test_close_with_pathname_subclass_closes_io
+    pathname_subclass = Class.new(Pathname)
+    form_file = HTTP::FormData::File.new(pathname_subclass.new(fixture("the-http-gem.info").to_s))
+    form_file.read
+    form_file.close
+
+    assert_raises(IOError) { form_file.read }
+  end
 end
