@@ -2,8 +2,6 @@
 
 [![Gem Version](https://badge.fury.io/rb/http-form_data.svg)](http://rubygems.org/gems/http-form_data)
 [![Build Status](https://github.com/httprb/form_data/workflows/CI/badge.svg)](https://github.com/httprb/form_data/actions?query=workflow%3ACI+branch%3Amaster)
-[![Code Climate](https://codeclimate.com/github/httprb/form_data.svg)](https://codeclimate.com/github/httprb/form_data)
-[![Coverage Status](https://coveralls.io/repos/github/httprb/form_data/badge.svg?branch=master)](https://coveralls.io/github/httprb/form_data?branch=master)
 
 Utility-belt to build form data request bodies.
 

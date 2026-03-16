@@ -12,8 +12,7 @@ group :test do
   gem "rubocop-rake"
   gem "rubocop-rspec"
 
-  gem "simplecov",      :require => false
-  gem "simplecov-lcov", :require => false
+  gem "simplecov", :require => false
 end
 
 group :doc do

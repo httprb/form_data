@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [ master ]
 
-env:
-  BUNDLE_WITHOUT: "development"
-
 jobs:
   test:
     runs-on: ${{ matrix.os }}
@@ -19,7 +16,7 @@ jobs:
         os: [ ubuntu-latest, windows-latest ]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: ruby/setup-ruby@v1
         with:
@@ -29,28 +26,11 @@ jobs:
       - name: bundle exec rspec
         run: bundle exec rspec --format progress --force-colour
 
-      - name: Prepare Coveralls test coverage report
-        uses: coverallsapp/github-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: "${{ matrix.ruby }} @${{ matrix.os }}"
-          parallel: true
-
-  coveralls:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Finalize Coveralls test coverage report
-        uses: coverallsapp/github-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel-finished: true
-
   lint:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: ruby/setup-ruby@v1
         with:
