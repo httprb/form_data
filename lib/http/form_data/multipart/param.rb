@@ -31,15 +31,8 @@ module HTTP
         # @return [Param]
         def initialize(name, value)
           @name = name.to_s
-
-          @part =
-            if value.is_a?(Part)
-              value
-            else
-              Part.new(value)
-            end
-
-          @io = CompositeIO.new [header, @part, footer]
+          @part = value.is_a?(Part) ? value : Part.new(value)
+          @io   = CompositeIO.new [header, @part, CRLF]
         end
 
         private
@@ -49,10 +42,9 @@ module HTTP
         # @api private
         # @return [String]
         def header
-          parts = ["Content-Disposition: form-data; #{parameters}#{CRLF}"]
-          parts << "Content-Type: #{content_type}#{CRLF}" if content_type
-          parts << CRLF
-          parts.join
+          header = "Content-Disposition: form-data; #{parameters}#{CRLF}"
+          header << "Content-Type: #{@part.content_type}#{CRLF}" if @part.content_type
+          header << CRLF
         end
 
         # Builds Content-Disposition parameters string
@@ -60,34 +52,9 @@ module HTTP
         # @api private
         # @return [String]
         def parameters
-          fname = filename
-          parameters = { name: @name }
-          parameters[:filename] = fname if fname
-          parameters.map { |k, v| "#{k}=#{v.inspect}" }.join("; ")
-        end
-
-        # Returns the content type of the wrapped part
-        #
-        # @api private
-        # @return [String, nil]
-        def content_type
-          @part.content_type
-        end
-
-        # Returns the filename of the wrapped part
-        #
-        # @api private
-        # @return [String, nil]
-        def filename
-          @part.filename
-        end
-
-        # Returns the CRLF footer
-        #
-        # @api private
-        # @return [String]
-        def footer
-          "\r\n"
+          params = "name=#{@name.inspect}"
+          params << "; filename=#{@part.filename.inspect}" if @part.filename
+          params
         end
       end
     end

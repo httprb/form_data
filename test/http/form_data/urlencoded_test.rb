@@ -4,11 +4,12 @@ require "test_helper"
 
 class UrlencodedTest < Minitest::Test
   cover "HTTP::FormData::Urlencoded*"
+
   def test_raises_error_for_non_enumerable_input
     assert_raises(HTTP::FormData::Error) { HTTP::FormData::Urlencoded.new(42) }
   end
 
-  def test_raises_argument_error_for_non_hash_top_level_in_encoder
+  def test_raises_argument_error_for_non_hash_top_level
     assert_raises(ArgumentError) { HTTP::FormData::Urlencoded.encoder.call(42) }
   end
 
@@ -19,9 +20,7 @@ class UrlencodedTest < Minitest::Test
   end
 
   def test_content_type
-    form_data = HTTP::FormData::Urlencoded.new({ "foo[bar]" => "test" })
-
-    assert_equal "application/x-www-form-urlencoded", form_data.content_type
+    assert_equal "application/x-www-form-urlencoded", HTTP::FormData::Urlencoded.new({ foo: "bar" }).content_type
   end
 
   def test_content_length
@@ -37,27 +36,19 @@ class UrlencodedTest < Minitest::Test
   end
 
   def test_to_s
-    form_data = HTTP::FormData::Urlencoded.new({ "foo[bar]" => "test" })
-
-    assert_equal "foo%5Bbar%5D=test", form_data.to_s
+    assert_equal "foo%5Bbar%5D=test", HTTP::FormData::Urlencoded.new({ "foo[bar]" => "test" }).to_s
   end
 
   def test_to_s_with_unicode
-    form_data = HTTP::FormData::Urlencoded.new({ "foo[bar]" => "тест" })
-
-    assert_equal "foo%5Bbar%5D=%D1%82%D0%B5%D1%81%D1%82", form_data.to_s
+    assert_equal "foo%5Bbar%5D=%D1%82%D0%B5%D1%81%D1%82", HTTP::FormData::Urlencoded.new({ "foo[bar]" => "тест" }).to_s
   end
 
   def test_to_s_with_nested_hashes
-    form_data = HTTP::FormData::Urlencoded.new({ "foo" => { "bar" => "test" } })
-
-    assert_equal "foo[bar]=test", form_data.to_s
+    assert_equal "foo[bar]=test", HTTP::FormData::Urlencoded.new({ "foo" => { "bar" => "test" } }).to_s
   end
 
   def test_to_s_with_nil_value
-    form_data = HTTP::FormData::Urlencoded.new({ "foo" => nil })
-
-    assert_equal "foo", form_data.to_s
+    assert_equal "foo", HTTP::FormData::Urlencoded.new({ "foo" => nil }).to_s
   end
 
   def test_to_s_rewinds_content
@@ -88,6 +79,8 @@ class UrlencodedTest < Minitest::Test
     assert_equal form_data.to_s, form_data.read
   end
 
+  # --- Custom encoders ---
+
   def test_custom_class_level_encoder
     original_encoder = HTTP::FormData::Urlencoded.encoder
     HTTP::FormData::Urlencoded.encoder = JSON.method(:dump)
@@ -109,31 +102,20 @@ class UrlencodedTest < Minitest::Test
     assert_equal '{"foo[bar]":"test"}', form_data.to_s
   end
 
-  # --- Kill mutations for Urlencoded.encoder ---
-
-  # Kill: @encoder ||= DefaultEncoder.method(:encode) replaced with other
-  # Verify the default encoder is callable and produces correct output
   def test_default_encoder_returns_callable
-    encoder = HTTP::FormData::Urlencoded.encoder
-
-    assert_respond_to encoder, :call
+    assert_respond_to HTTP::FormData::Urlencoded.encoder, :call
   end
 
   def test_default_encoder_encodes_correctly
-    result = HTTP::FormData::Urlencoded.encoder.call({ "key" => "value" })
-
-    assert_equal "key=value", result
+    assert_equal "key=value", HTTP::FormData::Urlencoded.encoder.call({ "key" => "value" })
   end
 
-  # Kill: encoder ||= self.class.encoder replaced with encoder = self.class.encoder
-  # Verify that passing nil encoder uses class-level default
   def test_nil_encoder_uses_class_default
     form_data = HTTP::FormData::Urlencoded.new({ foo: "bar" }, encoder: nil)
 
     assert_equal "foo=bar", form_data.to_s
   end
 
-  # Kill: encoder ||= self.class.encoder — verify custom encoder is used (not replaced by default)
   def test_custom_encoder_is_not_overridden_by_default
     calls = []
     custom = proc { |data|
@@ -146,25 +128,19 @@ class UrlencodedTest < Minitest::Test
     refute_empty calls
   end
 
-  # Kill: FormData.ensure_data(data) replaced with data in initialize
-  # Verify nil data works (ensure_data converts nil to [])
-  def test_initialize_with_nil_data
-    form_data = HTTP::FormData::Urlencoded.new(nil)
+  # --- Initialize edge cases ---
 
-    assert_equal "", form_data.to_s
+  def test_initialize_with_nil_data
+    assert_equal "", HTTP::FormData::Urlencoded.new(nil).to_s
   end
 
-  # Kill: Verify ensure_data is called on the data (to_h object should work)
   def test_initialize_with_to_h_object
     obj = Object.new
     def obj.to_h = { x: "y" }
 
-    form_data = HTTP::FormData::Urlencoded.new(obj)
-
-    assert_equal "x=y", form_data.to_s
+    assert_equal "x=y", HTTP::FormData::Urlencoded.new(obj).to_s
   end
 
-  # Kill: StringIO.new(encoder.call(...)) replaced with StringIO.new(nil) etc.
   def test_initialize_stores_encoded_content
     form_data = HTTP::FormData::Urlencoded.new({ a: "1", b: "2" })
 
@@ -172,7 +148,6 @@ class UrlencodedTest < Minitest::Test
     assert_equal 7, form_data.size
   end
 
-  # Kill: Readable#read with length
   def test_read_with_length
     form_data = HTTP::FormData::Urlencoded.new({ foo: "bar" })
 
@@ -183,8 +158,6 @@ class UrlencodedTest < Minitest::Test
   end
 
   def test_read_with_nil_length
-    form_data = HTTP::FormData::Urlencoded.new({ foo: "bar" })
-
-    assert_equal "foo=bar", form_data.read(nil)
+    assert_equal "foo=bar", HTTP::FormData::Urlencoded.new({ foo: "bar" }).read(nil)
   end
 end

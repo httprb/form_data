@@ -97,15 +97,9 @@ module HTTP
       # @api private
       # @return [Array<Param>]
       def parts(data)
-        params = [] #: Array[Param]
-
-        FormData.ensure_data(data).each do |name, values|
-          Array(values).each do |value|
-            params << Param.new(name, value)
-          end
+        FormData.ensure_data(data).flat_map do |name, values|
+          Array(values).map { |value| Param.new(name, value) }
         end
-
-        params
       end
     end
   end

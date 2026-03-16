@@ -98,16 +98,8 @@ module HTTP
 
           return chunk if chunk && !chunk.empty?
 
-          advance_io
+          @index += 1
         end
-      end
-
-      # Advances cursor to the next IO object
-      #
-      # @api private
-      # @return [void]
-      def advance_io
-        @index += 1
       end
     end
   end

@@ -86,12 +86,10 @@ module HTTP
       # @param [String, Pathname, IO] path_or_io
       # @return [IO]
       def make_io(path_or_io)
-        if path_or_io.is_a?(String)
-          ::File.new(path_or_io, binmode: true)
-        elsif path_or_io.is_a?(Pathname)
-          path_or_io.open(binmode: true)
-        else
-          path_or_io
+        case path_or_io
+        when String   then ::File.new(path_or_io, binmode: true)
+        when Pathname then path_or_io.open(binmode: true)
+        else path_or_io
         end
       end
 
@@ -102,7 +100,7 @@ module HTTP
       # @return [String]
       def filename_for(io)
         if io.respond_to?(:path)
-          io.path.split(::File::SEPARATOR).last
+          ::File.basename(io.path)
         else
           "stream-#{io.object_id}"
         end

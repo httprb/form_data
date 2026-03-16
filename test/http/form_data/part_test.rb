@@ -4,16 +4,13 @@ require "test_helper"
 
 class PartTest < Minitest::Test
   cover "HTTP::FormData::Part*"
-  def test_size_with_string_body
-    part = HTTP::FormData::Part.new("привет мир!")
 
-    assert_equal 20, part.size
+  def test_size
+    assert_equal 20, HTTP::FormData::Part.new("привет мир!").size
   end
 
-  def test_to_s_with_string_body
-    part = HTTP::FormData::Part.new("привет мир!")
-
-    assert_equal "привет мир!", part.to_s
+  def test_to_s
+    assert_equal "привет мир!", HTTP::FormData::Part.new("привет мир!").to_s
   end
 
   def test_to_s_rewinds_content
@@ -25,10 +22,8 @@ class PartTest < Minitest::Test
     assert_equal content, part.read
   end
 
-  def test_read_with_string_body
-    part = HTTP::FormData::Part.new("привет мир!")
-
-    assert_equal "привет мир!", part.read
+  def test_read
+    assert_equal "привет мир!", HTTP::FormData::Part.new("привет мир!").read
   end
 
   def test_rewind
@@ -40,70 +35,38 @@ class PartTest < Minitest::Test
   end
 
   def test_filename_defaults_to_nil
-    part = HTTP::FormData::Part.new("")
-
-    assert_nil part.filename
+    assert_nil HTTP::FormData::Part.new("").filename
   end
 
   def test_filename_with_option
-    part = HTTP::FormData::Part.new("", filename: "foobar.txt")
-
-    assert_equal "foobar.txt", part.filename
+    assert_equal "foobar.txt", HTTP::FormData::Part.new("", filename: "foobar.txt").filename
   end
 
   def test_content_type_defaults_to_nil
-    part = HTTP::FormData::Part.new("")
-
-    assert_nil part.content_type
+    assert_nil HTTP::FormData::Part.new("").content_type
   end
 
   def test_content_type_with_option
-    part = HTTP::FormData::Part.new("", content_type: "application/json")
-
-    assert_equal "application/json", part.content_type
+    assert_equal "application/json", HTTP::FormData::Part.new("", content_type: "application/json").content_type
   end
 
-  # --- Kill mutations for Part#initialize ---
-
-  # Kill: @io = StringIO.new(body.to_s) replaced with @io = StringIO.new(body) etc
-  # Verify that body is converted via to_s
+  # Verify body is converted via to_s
   def test_initialize_converts_body_to_string
-    part = HTTP::FormData::Part.new(42)
-
-    assert_equal "42", part.to_s
+    assert_equal "42", HTTP::FormData::Part.new(42).to_s
   end
 
   def test_initialize_with_symbol_body
-    part = HTTP::FormData::Part.new(:hello)
-
-    assert_equal "hello", part.to_s
+    assert_equal "hello", HTTP::FormData::Part.new(:hello).to_s
   end
 
-  # Kill: @content_type = content_type replaced with @content_type = nil
   def test_content_type_stores_exact_value
-    part = HTTP::FormData::Part.new("body", content_type: "text/plain")
-
-    assert_equal "text/plain", part.content_type
-    refute_nil part.content_type
+    assert_equal "text/plain", HTTP::FormData::Part.new("body", content_type: "text/plain").content_type
   end
 
-  # Kill: @filename = filename replaced with @filename = nil
   def test_filename_stores_exact_value
-    part = HTTP::FormData::Part.new("body", filename: "test.txt")
-
-    assert_equal "test.txt", part.filename
-    refute_nil part.filename
+    assert_equal "test.txt", HTTP::FormData::Part.new("body", filename: "test.txt").filename
   end
 
-  # Kill: StringIO.new(body.to_s) replaced with StringIO.new(nil.to_s) or other
-  def test_initialize_preserves_body_content
-    part = HTTP::FormData::Part.new("specific content")
-
-    assert_equal "specific content", part.read
-    assert_equal 16, part.size
-  end
-
-  # Kill: Readable#read with length
   def test_read_with_length
     part = HTTP::FormData::Part.new("hello world")
 
@@ -114,9 +77,7 @@ class PartTest < Minitest::Test
   end
 
   def test_read_with_nil_length
-    part = HTTP::FormData::Part.new("hello")
-
-    assert_equal "hello", part.read(nil)
+    assert_equal "hello", HTTP::FormData::Part.new("hello").read(nil)
   end
 
   def test_read_with_outbuf

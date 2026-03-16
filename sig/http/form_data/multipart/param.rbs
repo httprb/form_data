@@ -17,15 +17,6 @@ module HTTP
 
         # Builds Content-Disposition parameters string
         def parameters: () -> String
-
-        # Returns the content type of the wrapped part
-        def content_type: () -> String?
-
-        # Returns the filename of the wrapped part
-        def filename: () -> String?
-
-        # Returns the CRLF footer
-        def footer: () -> String
       end
     end
   end
