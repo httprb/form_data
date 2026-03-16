@@ -16,8 +16,8 @@ module HTTP
   # @example Usage
   #
   #   form = FormData.create({
-  #     :username     => "ixti",
-  #     :avatar_file  => FormData::File.new("/home/ixti/avatar.png")
+  #     username:    "ixti",
+  #     avatar_file: FormData::File.new("/home/ixti/avatar.png")
   #   })
   #
   #   # Assuming socket is an open socket to some HTTP server
@@ -35,9 +35,12 @@ module HTTP
     class Error < StandardError; end
 
     class << self
-      # FormData factory. Automatically selects best type depending on given
-      # `data` Hash.
+      # Selects encoder type based on given data
       #
+      # @example
+      #   FormData.create({ username: "ixti" })
+      #
+      # @api public
       # @param [Enumerable, Hash, #to_h] data
       # @return [Multipart] if any of values is a {FormData::File}
       # @return [Urlencoded] otherwise
@@ -51,10 +54,13 @@ module HTTP
         end
       end
 
-      # Coerce `obj` to Hash.
+      # Coerces obj to Hash
       #
-      # @note Internal usage helper, to workaround lack of `#to_h` on Ruby < 2.1
-      # @raise [Error] `obj` can't be coerced.
+      # @example
+      #   FormData.ensure_hash({ foo: :bar }) # => { foo: :bar }
+      #
+      # @api public
+      # @raise [Error] `obj` can't be coerced
       # @return [Hash]
       def ensure_hash(obj)
         if    obj.nil?               then {}
@@ -64,9 +70,13 @@ module HTTP
         end
       end
 
-      # Coerce `obj` to an Enumerable of key-value pairs.
+      # Coerces obj to an Enumerable of key-value pairs
       #
-      # @raise [Error] `obj` can't be coerced.
+      # @example
+      #   FormData.ensure_data([[:foo, :bar]]) # => [[:foo, :bar]]
+      #
+      # @api public
+      # @raise [Error] `obj` can't be coerced
       # @return [Enumerable]
       def ensure_data(obj)
         if    obj.nil?                  then []
@@ -78,9 +88,10 @@ module HTTP
 
       private
 
-      # Tells whenever data contains multipart data or not.
+      # Checks if data contains multipart data
       #
-      # @param [Hash] data
+      # @api private
+      # @param [Enumerable] data
       # @return [Boolean]
       def multipart?(data)
         data.any? do |_, v|

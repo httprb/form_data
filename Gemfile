@@ -13,10 +13,12 @@ group :test do
   gem "rubocop-rake"
 
   gem "simplecov", require: false
+
+  gem "yardstick"
 end
 
 group :doc do
-  gem "redcarpet", platform: :mri
+  gem "kramdown"
   gem "yard"
 end
 

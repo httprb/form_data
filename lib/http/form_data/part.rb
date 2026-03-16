@@ -11,13 +11,34 @@ module HTTP
     # @example Usage with String
     #
     #  body = "Message"
-    #  FormData::Part.new body, :content_type => 'foobar.txt; charset="UTF-8"'
+    #  FormData::Part.new body, content_type: 'foobar.txt; charset="UTF-8"'
     class Part
       include Readable
 
+      # Returns the content type of this part
+      #
+      # @example
+      #   part.content_type # => "application/json"
+      #
+      # @api public
+      # @return [String, nil]
       attr_reader :content_type
+
+      # Returns the filename of this part
+      #
+      # @example
+      #   part.filename # => "avatar.png"
+      #
+      # @api public
+      # @return [String, nil]
       attr_reader :filename
 
+      # Creates a new Part with the given body and options
+      #
+      # @example
+      #   Part.new("hello", content_type: "text/plain")
+      #
+      # @api public
       # @param [#to_s] body
       # @param [String] content_type Value of Content-Type header
       # @param [String] filename     Value of filename parameter

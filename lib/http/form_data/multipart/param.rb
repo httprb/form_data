@@ -10,7 +10,7 @@ module HTTP
       class Param
         include Readable
 
-        # Initializes body part with headers and data.
+        # Initializes body part with headers and data
         #
         # @example With {FormData::File} value
         #
@@ -25,9 +25,10 @@ module HTTP
         #
         #   ixti
         #
-        # @return [String]
+        # @api public
         # @param [#to_s] name
         # @param [FormData::File, FormData::Part, #to_s] value
+        # @return [Param]
         def initialize(name, value)
           @name = name.to_s
 
@@ -43,6 +44,10 @@ module HTTP
 
         private
 
+        # Builds the MIME header for this part
+        #
+        # @api private
+        # @return [String]
         def header
           header = "".b
           header << "Content-Disposition: form-data; #{parameters}#{CRLF}"
@@ -51,20 +56,36 @@ module HTTP
           header
         end
 
+        # Builds Content-Disposition parameters string
+        #
+        # @api private
+        # @return [String]
         def parameters
           parameters = { name: @name }
           parameters[:filename] = filename if filename
           parameters.map { |k, v| "#{k}=#{v.inspect}" }.join("; ")
         end
 
+        # Returns the content type of the wrapped part
+        #
+        # @api private
+        # @return [String, nil]
         def content_type
           @part.content_type
         end
 
+        # Returns the filename of the wrapped part
+        #
+        # @api private
+        # @return [String, nil]
         def filename
           @part.filename
         end
 
+        # Returns the CRLF footer
+        #
+        # @api private
+        # @return [String]
         def footer
           CRLF.dup
         end

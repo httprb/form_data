@@ -12,7 +12,7 @@ module HTTP
       include Readable
 
       class << self
-        # Set custom form data encoder implementation.
+        # Sets custom form data encoder implementation
         #
         # @example
         #
@@ -44,7 +44,8 @@ module HTTP
         #
         #     HTTP::FormData::Urlencoded.encoder = CustomFormDataEncoder
         #
-        # @raise [ArgumentError] if implementation deos not responds to `#call`.
+        # @api public
+        # @raise [ArgumentError] if implementation does not respond to `#call`
         # @param implementation [#call]
         # @return [void]
         def encoder=(implementation)
@@ -53,18 +54,30 @@ module HTTP
           @encoder = implementation
         end
 
-        # Returns form data encoder implementation.
-        # Default: custom realization.
+        # Returns form data encoder implementation
         #
+        # @example
+        #   Urlencoded.encoder # => #<Method: DefaultEncoder.encode>
+        #
+        # @api public
         # @see .encoder=
         # @return [#call]
         def encoder
           @encoder ||= DefaultEncoder.method(:encode)
         end
 
-        # Default encoder
+        # Default encoder for urlencoded form data
         module DefaultEncoder
           class << self
+            # Recursively encodes form data value
+            #
+            # @example
+            #   DefaultEncoder.encode({ foo: "bar" }) # => "foo=bar"
+            #
+            # @api public
+            # @param [Hash, Array, String, nil] value
+            # @param [String, nil] prefix
+            # @return [String]
             def encode(value, prefix = nil)
               case value
               when Hash  then encode_hash(value, prefix)
@@ -79,6 +92,10 @@ module HTTP
 
             private
 
+            # Encodes an Array value
+            #
+            # @api private
+            # @return [String]
             def encode_array(value, prefix)
               if prefix
                 value.map { |v| encode(v, "#{prefix}[]") }.join("&")
@@ -87,16 +104,28 @@ module HTTP
               end
             end
 
+            # Encodes an Array of key-value pairs
+            #
+            # @api private
+            # @return [String]
             def encode_pairs(pairs)
               pairs.map { |k, v| encode(v, escape(k)) }.reject(&:empty?).join("&")
             end
 
+            # Encodes a Hash value
+            #
+            # @api private
+            # @return [String]
             def encode_hash(hash, prefix)
               hash.map do |k, v|
                 encode(v, prefix ? "#{prefix}[#{escape(k)}]" : escape(k))
               end.reject(&:empty?).join("&")
             end
 
+            # URL-encodes a value
+            #
+            # @api private
+            # @return [String]
             def escape(value)
               URI.encode_www_form_component(value)
             end
@@ -106,22 +135,37 @@ module HTTP
         private_constant :DefaultEncoder
       end
 
+      # Creates a new Urlencoded form data instance
+      #
+      # @example
+      #   Urlencoded.new({ "foo" => "bar" })
+      #
+      # @api public
       # @param [Enumerable, Hash, #to_h] data form data key-value pairs
+      # @param [#call] encoder custom encoder implementation
       def initialize(data, encoder: nil)
         encoder ||= self.class.encoder
         @io = StringIO.new(encoder.call(FormData.ensure_data(data)))
       end
 
-      # Returns MIME type to be used for HTTP request `Content-Type` header.
+      # Returns MIME type for the Content-Type header
       #
+      # @example
+      #   urlencoded.content_type
+      #   # => "application/x-www-form-urlencoded"
+      #
+      # @api public
       # @return [String]
       def content_type
         "application/x-www-form-urlencoded"
       end
 
-      # Returns form data content size to be used for HTTP request
-      # `Content-Length` header.
+      # Returns form data content size for Content-Length
       #
+      # @example
+      #   urlencoded.content_length # => 17
+      #
+      # @api public
       # @return [Integer]
       alias content_length size
     end

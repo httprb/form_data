@@ -2,19 +2,25 @@
 
 require "bundler/gem_tasks"
 
-require "rake/testtask"
-Rake::TestTask.new(:test) do |t|
+require "minitest/test_task"
+Minitest::TestTask.create do |t|
   t.libs << "test"
-  t.test_files = FileList["test/**/*_test.rb"]
+  t.test_globs = ["test/**/*_test.rb"]
+  t.framework = 'require "test_helper"'
 end
 
-begin
-  require "rubocop/rake_task"
-  RuboCop::RakeTask.new
-rescue LoadError
-  task :rubocop do
-    warn "RuboCop is disabled"
-  end
+require "rubocop/rake_task"
+RuboCop::RakeTask.new
+
+require "yardstick/rake/measurement"
+Yardstick::Rake::Measurement.new do |measurement|
+  measurement.output = "measurement/report.txt"
 end
 
-task default: %i[test rubocop]
+require "yardstick/rake/verify"
+Yardstick::Rake::Verify.new do |verify|
+  verify.require_exact_threshold = false
+  verify.threshold = 100
+end
+
+task default: %i[test rubocop verify_measurements]

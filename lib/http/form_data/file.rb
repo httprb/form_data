@@ -7,7 +7,7 @@ module HTTP
     # @example Usage with StringIO
     #
     #  io = StringIO.new "foo bar baz"
-    #  FormData::File.new io, :filename => "foobar.txt"
+    #  FormData::File.new io, filename: "foobar.txt"
     #
     # @example Usage with IO
     #
@@ -22,17 +22,30 @@ module HTTP
       # Default MIME type
       DEFAULT_MIME = "application/octet-stream"
 
+      # Returns content type (deprecated alias)
+      #
+      # @example
+      #   file.mime_type # => "application/octet-stream"
+      #
+      # @api public
       # @deprecated Use #content_type instead
+      # @return [String]
       alias mime_type content_type
 
+      # Creates a new File from a path or IO object
+      #
+      # @example
+      #   File.new("/path/to/file.txt")
+      #
+      # @api public
       # @see DEFAULT_MIME
-      # @param [String, Pathname, IO] path_or_io Filename or IO instance.
+      # @param [String, Pathname, IO] path_or_io Filename or IO instance
       # @param [#to_h] opts
       # @option opts [#to_s] :content_type (DEFAULT_MIME)
       #   Value of Content-Type header
       # @option opts [#to_s] :filename
       #   When `path_or_io` is a String, Pathname or File, defaults to basename.
-      #   When `path_or_io` is a IO, defaults to `"stream-{object_id}"`.
+      #   When `path_or_io` is a IO, defaults to `"stream-{object_id}"`
       def initialize(path_or_io, opts = {}) # rubocop:disable Lint/MissingSuper
         opts = FormData.ensure_hash(opts)
 
@@ -48,6 +61,11 @@ module HTTP
 
       private
 
+      # Wraps path_or_io into an IO object
+      #
+      # @api private
+      # @param [String, Pathname, IO] path_or_io
+      # @return [IO]
       def make_io(path_or_io)
         if path_or_io.is_a?(String)
           ::File.open(path_or_io, binmode: true)
@@ -58,6 +76,11 @@ module HTTP
         end
       end
 
+      # Determines filename for the given IO
+      #
+      # @api private
+      # @param [IO] io
+      # @return [String]
       def filename_for(io)
         if io.respond_to?(:path)
           ::File.basename io.path

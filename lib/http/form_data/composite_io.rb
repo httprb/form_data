@@ -6,6 +6,12 @@ module HTTP
   module FormData
     # Provides IO interface across multiple IO objects.
     class CompositeIO
+      # Creates a new CompositeIO from an array of IOs
+      #
+      # @example
+      #   CompositeIO.new([StringIO.new("hello"), StringIO.new(" world")])
+      #
+      # @api public
       # @param [Array<IO>] ios Array of IO objects
       def initialize(ios) # rubocop:disable Metrics/MethodLength
         @index  = 0
@@ -22,11 +28,15 @@ module HTTP
         end
       end
 
-      # Reads and returns partial content acrosss multiple IO objects.
+      # Reads and returns content across multiple IO objects
       #
+      # @example
+      #   composite_io.read     # => "hello world"
+      #   composite_io.read(5)  # => "hello"
+      #
+      # @api public
       # @param [Integer] length Number of bytes to retrieve
       # @param [String] outbuf String to be replaced with retrieved data
-      #
       # @return [String, nil]
       def read(length = nil, outbuf = nil)
         data   = outbuf.clear.force_encoding(Encoding::BINARY) if outbuf
@@ -37,12 +47,24 @@ module HTTP
         data unless length && data.empty?
       end
 
-      # Returns sum of all IO sizes.
+      # Returns sum of all IO sizes
+      #
+      # @example
+      #   composite_io.size # => 11
+      #
+      # @api public
+      # @return [Integer]
       def size
         @size ||= @ios.sum(&:size)
       end
 
-      # Rewinds all IO objects and set cursor to the first IO object.
+      # Rewinds all IO objects and resets cursor
+      #
+      # @example
+      #   composite_io.rewind
+      #
+      # @api public
+      # @return [void]
       def rewind
         @ios.each(&:rewind)
         @index = 0
@@ -50,7 +72,10 @@ module HTTP
 
       private
 
-      # Yields chunks with total length up to `length`.
+      # Yields chunks with total length up to `length`
+      #
+      # @api private
+      # @return [void]
       def read_chunks(length = nil)
         while (chunk = readpartial(length))
           yield chunk.force_encoding(Encoding::BINARY)
@@ -63,7 +88,10 @@ module HTTP
         end
       end
 
-      # Reads chunk from current IO with length up to `max_length`.
+      # Reads chunk from current IO with length up to `max_length`
+      #
+      # @api private
+      # @return [String, nil]
       def readpartial(max_length = nil)
         while current_io
           chunk = current_io.read(max_length, @buffer)
@@ -74,12 +102,18 @@ module HTTP
         end
       end
 
-      # Returns IO object under the cursor.
+      # Returns IO object under the cursor
+      #
+      # @api private
+      # @return [IO, nil]
       def current_io
         @ios[@index]
       end
 
-      # Advances cursor to the next IO object.
+      # Advances cursor to the next IO object
+      #
+      # @api private
+      # @return [void]
       def advance_io
         @index += 1
       end
