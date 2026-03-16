@@ -1,28 +1,38 @@
 # frozen_string_literal: true
 
-lib = File.expand_path("lib", __dir__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "http/form_data/version"
+require_relative "lib/http/form_data/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "http-form_data"
   spec.version       = HTTP::FormData::VERSION
-  spec.homepage      = "https://github.com/httprb/form_data.rb"
   spec.authors       = ["Aleksey V Zapparov"]
   spec.email         = ["ixti@member.fsf.org"]
-  spec.license       = "MIT"
-  spec.summary       = "http-form_data-#{HTTP::FormData::VERSION}"
-  spec.description   = <<-DESC.gsub(/^\s+> /m, "").tr("\n", " ").strip
-  > Utility-belt to build form data request bodies.
-  > Provides support for `application/x-www-form-urlencoded` and
-  > `multipart/form-data` types.
-  DESC
 
-  spec.metadata["changelog_uri"] = "https://github.com/httprb/form_data/blob/master/CHANGES.md"
+  spec.summary       = "Build form data request bodies"
+  spec.homepage      = "https://github.com/httprb/form_data"
+  spec.license       = "MIT"
+
+  spec.description   = <<~DESCRIPTION.strip.gsub(/\s+/, " ")
+    Utility-belt to build form data request bodies.
+    Provides support for `application/x-www-form-urlencoded` and
+    `multipart/form-data` types.
+  DESCRIPTION
+
+  spec.metadata["homepage_uri"]          = spec.homepage
+  spec.metadata["source_code_uri"]       = "#{spec.homepage}/tree/v#{spec.version}"
+  spec.metadata["bug_tracker_uri"]       = "#{spec.homepage}/issues"
+  spec.metadata["changelog_uri"]         = "#{spec.homepage}/blob/v#{spec.version}/CHANGES.md"
+  spec.metadata["documentation_uri"]     = "https://www.rubydoc.info/gems/http-form_data/#{spec.version}"
   spec.metadata["rubygems_mfa_required"] = "true"
 
-  spec.files         = `git ls-files -z`.split("\x0")
-  spec.executables   = spec.files.grep(%r{^bin/}).map { |f| File.basename(f) }
+  spec.files = IO.popen(%w[git ls-files -z], chdir: __dir__, err: IO::NULL) do |ls|
+    extras = %w[CHANGES.md LICENSE.txt README.md] << File.basename(__FILE__)
+
+    ls.readlines("\x0", chomp: true).select do |f|
+      f.start_with?("lib/", "sig/") || extras.include?(f)
+    end
+  end
+
   spec.require_paths = ["lib"]
 
   spec.required_ruby_version = ">= 3.2"
