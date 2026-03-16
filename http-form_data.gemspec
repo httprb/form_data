@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
     extras = %w[CHANGELOG.md LICENSE.txt README.md] << File.basename(__FILE__)
 
     ls.readlines("\x0", chomp: true).select do |f|
-      f.start_with?("lib/", "sig/") || extras.include?(f)
+      f.start_with?("lib/", "sig/http/") || extras.include?(f)
     end
   end
 
