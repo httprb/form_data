@@ -1,0 +1,21 @@
+usage: opensource
+
+environment_variables:
+  MUTANT: "true"
+
+integration:
+  name: minitest
+
+includes:
+  - lib
+  - test
+
+requires:
+  - http/form_data
+
+mutation:
+  timeout: 10.0
+
+matcher:
+  subjects:
+    - HTTP::FormData*

@@ -13,10 +13,9 @@ module HTTP
       #
       # @api public
       # @param [Array<IO>] ios Array of IO objects
-      def initialize(ios) # rubocop:disable Metrics/MethodLength
-        @index  = 0
-        @buffer = "".b
-        @ios    = ios.map do |io|
+      def initialize(ios)
+        @index = 0
+        @ios   = ios.map do |io|
           if io.is_a?(String)
             StringIO.new(io)
           elsif io.respond_to?(:read)
@@ -76,7 +75,7 @@ module HTTP
       #
       # @api private
       # @return [void]
-      def read_chunks(length = nil)
+      def read_chunks(length)
         while (chunk = readpartial(length))
           yield chunk.force_encoding(Encoding::BINARY)
 
@@ -92,22 +91,14 @@ module HTTP
       #
       # @api private
       # @return [String, nil]
-      def readpartial(max_length = nil)
-        while current_io
-          chunk = current_io.read(max_length, @buffer)
+      def readpartial(max_length)
+        while (io = @ios.at(@index))
+          chunk = io.read(max_length)
 
           return chunk if chunk && !chunk.empty?
 
           advance_io
         end
-      end
-
-      # Returns IO object under the cursor
-      #
-      # @api private
-      # @return [IO, nil]
-      def current_io
-        @ios[@index]
       end
 
       # Advances cursor to the next IO object

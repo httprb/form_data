@@ -63,7 +63,7 @@ module HTTP
         # @see .encoder=
         # @return [#call]
         def encoder
-          @encoder ||= DefaultEncoder.method(:encode)
+          @encoder || DefaultEncoder
         end
 
         # Default encoder for urlencoded form data
@@ -89,6 +89,8 @@ module HTTP
                 "#{prefix}=#{escape(value)}"
               end
             end
+
+            alias call encode
 
             private
 

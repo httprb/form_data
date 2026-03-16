@@ -63,8 +63,7 @@ module HTTP
       # @raise [Error] `obj` can't be coerced
       # @return [Hash]
       def ensure_hash(obj)
-        if    obj.nil?               then {}
-        elsif obj.is_a?(Hash)        then obj
+        if    obj.is_a?(Hash)        then obj
         elsif obj.respond_to?(:to_h) then obj.to_h
         else raise Error, "#{obj.inspect} is neither Hash nor responds to :to_h"
         end
@@ -95,9 +94,7 @@ module HTTP
       # @return [Boolean]
       def multipart?(data)
         data.any? do |_, v|
-          next true if v.is_a? FormData::Part
-
-          v.respond_to?(:to_ary) && v.to_ary.any?(FormData::Part)
+          v.is_a?(Part) || (v.respond_to?(:to_ary) && v.to_ary.any?(Part))
         end
       end
     end

@@ -14,6 +14,8 @@ group :test do
 
   gem "simplecov", require: false
 
+  gem "mutant-minitest"
+
   gem "yardstick"
 end
 

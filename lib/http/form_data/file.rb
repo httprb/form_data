@@ -46,12 +46,12 @@ module HTTP
       # @option opts [#to_s] :filename
       #   When `path_or_io` is a String, Pathname or File, defaults to basename.
       #   When `path_or_io` is a IO, defaults to `"stream-{object_id}"`
-      def initialize(path_or_io, opts = {}) # rubocop:disable Lint/MissingSuper
+      def initialize(path_or_io, opts = nil) # rubocop:disable Lint/MissingSuper
         opts = FormData.ensure_hash(opts)
 
         if opts.key? :mime_type
           warn "[DEPRECATED] :mime_type option deprecated, use :content_type"
-          opts[:content_type] = opts[:mime_type]
+          opts[:content_type] = opts.fetch(:mime_type)
         end
 
         @io           = make_io(path_or_io)
@@ -68,8 +68,8 @@ module HTTP
       # @return [IO]
       def make_io(path_or_io)
         if path_or_io.is_a?(String)
-          ::File.open(path_or_io, binmode: true)
-        elsif defined?(Pathname) && path_or_io.is_a?(Pathname)
+          ::File.new(path_or_io, binmode: true)
+        elsif path_or_io.is_a?(Pathname)
           path_or_io.open(binmode: true)
         else
           path_or_io
@@ -83,7 +83,7 @@ module HTTP
       # @return [String]
       def filename_for(io)
         if io.respond_to?(:path)
-          ::File.basename io.path
+          io.path.split(::File::SEPARATOR).last
         else
           "stream-#{io.object_id}"
         end

@@ -33,10 +33,10 @@ module HTTP
           @name = name.to_s
 
           @part =
-            if value.is_a?(FormData::Part)
+            if value.is_a?(Part)
               value
             else
-              FormData::Part.new(value)
+              Part.new(value)
             end
 
           @io = CompositeIO.new [header, @part, footer]
@@ -49,11 +49,10 @@ module HTTP
         # @api private
         # @return [String]
         def header
-          header = "".b
-          header << "Content-Disposition: form-data; #{parameters}#{CRLF}"
-          header << "Content-Type: #{content_type}#{CRLF}" if content_type
-          header << CRLF
-          header
+          parts = ["Content-Disposition: form-data; #{parameters}#{CRLF}"]
+          parts << "Content-Type: #{content_type}#{CRLF}" if content_type
+          parts << CRLF
+          parts.join
         end
 
         # Builds Content-Disposition parameters string
@@ -87,7 +86,7 @@ module HTTP
         # @api private
         # @return [String]
         def footer
-          CRLF.dup
+          "\r\n"
         end
       end
     end

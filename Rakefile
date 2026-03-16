@@ -23,4 +23,9 @@ Yardstick::Rake::Verify.new do |verify|
   verify.threshold = 100
 end
 
+desc "Run mutation testing with Mutant"
+task :mutant do
+  system("bundle exec mutant run") || abort("Mutant failed!")
+end
+
 task default: %i[test rubocop verify_measurements]
