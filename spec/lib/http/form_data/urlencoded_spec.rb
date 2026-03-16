@@ -5,8 +5,12 @@ RSpec.describe HTTP::FormData::Urlencoded do
 
   let(:data) { { "foo[bar]" => "test" } }
 
-  it "raises ArgumentError when given a non-Hash top-level value" do
+  it "raises ArgumentError when given a non-Enumerable top-level value" do
     expect { described_class.new(42) }.to raise_error(HTTP::FormData::Error)
+  end
+
+  it "raises ArgumentError when default encoder receives a non-Hash top-level value" do
+    expect { described_class.encoder.call(42) }.to raise_error(ArgumentError, /value must be a Hash/)
   end
 
   it "supports any Enumerables of pairs" do
@@ -94,6 +98,10 @@ RSpec.describe HTTP::FormData::Urlencoded do
 
     it "switches form encoder implementation" do
       expect(form_data.to_s).to eq('{"foo[bar]":"test"}')
+    end
+
+    it "raises ArgumentError when implementation does not respond to #call" do
+      expect { described_class.encoder = "not callable" }.to raise_error(ArgumentError)
     end
   end
 
