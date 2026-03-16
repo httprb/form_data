@@ -4,6 +4,8 @@ target :lib do
   signature "sig"
   check "lib"
 
+  configure_code_diagnostics(Steep::Diagnostic::Ruby.strict)
+
   library "pathname"
   library "securerandom"
   library "stringio"

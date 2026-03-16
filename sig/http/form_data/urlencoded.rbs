@@ -3,7 +3,7 @@ module HTTP
     class Urlencoded
       include Readable
 
-      @encoder: _Encoder?
+      self.@encoder: _Encoder?
 
       # Sets custom form data encoder implementation
       def self.encoder=: (untyped implementation) -> void
