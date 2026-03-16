@@ -3,11 +3,15 @@ module HTTP
     class Multipart
       include Readable
 
+      DEFAULT_CONTENT_TYPE: String
+
       # Returns the multipart boundary string
       attr_reader boundary: String
 
+      @content_type: _ToS
+
       # Creates a new Multipart form data instance
-      def initialize: (untyped data, ?boundary: _ToS) -> void
+      def initialize: (untyped data, ?boundary: _ToS, ?content_type: _ToS) -> void
 
       # Generates a boundary string for multipart form data
       def self.generate_boundary: () -> String

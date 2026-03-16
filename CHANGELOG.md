@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `Multipart` accepts a `content_type:` keyword to support `multipart/related`,
+  `multipart/mixed`, and other multipart content types. Defaults to
+  `multipart/form-data`.
+  ([#1](https://github.com/httprb/form_data/issues/1))
 - `FormData::File#close` for closing file handles opened from String paths or
   Pathnames. When a File is created from an existing IO, `close` is a no-op.
   ([#27](https://github.com/httprb/form_data/issues/27))

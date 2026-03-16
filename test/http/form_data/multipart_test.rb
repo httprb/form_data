@@ -171,6 +171,29 @@ class MultipartTest < Minitest::Test
     assert_equal "multipart/form-data; boundary=my-boundary", form_data.content_type
   end
 
+  def test_content_type_with_custom_type
+    form_data = HTTP::FormData::Multipart.new(@params, boundary: "b", content_type: "multipart/related")
+
+    assert_equal "multipart/related; boundary=b", form_data.content_type
+  end
+
+  def test_content_type_with_multipart_mixed
+    form_data = HTTP::FormData::Multipart.new(@params, boundary: "b", content_type: "multipart/mixed")
+
+    assert_equal "multipart/mixed; boundary=b", form_data.content_type
+  end
+
+  def test_content_type_default_is_form_data
+    assert_equal "multipart/form-data", HTTP::FormData::Multipart::DEFAULT_CONTENT_TYPE
+  end
+
+  def test_content_type_converts_to_string
+    form_data = HTTP::FormData::Multipart.new(@params, boundary: "b", content_type: :"multipart/related")
+
+    assert_equal "multipart/related; boundary=b", form_data.content_type
+    assert_instance_of String, form_data.content_type
+  end
+
   def test_content_length
     assert_equal @form_data.to_s.bytesize, @form_data.content_length
   end
