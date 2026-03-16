@@ -22,6 +22,42 @@ RSpec.describe HTTP::FormData do
     end
   end
 
+  describe ".ensure_data" do
+    subject(:ensure_data) { HTTP::FormData.ensure_data data }
+
+    context "when Hash given" do
+      let(:data) { { :foo => :bar } }
+      it { is_expected.to eq :foo => :bar }
+    end
+
+    context "when Array given" do
+      let(:data) { [[:foo, :bar], [:foo, :baz]] }
+      it { is_expected.to eq [[:foo, :bar], [:foo, :baz]] }
+    end
+
+    context "when Enumerator given" do
+      let(:data) { Enumerator.new { |y| y << [:foo, :bar] } }
+      it { is_expected.to be_a Enumerator }
+    end
+
+    context "when #to_h given" do
+      let(:data) { double(:to_h => { :foo => :bar }) }
+      it { is_expected.to eq :foo => :bar }
+    end
+
+    context "when nil given" do
+      let(:data) { nil }
+      it { is_expected.to eq([]) }
+    end
+
+    context "when neither Enumerable nor #to_h given" do
+      let(:data) { double }
+      it "fails with HTTP::FormData::Error" do
+        expect { ensure_data }.to raise_error HTTP::FormData::Error
+      end
+    end
+  end
+
   describe ".ensure_hash" do
     subject(:ensure_hash) { HTTP::FormData.ensure_hash data }
 

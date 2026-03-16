@@ -87,6 +87,22 @@ RSpec.describe HTTP::FormData::Multipart do
       end
     end
 
+    it "supports any Enumerable of pairs" do
+      enum = Enumerator.new { |y| y << [:foo, :bar] << [:foo, :baz] }
+      form_data = described_class.new(enum)
+
+      boundary_value = form_data.boundary
+      expect(form_data.to_s).to eq([
+        "--#{boundary_value}#{crlf}",
+        "#{disposition 'name' => 'foo'}#{crlf}",
+        "#{crlf}bar#{crlf}",
+        "--#{boundary_value}#{crlf}",
+        "#{disposition 'name' => 'foo'}#{crlf}",
+        "#{crlf}baz#{crlf}",
+        "--#{boundary_value}--#{crlf}"
+      ].join)
+    end
+
     # https://github.com/httprb/http/issues/663
     context "when params is an Array of pairs" do
       let(:params) do

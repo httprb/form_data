@@ -41,24 +41,6 @@ module HTTP
           @io = CompositeIO.new [header, @part, footer]
         end
 
-        # Flattens given `data` Hash or Array into an array of `Param`'s.
-        # Nested arrays are unwinded.
-        # Behavior is similar to `URL.encode_www_form`.
-        #
-        # @param [Array || Hash] data
-        # @return [Array<FormData::MultiPart::Param>]
-        def self.coerce(data)
-          params = []
-
-          data.each do |name, values|
-            Array(values).each do |value|
-              params << new(name, value)
-            end
-          end
-
-          params
-        end
-
         private
 
         def header
