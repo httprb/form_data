@@ -70,7 +70,11 @@ module HTTP
               when Hash
                 encode_hash(value, prefix)
               when Array
-                value.map { |v| encode(v, "#{prefix}[]") }.join("&")
+                if prefix
+                  value.map { |v| encode(v, "#{prefix}[]") }.join("&")
+                else
+                  encode_pairs(value)
+                end
               when nil then prefix.to_s
               else
                 raise ArgumentError, "value must be a Hash" if prefix.nil?
@@ -79,6 +83,10 @@ module HTTP
             end
 
             private
+
+            def encode_pairs(pairs)
+              pairs.map { |k, v| encode(v, escape(k)) }.reject(&:empty?).join("&")
+            end
 
             def encode_hash(hash, prefix)
               hash.map do |k, v|
