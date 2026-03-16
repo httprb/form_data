@@ -4,19 +4,6 @@ source "https://rubygems.org"
 
 gem "rake"
 
-group :development do
-  gem "guard"
-  gem "guard-rspec", :require => false
-  gem "pry"
-
-  # RSpec formatter
-  gem "fuubar", :require => false
-
-  platform :mri do
-    gem "pry-byebug"
-  end
-end
-
 group :test do
   gem "rspec", "~> 3.10"
 
