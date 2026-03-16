@@ -90,7 +90,7 @@ dropped.
 
 ## Copyright
 
-Copyright (c) 2015-2021 Alexey V Zapparov.
+Copyright (c) 2015-2026 Alexey V Zapparov.
 See [LICENSE.txt][license] for further details.
 
 
