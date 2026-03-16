@@ -38,11 +38,11 @@ module HTTP
       # FormData factory. Automatically selects best type depending on given
       # `data` Hash.
       #
-      # @param [#to_h, Hash] data
+      # @param [Enumerable, Hash, #to_h] data
       # @return [Multipart] if any of values is a {FormData::File}
       # @return [Urlencoded] otherwise
       def create(data, encoder: nil)
-        data = ensure_hash data
+        data = ensure_data data
 
         if multipart?(data)
           Multipart.new(data)
@@ -61,6 +61,18 @@ module HTTP
         elsif obj.is_a?(Hash)        then obj
         elsif obj.respond_to?(:to_h) then obj.to_h
         else raise Error, "#{obj.inspect} is neither Hash nor responds to :to_h"
+        end
+      end
+
+      # Coerce `obj` to an Enumerable of key-value pairs.
+      #
+      # @raise [Error] `obj` can't be coerced.
+      # @return [Enumerable]
+      def ensure_data(obj)
+        if    obj.nil?                  then []
+        elsif obj.is_a?(Enumerable)     then obj
+        elsif obj.respond_to?(:to_h)    then obj.to_h
+        else raise Error, "#{obj.inspect} is neither Enumerable nor responds to :to_h"
         end
       end
 

@@ -14,7 +14,7 @@ module HTTP
 
       attr_reader :boundary
 
-      # @param [#to_h, Hash] data form data key-value Hash
+      # @param [Enumerable, Hash, #to_h] data form data key-value pairs
       def initialize(data, boundary: self.class.generate_boundary)
         @boundary = boundary.to_s.freeze
         @io = CompositeIO.new(parts(data).flat_map { |part| [glue, part] } << tail)
@@ -54,11 +54,15 @@ module HTTP
       end
 
       def parts(data)
-        if data.is_a?(Array)
-          Param.coerce data
-        else
-          Param.coerce FormData.ensure_hash data
+        params = []
+
+        FormData.ensure_data(data).each do |name, values|
+          Array(values).each do |value|
+            params << Param.new(name, value)
+          end
         end
+
+        params
       end
     end
   end

@@ -95,10 +95,10 @@ module HTTP
         private_constant :DefaultEncoder
       end
 
-      # @param [#to_h, Hash] data form data key-value Hash
+      # @param [Enumerable, Hash, #to_h] data form data key-value pairs
       def initialize(data, encoder: nil)
         encoder ||= self.class.encoder
-        @io = StringIO.new(encoder.call(FormData.ensure_hash(data)))
+        @io = StringIO.new(encoder.call(FormData.ensure_data(data)))
       end
 
       # Returns MIME type to be used for HTTP request `Content-Type` header.
