@@ -12,7 +12,7 @@ group :test do
   gem "rubocop-performance"
   gem "rubocop-rake"
 
-  gem "simplecov", require: false
+  gem "simplecov", ">= 1", require: false
 
   gem "mutant-minitest"
 
