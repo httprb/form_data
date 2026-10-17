@@ -2,8 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
 
 ## [3.0.1] - 2026-03-20
 
@@ -17,11 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `Multipart` accepts a `content_type:` keyword to support `multipart/related`,
   `multipart/mixed`, and other multipart content types. Defaults to
-  `multipart/form-data`.
-  ([#1](https://github.com/httprb/form_data/issues/1))
+  `multipart/form-data`. ([#1])
 - `FormData::File#close` for closing file handles opened from String paths or
   Pathnames. When a File is created from an existing IO, `close` is a no-op.
-  ([#27](https://github.com/httprb/form_data/issues/27))
+  ([#27])
 - Accept any Enumerable (not just Hash or Array) as form data input for both
   `Multipart` and `Urlencoded` encoders. This enables lazy enumerators and
   custom collections as input.
@@ -49,70 +50,66 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `FormData::File#mime_type` deprecated alias. Use `#content_type` instead.
 - `:mime_type` option in `FormData::File#initialize`. Use `:content_type` instead.
 
-## [2.3.0] - 2020-03-08
+## [2.3.0] - 2020-03-09
 
 ### Added
 
-- Per-instance encoder for `HTTP::FormData::Urlencoded`.
-  ([#29](https://github.com/httprb/form_data/pull/29) by [@summera])
+- Per-instance encoder for `HTTP::FormData::Urlencoded`. ([#29], [@summera])
 
 ## [2.2.0] - 2020-01-09
 
 ### Fixed
 
-- Ruby 2.7 compatibility.
-  ([#28](https://github.com/httprb/form_data/pull/28) by [@janko])
+- Ruby 2.7 compatibility. ([#28], [@janko])
 
 ## [2.1.1] - 2018-06-01
 
 ### Added
 
-- Allow overriding urlencoded form data encoder.
-  ([#23](https://github.com/httprb/form_data/pull/23) by [@FabienChaynes])
+- Allow overriding urlencoded form data encoder. ([#23], [@FabienChaynes])
 
-## [2.1.0] - 2018-03-05
+## [2.1.0] - 2018-03-04
 
 ### Fixed
 
-- Rewind content at the end of `Readable#to_s`.
-  ([#21](https://github.com/httprb/form_data/pull/21) by [@janko-m])
-- Buffer encoding.
-  ([#19](https://github.com/httprb/form_data/pull/19) by [@HoneyryderChuck])
+- Rewind content at the end of `Readable#to_s`. ([#21], [@janko-m])
+- Buffer encoding. ([#19], [@HoneyryderChuck])
 
 ## [2.0.0] - 2017-10-01
 
 ### Fixed
 
-- Add CRLF character to end of multipart body.
-  ([#17](https://github.com/httprb/form_data/pull/17) by [@mhickman])
+- Add CRLF character to end of multipart body. ([#17], [@mhickman])
 
 ## [2.0.0.pre2] - 2017-05-11
 
 ### Added
 
-- Streaming for urlencoded form data.
-  ([#14](https://github.com/httprb/form_data/pull/14) by [@janko-m])
+- Streaming for urlencoded form data. ([#14], [@janko-m])
 
 ## [2.0.0.pre1] - 2017-05-10
 
 ### Added
 
-- Form data streaming.
-  ([#12](https://github.com/httprb/form_data.rb/pull/12) by [@janko-m])
+- Form data streaming. ([#12], [@janko-m])
+
+## [1.0.3] - 2017-05-18
+
+### Fixed
+
+- Ruby < 2.0.0 support. ([#16], [@ixti])
 
 ## [1.0.2] - 2017-05-08
 
 ### Added
 
-- Allow setting Content-Type on non-file parts.
-  ([#5](https://github.com/httprb/form_data.rb/issues/5) by [@abotalov])
-- Creation of file parts without filename.
-  ([#6](https://github.com/httprb/form_data.rb/issues/6) by [@abotalov])
+- Allow setting Content-Type on non-file parts. ([#5], [@abotalov])
+- Creation of file parts without filename. ([#6], [@abotalov])
 
 ### Deprecated
 
 - `HTTP::FormData::File#mime_type`. Use `#content_type` instead.
-  ([#11](https://github.com/httprb/form_data.rb/pull/11) by [@ixti])
+  ([#11], [@ixti])
 
 ## [1.0.1] - 2015-03-31
 
@@ -143,6 +140,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release.
 
+[Unreleased]: https://github.com/httprb/form_data/compare/v3.0.1...HEAD
+[3.0.1]: https://github.com/httprb/form_data/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/httprb/form_data/compare/v2.3.0...v3.0.0
 [2.3.0]: https://github.com/httprb/form_data/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/httprb/form_data/compare/v2.1.1...v2.2.0
@@ -151,11 +150,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [2.0.0]: https://github.com/httprb/form_data/compare/v2.0.0.pre2...v2.0.0
 [2.0.0.pre2]: https://github.com/httprb/form_data/compare/v2.0.0.pre1...v2.0.0.pre2
 [2.0.0.pre1]: https://github.com/httprb/form_data/compare/v1.0.2...v2.0.0.pre1
+[1.0.3]: https://github.com/httprb/form_data/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/httprb/form_data/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/httprb/form_data/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/httprb/form_data/compare/v0.1.0...v1.0.0
 [0.1.0]: https://github.com/httprb/form_data/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/httprb/form_data/releases/tag/v0.0.1
+
+[#1]: https://github.com/httprb/form_data/issues/1
+[#5]: https://github.com/httprb/form_data/issues/5
+[#6]: https://github.com/httprb/form_data/issues/6
+[#11]: https://github.com/httprb/form_data/pull/11
+[#12]: https://github.com/httprb/form_data/pull/12
+[#14]: https://github.com/httprb/form_data/pull/14
+[#16]: https://github.com/httprb/form_data/issues/16
+[#17]: https://github.com/httprb/form_data/pull/17
+[#19]: https://github.com/httprb/form_data/pull/19
+[#21]: https://github.com/httprb/form_data/pull/21
+[#23]: https://github.com/httprb/form_data/pull/23
+[#27]: https://github.com/httprb/form_data/issues/27
+[#28]: https://github.com/httprb/form_data/pull/28
+[#29]: https://github.com/httprb/form_data/pull/29
 
 [@abotalov]: https://github.com/abotalov
 [@FabienChaynes]: https://github.com/FabienChaynes
