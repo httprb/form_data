@@ -6,6 +6,7 @@
 [![Type Check](https://github.com/httprb/form_data/actions/workflows/typecheck.yml/badge.svg)](https://github.com/httprb/form_data/actions/workflows/typecheck.yml)
 [![Mutant](https://github.com/httprb/form_data/actions/workflows/mutant.yml/badge.svg)](https://github.com/httprb/form_data/actions/workflows/mutant.yml)
 [![Docs](https://github.com/httprb/form_data/actions/workflows/docs.yml/badge.svg)](https://github.com/httprb/form_data/actions/workflows/docs.yml)
+[![Duel](https://raw.githubusercontent.com/sferik/duel-ruby/main/assets/badge.svg)](https://github.com/sferik/duel-ruby)
 
 Utility-belt to build form data request bodies.
 
