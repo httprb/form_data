@@ -35,6 +35,15 @@ class FormDataFileTest < Minitest::Test
 
   public
 
+  # Pathname is only part of core Ruby from 4.0, and RubyGems usually
+  # loads it, so this checks in a process without RubyGems.
+  def test_loads_without_rubygems
+    lib = File.expand_path("../../../lib", __dir__)
+    code = 'require "stringio"; require "http/form_data"; HTTP::FormData::File.new(StringIO.new("x"))'
+
+    assert system({ "RUBYOPT" => nil }, RbConfig.ruby, "--disable-gems", "-I", lib, "-e", code, err: File::NULL)
+  end
+
   # --- Core Readable behavior across IO sources ---
 
   def test_size
