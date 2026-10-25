@@ -8,7 +8,13 @@ inherit_from:
   - .rubocop/metrics.yml
   - .rubocop/style.yml
 
+inherit_mode:
+  merge:
+    - Include
+
 AllCops:
+  Include:
+    - .duel.rb
   DisplayCopNames: true
   DisplayStyleGuide: true
   NewCops: enable
